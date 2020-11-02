@@ -1,10 +1,5 @@
 /* File: mesinkata.c */
 /* Definisi Mesin Kata: Model Akuisisi Versi I */
-/*
-Rezda A.F
-13519194
-Pra Praktikum 6
-*/
 
 #include "boolean.h"
 #include "mesinkar.h"
