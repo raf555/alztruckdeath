@@ -1,5 +1,10 @@
 /* File: mesinkata.c */
 /* Definisi Mesin Kata: Model Akuisisi Versi I */
+/*
+Rezda A.F
+13519194
+Pra Praktikum 6
+*/
 
 #include "boolean.h"
 #include "mesinkar.h"
@@ -25,7 +30,7 @@ void STARTKATA()
           CC karakter pertama sesudah karakter terakhir kata */
 {
   START();
-  IgnoreBlank();
+  //IgnoreBlank();
   if (CC == MARK){
     EndKata = true;
   } else {
@@ -41,7 +46,7 @@ void ADVKATA()
           Jika CC = MARK, EndKata = true.		  
    Proses : Akuisisi kata menggunakan procedure SalinKata */
 {
-  IgnoreBlank();
+  //IgnoreBlank();
   if (CC == MARK){
     EndKata = true;
   } else {
@@ -58,11 +63,11 @@ void SalinKata()
           Jika panjang kata melebihi NMax, maka sisa kata "dipotong" */
 {
   int i = 0;
-  while (!(CC == MARK || CC == BLANK) && i < NMax){
+  while (!(CC == MARK/* || CC == BLANK*/) && i < NMax){
     CKata.TabKata[i] = CC;
     i += 1;
     ADV();
   }
   CKata.Length = i;
-  IgnoreBlank();
+  //IgnoreBlank();
 }
