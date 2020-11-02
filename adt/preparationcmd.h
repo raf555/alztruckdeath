@@ -16,14 +16,15 @@ typedef struct {
 typedef struct { 
 	JAM waktu; // banyaknya waktu yang dibutuhkan per-cmd
 	Kata perintah; // command
-	targetcmd target; // target
+	Kata target; // target cmd (bisa wahana / bahan)
+	targetcmd targetvalue; // target
 } cmd;
 
 /* selektor */
 #define WaktuCMD(c) (c).waktu
 #define PerintahCMD(c) (c).perintah
-#define TargetBuild(c) (c).target.titik
-#define TargetUpgrade(c) (c).target.wahana
-#define TargetBuy(c) (c).target.jumlah
+#define TargetBuild(c) (c).targetvalue.titik
+#define TargetUpgrade(c) (c).targetvalue.wahana
+#define TargetBuy(c) (c).targetvalue.jumlah
 
 #endif
