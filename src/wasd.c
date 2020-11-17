@@ -1,7 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "../adt/matriks.c"
-#include "../adt/point.c"
+#include "../adt/matriks.h"
+#include "../adt/point.h"
+#include "../adt/mesinkata.h"
 
 void initMap(MATRIKS *M) {
 	for(int i=0; i < (*M).NBrsEff; i++) {
@@ -77,7 +78,11 @@ int main() {
 	TulisMATRIKS(M);
 	while (true) {
 		printf("\n$inputan: ");
-		scanf("%c", &input);
+    		STARTKATA();
+		while (!EndKata) {
+      			input = CKata.TabKata[0];
+      			ADVKATA();
+		}
 		switch (input) {
 			case 'w':
 				w(&M,&P);
