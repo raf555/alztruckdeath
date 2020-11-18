@@ -5,6 +5,7 @@
 #include "jam.h"
 #include "point.h"
 #include "stack.h"
+#include "boolean.h"
 
 /* data wahana */
 typedef struct {
@@ -37,6 +38,8 @@ typedef struct {
 	Jam sekarang;
 	Wahana wahana[100];
 	Stack prepexe;
+        boolean Main;
+        boolean Prep;
 } program;
 
 /* selektor */
@@ -61,5 +64,7 @@ typedef struct {
 #define Info_Waktu(c) (c).sekarang
 #define Info_Wahana(c, i) (c).wahana[(i)]
 #define Info_StackCMD(c) (c).prepexe
+#define Info_Main(c) (c).Main
+#define Info_Prep(c) (c).Prep
 
 #endif
