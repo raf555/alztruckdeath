@@ -1,7 +1,21 @@
 #include "mainprogram.h"
+#include "stackt.h"
 #include <stdio.h>
 
 void initmain(program *main, Kata nama) {
+  /*
+  typedef struct {
+	Orang orang;
+	JAM sekarang;
+	Wahana wahana[100];
+	Stack prepexe;
+  boolean Main;
+  boolean Prep;
+	MATRIKS Map;
+	POINT posisi;
+  POINT office;
+} program;
+*/
   for (int i = 0; i < nama.Length; i++){
     InfoOrang_Nama(Info_Orang(*main)).TabKata[i] = nama.TabKata[i];
   }
@@ -14,6 +28,8 @@ void initmain(program *main, Kata nama) {
 
   Info_Prep(*main) = true;
   Info_Main(*main) = false;
+
+  CreateEmpty(&Info_StackCMD(*main));
 }
 
 void printpemain(program main){
