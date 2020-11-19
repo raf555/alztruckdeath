@@ -40,10 +40,11 @@ typedef struct {
 	JAM sekarang;
 	Wahana wahana[100];
 	Stack prepexe;
-  	boolean Main;
-  	boolean Prep;
+  boolean Main;
+  boolean Prep;
 	MATRIKS Map;
 	POINT posisi;
+  POINT office;
 } program;
 
 /* selektor */
@@ -72,6 +73,7 @@ typedef struct {
 #define Info_Prep(c) (c).Prep
 #define Info_Map(c) (c).Map
 #define Info_Posisi(c) (c).posisi
+#define Info_Office(c) (c).office
 
 // init
 void initmain(program *main, Kata nama);
