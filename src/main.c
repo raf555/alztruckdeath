@@ -27,6 +27,11 @@ void initPlayer(MATRIKS *M, POINT *P) {
 	*P = MakePOINT((*M).NBrsEff/2,(*M).NKolEff/2);
 }
 
+void initOffice(MATRIKS *M, POINT *P) {
+	Elmt(*M,8,8) = 'O';
+	*P = MakePOINT(8,8);
+}
+
 void P_to_Dash(MATRIKS *M, POINT P) {
 	(*M).Mem[(int)P.Y][(int)P.X] = '-';
 }
@@ -35,7 +40,9 @@ void Dash_to_P(MATRIKS *M, POINT P) {
 	(*M).Mem[(int)P.Y][(int)P.X] = 'P';
 }
 
-
+boolean IsOffice(POINT P1, program main){
+  return EQ(P1, Info_Office(main));
+}
 
 void w(MATRIKS *M, POINT *P) {
 	if ((*P).Y > 1) {
@@ -93,10 +100,11 @@ void inputnama(program *main){
   printf("Masukkan nama:\n$ ");
   STARTKATA();
   while(!EndKata){
+    initmain(main, CKata);
     MakeMATRIKS(12,12,&Info_Map(*main));
     initMap(&Info_Map(*main));
     initPlayer(&Info_Map(*main),&Info_Posisi(*main));
-    initmain(main, CKata);
+    initOffice(&Info_Map(*main),&Info_Office(*main));
     ADVKATA();
   }
 }
@@ -151,13 +159,47 @@ boolean IsExit(program main){
   return !Info_Main(main) && !Info_Prep(main);
 }
 
+void PrintInfoPrep(program *main){
+  printf("Preparation phase day 1\n");
+  TulisMATRIKS(Info_Map(*main));
+  printf("\n");
+  printpemain(*main);
+}
+
+void PrintInfoMain(program *main){
+  printf("Main phase day 1\n");
+  TulisMATRIKS(Info_Map(*main));
+  printf("\n");
+  printpemain(*main);
+}
+
 void play(program *main){
-  Kata exitgame,_w,_a,_s,_d;
-  exitgame.TabKata[0] = *"e";
-  exitgame.TabKata[1] = *"x";
-  exitgame.TabKata[2] = *"i";
-  exitgame.TabKata[3] = *"t";
-  exitgame.Length = 4;
+  Kata _exitgame,_w,_a,_s,_d,_office,_main,_prep;
+  _main.TabKata[0] = *"m";
+  _main.TabKata[1] = *"a";
+  _main.TabKata[2] = *"i";
+  _main.TabKata[3] = *"n";
+  _main.Length = 4;
+  _prep.TabKata[0] = *"p";
+  _prep.TabKata[1] = *"r";
+  _prep.TabKata[2] = *"e";
+  _prep.TabKata[3] = *"p";
+  _prep.TabKata[4] = *"a";
+  _prep.TabKata[5] = *"r";
+  _prep.TabKata[6] = *"e";
+  _prep.Length = 7;
+  _exitgame.TabKata[0] = *"e";
+  _exitgame.TabKata[1] = *"x";
+  _exitgame.TabKata[2] = *"i";
+  _exitgame.TabKata[3] = *"t";
+  _exitgame.Length = 4;
+  _office.TabKata[0] = *"o";
+  _office.TabKata[1] = *"f";
+  _office.TabKata[2] = *"f";
+  _office.TabKata[3] = *"i";
+  _office.TabKata[4] = *"c";
+  _office.TabKata[5] = *"e";
+  _office.Length = 6;
   _w.TabKata[0] = *"w";
   _a.TabKata[0] = *"a";
   _s.TabKata[0] = *"s";
@@ -169,26 +211,65 @@ void play(program *main){
 
   if(!IsExit(*main)){
     while (!IsExit(*main)){
-      printf("Preparation phase day 1\n");
-      TulisMATRIKS(Info_Map(*main));
-      printf("\n");
-      printpemain(*main);
-      printf("Masukkan perintah:\n$ ");
+      if (Info_Prep(*main)){
+        PrintInfoPrep(main);
+      } else {
+        PrintInfoMain(main);
+      }
+      printf("Masukkan perintah:\n");
+      if (IsOffice(Info_Posisi(*main), *main)){
+        printf("(masukkan office untuk membuka office)\n");
+      }
+      printf("$ ");
       STARTKATA();
       while(!EndKata){
         // do some cmd
-        if (isKataSama(exitgame, CKata)){
+        if (isKataSama(_exitgame, CKata)){
           Info_Main(*main) = false;
           Info_Prep(*main) = false;
           printf("tq\n");
         } else if (isKataSama(_w, CKata)){
-          w(&Info_Map(*main), &Info_Posisi(*main));
+          if (IsOffice(Info_Posisi(*main), *main)){
+            w(&Info_Map(*main), &Info_Posisi(*main));
+            initOffice(&Info_Map(*main),&Info_Office(*main));
+          } else {
+            w(&Info_Map(*main), &Info_Posisi(*main));
+          }
         } else if (isKataSama(_a, CKata)){
-          a(&Info_Map(*main), &Info_Posisi(*main));
+          if (IsOffice(Info_Posisi(*main), *main)){
+            a(&Info_Map(*main), &Info_Posisi(*main));
+            initOffice(&Info_Map(*main),&Info_Office(*main));
+          } else {
+            a(&Info_Map(*main), &Info_Posisi(*main));
+          }
         } else if (isKataSama(_s, CKata)){
-          s(&Info_Map(*main), &Info_Posisi(*main));
+          if (IsOffice(Info_Posisi(*main), *main)){
+            s(&Info_Map(*main), &Info_Posisi(*main));
+            initOffice(&Info_Map(*main),&Info_Office(*main));
+          } else {
+            s(&Info_Map(*main), &Info_Posisi(*main));
+          }
         } else if (isKataSama(_d, CKata)){
-          d(&Info_Map(*main), &Info_Posisi(*main));
+          if (IsOffice(Info_Posisi(*main), *main)){
+            d(&Info_Map(*main), &Info_Posisi(*main));
+            initOffice(&Info_Map(*main),&Info_Office(*main));
+          } else {
+            d(&Info_Map(*main), &Info_Posisi(*main));
+          }
+        /* PERINTAH UNTUK PREP PHASE */
+        } else if (isKataSama(_main, CKata)){
+          Info_Prep(*main) = false;
+          Info_Main(*main) = true;
+        /* PERINTAH UNTUK MAIN PHASE */
+        } else if (isKataSama(_prep, CKata)){
+          Info_Prep(*main) = true;
+          Info_Main(*main) = false;
+        } else if (isKataSama(_office, CKata)){
+          if (Info_Main(*main) && IsOffice(Info_Posisi(*main), *main)){
+            printf("ini office\n\n");
+          } else {
+            printf("gabisa buka office krn masih prep atau bkn di posisi\n\n");
+          }
         } else {
           printf("Cmd salah!\n\n");
         }
