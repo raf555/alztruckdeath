@@ -7,6 +7,7 @@
 #include "stackt.h"
 #include "boolean.h"
 #include "matriks.h"
+#include "point.h"
 
 /* data wahana */
 typedef struct {
@@ -42,6 +43,7 @@ typedef struct {
   	boolean Main;
   	boolean Prep;
 	MATRIKS Map;
+	POINT posisi;
 } program;
 
 /* selektor */
@@ -69,6 +71,7 @@ typedef struct {
 #define Info_Main(c) (c).Main
 #define Info_Prep(c) (c).Prep
 #define Info_Map(c) (c).Map
+#define Info_Posisi(c) (c).posisi
 
 // init
 void initmain(program *main, Kata nama);
