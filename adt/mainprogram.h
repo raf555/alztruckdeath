@@ -4,7 +4,7 @@
 #include "mesinkata.h"
 #include "jam.h"
 #include "point.h"
-#include "stack.h"
+#include "stackt.h"
 #include "boolean.h"
 
 /* data wahana */
@@ -35,7 +35,7 @@ typedef struct {
 /* data keseluruhan program */
 typedef struct {
 	Orang orang;
-	Jam sekarang;
+	JAM sekarang;
 	Wahana wahana[100];
 	Stack prepexe;
   boolean Main;
@@ -50,7 +50,7 @@ typedef struct {
 #define InfoWahana_Harga(c) (c).harga
 #define InfoWahana_Kapasitas(c) (c).kapasitas
 #define InfoWahana_Deskripsi(c) (c).deskripsi
-#define InfoWahana_Durasic) (c).durasi
+#define InfoWahana_Durasi(c) (c).durasi
 #define InfoWahana_lokasi(c) (c).lokasi
 
 // orang ama bahan
@@ -69,5 +69,8 @@ typedef struct {
 
 // init
 void initmain(program *main, Kata nama);
+
+// print info orang
+void printpemain(program main);
 
 #endif
