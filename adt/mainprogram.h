@@ -38,8 +38,8 @@ typedef struct {
 	Jam sekarang;
 	Wahana wahana[100];
 	Stack prepexe;
-        boolean Main;
-        boolean Prep;
+  boolean Main;
+  boolean Prep;
 } program;
 
 /* selektor */
@@ -66,5 +66,8 @@ typedef struct {
 #define Info_StackCMD(c) (c).prepexe
 #define Info_Main(c) (c).Main
 #define Info_Prep(c) (c).Prep
+
+// init
+void initmain(program *main, Kata nama);
 
 #endif
