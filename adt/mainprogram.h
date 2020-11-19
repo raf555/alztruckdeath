@@ -9,6 +9,8 @@
 #include "matriks.h"
 #include "point.h"
 
+#define maxel 100
+
 /* data wahana */
 typedef struct {
 	Kata nama;
@@ -31,14 +33,14 @@ typedef struct {
 typedef struct {
 	Kata nama;
 	int duit;
-	Bahan bahan[100];
+	Bahan bahan[maxel];
 } Orang;
 
 /* data keseluruhan program */
 typedef struct {
 	Orang orang;
 	JAM sekarang;
-	Wahana wahana[100];
+	Wahana wahana[maxel];
 	Stack prepexe;
   boolean Main;
   boolean Prep;
