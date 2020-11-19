@@ -6,6 +6,7 @@
 #include "point.h"
 #include "stackt.h"
 #include "boolean.h"
+#include "matriks.h"
 
 /* data wahana */
 typedef struct {
@@ -40,7 +41,7 @@ typedef struct {
 	Stack prepexe;
   	boolean Main;
   	boolean Prep;
-	matriks Map;
+	MATRIKS Map;
 } program;
 
 /* selektor */
