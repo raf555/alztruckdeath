@@ -1,10 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "adt/matriks.h"
-#include "adt/point.h"
-#include "adt/mesinkata.h"
-#include "adt/boolean.h"
-#include "adt/mainprogram.h"
+#include "../adt/matriks.h"
+#include "../adt/point.h"
+#include "../adt/mesinkata.h"
+#include "../adt/boolean.h"
+#include "../adt/mainprogram.h"
 
 void initMap(MATRIKS *M) {
 	for(int i=0; i < (*M).NBrsEff; i++) {
