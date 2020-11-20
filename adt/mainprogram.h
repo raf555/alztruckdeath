@@ -81,8 +81,49 @@ typedef struct {
 
 // init
 void initmain(program *main, Kata nama);
+void initgame(program *main);
+void init(program *main);
+void play(program *main);
+void initMap(MATRIKS *M);
+void initPlayer(MATRIKS *M, POINT *P);
+void initOffice(MATRIKS *M, POINT *P);
 
-// print info orang
+// print2an
 void printpemain(program main);
+void PrintInfoWahana (Wahana x);
+void PrintInfoPrep(program *main);
+void PrintInfoMain(program *main);
+
+// bool function
+boolean IsOffice(POINT P1, program main);
+boolean isWahanaAda(program main, Kata wahana);
+boolean IsExit(program main);
+
+// search function
+Wahana CariWahana(program main, Kata wahana);
+
+// fungsi-fungsi / prosedur lain
+// wasd
+void P_to_Dash(MATRIKS *M, POINT P);
+void Dash_to_P(MATRIKS *M, POINT P);
+void w(MATRIKS *M, POINT *P);
+void a(MATRIKS *M, POINT *P);
+void s(MATRIKS *M, POINT *P);
+void d(MATRIKS *M, POINT *P);
+
+// office
+void office(program main);
+void wahana_print(program main, boolean prep);
+void wahana_details_print(program main, Kata choice);
+void wahana_details(program main);
+void wahana_reports_print(program main, Kata choice);
+void wahana_reports(program main);
+
+// build
+void AddWahanaToMap(MATRIKS *M, int X, int Y);
+void build (program *main);
+
+// execute
+void execute(program *e);
 
 #endif

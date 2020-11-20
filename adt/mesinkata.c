@@ -66,3 +66,23 @@ void SalinKata()
   CKata.Length = i;
   //IgnoreBlank();
 }
+
+boolean isKataSama(Kata K1, Kata K2){
+  // KAMUS
+  int i;
+  boolean sama = true;
+
+  // ALGORITMA
+  if (K1.Length != K2.Length){
+    return false;
+  } else {
+    i = 0;
+    while (i < K1.Length && sama){
+      if(K1.TabKata[i] != K2.TabKata[i]){
+        sama = false;
+      }
+      i += 1;
+    }
+    return sama;
+  }
+}

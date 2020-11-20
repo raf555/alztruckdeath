@@ -45,4 +45,6 @@ void SalinKata();
           CC adalah karakter sesudah karakter terakhir yang diakuisisi.
           Jika panjang kata melebihi NMax, maka sisa kata "dipotong" */
 
+boolean isKataSama(Kata K1, Kata K2);
+
 #endif

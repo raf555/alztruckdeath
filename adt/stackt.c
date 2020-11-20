@@ -58,3 +58,29 @@ void Pop (Stack * S, infotype* X)
     Top(*S)--;
   }
 }
+
+void CopyStack(Stack Sin, Stack *Sout) {
+  cmd X;
+  Stack Stemp;
+  CreateEmpty(&Stemp);
+  CreateEmpty(Sout);
+  while(!IsEmpty(Sin)){
+    Pop(&Sin, &X);
+    Push(&Stemp, X);
+  }
+  while(!IsEmpty(Stemp)){
+    Pop(&Stemp, &X);
+    Push(Sout, X);
+  }
+}
+
+void ReverseStack(Stack *S){
+  cmd X;
+  Stack Stemp;
+  CopyStack(*S, &Stemp);
+  CreateEmpty(S);
+  while(!IsEmpty(Stemp)){
+    Pop(&Stemp, &X);
+    Push(S, X);
+  }
+}
