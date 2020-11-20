@@ -38,15 +38,16 @@ typedef struct {
 
 /* data keseluruhan program */
 typedef struct {
-	Orang orang;
-	JAM sekarang;
-	Wahana wahana[maxel];
-	Stack prepexe;
-  boolean Main;
-  boolean Prep;
-	MATRIKS Map;
-	POINT posisi;
-  POINT office;
+	Orang orang; // nyimpen data org
+	JAM sekarang; // nyimpen jam skrg
+	Wahana wahana[maxel]; // nyimpen list wahana
+  Wahana wahana_map[maxel]; // nyimpen list wahana yg ada di MAP
+	Stack prepexe; // stack preparation cmd
+  boolean Main; // main phase
+  boolean Prep; // prep phase
+	MATRIKS Map; // data map
+	POINT posisi; // posisi pemain
+  POINT office; // posisi office
 } program;
 
 /* selektor */
@@ -70,6 +71,7 @@ typedef struct {
 #define Info_Orang(c) (c).orang
 #define Info_Waktu(c) (c).sekarang
 #define Info_Wahana(c, i) (c).wahana[(i)]
+#define Info_WahanaMap(c, i) (c).wahana_map[(i)]
 #define Info_StackCMD(c) (c).prepexe
 #define Info_Main(c) (c).Main
 #define Info_Prep(c) (c).Prep
