@@ -4,6 +4,8 @@
 #include "boolean.h"
 #include "mesinkar.h"
 #include "mesinkata.h"
+#include "string.h"
+#include "stdlib.h"
 
 boolean EndKata;
 Kata CKata;
@@ -85,4 +87,8 @@ boolean isKataSama(Kata K1, Kata K2){
     }
     return sama;
   }
+}
+
+int ConvertToInt (Kata K){
+  return atoi(K.TabKata); 
 }
