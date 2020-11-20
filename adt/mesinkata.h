@@ -47,4 +47,5 @@ void SalinKata();
 
 boolean isKataSama(Kata K1, Kata K2);
 
+int ConvertToInt (Kata K);
 #endif

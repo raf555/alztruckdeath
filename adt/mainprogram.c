@@ -310,17 +310,51 @@ void AddWahanaToMap(MATRIKS *M, int X, int Y) {
 	Elmt(*M,Y,X) = 'W';
 }
 
+void buy (program *main) {
+  // KAMUS
+  boolean sabi;
+  JAM waktu;
+  Kata _buy;
+  _buy.TabKata[0] = *"b";
+  _buy.TabKata[1] = *"u";
+  _buy.TabKata[2] = *"y";
+  _buy.Length = 3;
+
+  // ALGORITMA
+  if (!Info_Prep(*main)) {
+		printf("Anda sedang dalam main phase!");
+  } else {
+    	printf("Ingin beli apa?\n");
+			// print list bahan
+			printf("$ ");
+			STARTKATA();
+			while (!EndKata) {
+				if (isWahanaAda(*main, CKata)){ //checking if bahan ada atau ga
+          AddWahanaToMap(&Info_Map(*main), Absis(Info_Posisi(*main))+1, Ordinat(Info_Posisi(*main)));
+          cmd buy;
+          //WaktuCMD(buy) = /* JAM sekian */;
+          PerintahCMD(buy) = _buy;
+          TargetCMD(buy) = CKata; // harus di split dulu cuma idk
+          TargetBuy(buy) = ConvertToInt(CKata);
+          Push (&Info_StackCMD(*main), buy);
+        } else {
+          printf("Material tidak ditemukan!\n");
+        }
+        ADVKATA();
+			}
+  }
+}
 void build (program *main) {
 	// KAMUS
 	boolean sabi;
 	JAM waktu;
-  Kata _build;
-  _build.TabKata[0] = *"b";
-  _build.TabKata[1] = *"u";
-  _build.TabKata[2] = *"i";
-  _build.TabKata[3] = *"l";
-  _build.TabKata[4] = *"d";
-  _build.Length = 5;
+	Kata _build;
+	_build.TabKata[0] = *"b";
+	_build.TabKata[1] = *"u";
+	_build.TabKata[2] = *"i";
+	_build.TabKata[3] = *"l";
+	_build.TabKata[4] = *"d";
+	_build.Length = 5;
 	
 	// ALGORITMA
 	if (!Info_Prep(*main)) {
