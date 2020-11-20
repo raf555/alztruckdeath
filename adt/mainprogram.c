@@ -171,13 +171,28 @@ void wahana_print(program main, boolean prep) {
   for (int i = 0; i < maxel; i++){
     if (prep) {
       for (int j = 0; j < InfoWahana_Nama(Info_Wahana(main, i)).Length; j++){
-        printf("%c", InfoWahana_Nama(Info_Wahana(main, i)).TabKata[j]);
-        printf("\n");
+        if (InfoWahana_Nama(Info_Wahana(main, i)).Length>0){
+          if (j == 0){
+            printf("- ");
+          }
+          printf("%c", InfoWahana_Nama(Info_Wahana(main, i)).TabKata[j]);
+          if (j == InfoWahana_Nama(Info_Wahana(main, i)).Length-1){
+            printf("\n");
+          }
+        }
       }
     } else {
       for (int j = 0; j < InfoWahana_Nama(Info_WahanaMap(main, i)).Length; j++){
-        printf("%c", InfoWahana_Nama(Info_WahanaMap(main, i)).TabKata[j]);
-        printf("\n");
+        if (InfoWahana_Nama(Info_WahanaMap(main, i)).Length>0){
+          if (j == 0){
+            printf("- ");
+          }
+          printf("%c", InfoWahana_Nama(Info_WahanaMap(main, i)).TabKata[j]);
+          if (j == InfoWahana_Nama(Info_WahanaMap(main, i)).Length-1){
+            printf(" (%f,%f)", Absis(InfoWahana_lokasi(Info_WahanaMap(main, i))), Ordinat(InfoWahana_lokasi(Info_WahanaMap(main, i))));
+            printf("\n");
+          }
+        }
       }
     }
   }
@@ -325,7 +340,7 @@ void build (program *main) {
           //WaktuCMD(build) = /* JAM sekian */;
           PerintahCMD(build) = _build;
           TargetCMD(build) = CKata;
-          TargetBuild(build).X = Absis(Info_Posisi(*main))-1;
+          TargetBuild(build).X = Absis(Info_Posisi(*main))+1;
           TargetBuild(build).Y = Ordinat(Info_Posisi(*main));
           Push (&Info_StackCMD(*main), build);
         } else {
@@ -378,6 +393,9 @@ void execute(program *e) {
       for (int i = 0; i < maxel; i++){
         if (InfoWahana_Nama(Info_WahanaMap(*e,i)).Length==0){
           Info_WahanaMap(*e,i) = CariWahana(*e, TargetCMD(c));
+          Info_WahanaMap(*e,i).lokasi.X = c.targetvalue.titik.X;
+          Info_WahanaMap(*e,i).lokasi.Y = c.targetvalue.titik.Y;
+          break;
         }
       }
 		} else if (isKataSama(c.perintah, _buy)) {
@@ -391,7 +409,7 @@ void execute(program *e) {
 }
 
 void play(program *main){
-  Kata _exitgame,_w,_a,_s,_d,_office,_main,_prep,_build;
+  Kata _exitgame,_w,_a,_s,_d,_office,_main,_prep,_build,_execute;
   _main.TabKata[0] = *"m";
   _main.TabKata[1] = *"a";
   _main.TabKata[2] = *"i";
@@ -403,6 +421,14 @@ void play(program *main){
   _build.TabKata[3] = *"l";
   _build.TabKata[4] = *"d";
   _build.Length = 5;
+  _execute.TabKata[0] = *"e";
+  _execute.TabKata[1] = *"x";
+  _execute.TabKata[2] = *"e";
+  _execute.TabKata[3] = *"c";
+  _execute.TabKata[4] = *"u";
+  _execute.TabKata[5] = *"t";
+  _execute.TabKata[6] = *"e";
+  _execute.Length = 7;
   _prep.TabKata[0] = *"p";
   _prep.TabKata[1] = *"r";
   _prep.TabKata[2] = *"e";
@@ -489,6 +515,12 @@ void play(program *main){
             build(main);
           } else {
             printf("gabisa build soalnya lagi main\n\n");
+          }
+        } else if (isKataSama(_execute, CKata)){
+          if (Info_Prep(*main)){
+            execute(main);
+          } else {
+            printf("gabisa exe soalnya lagi main\n\n");
           }
         }
         /* PERINTAH UNTUK MAIN PHASE */
@@ -581,4 +613,3 @@ void PrintInfoWahana (Wahana x){
   printf("History: blom\n");
   printf("Durasi: blom\n\n");
 }
-
