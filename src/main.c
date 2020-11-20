@@ -1,10 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "../adt/matriks.h"
-#include "../adt/point.h"
-#include "../adt/mesinkata.h"
-#include "../adt/boolean.h"
-#include "../adt/mainprogram.h"
+#include "adt/matriks.h"
+#include "adt/point.h"
+#include "adt/mesinkata.h"
+#include "adt/boolean.h"
+#include "adt/mainprogram.h"
 
 void initMap(MATRIKS *M) {
 	for(int i=0; i < (*M).NBrsEff; i++) {
@@ -183,11 +183,9 @@ void wahana_print(program main, boolean prep) {
         printf("\n");
       }
     } else {
-      if (NEQ(bknwahana, InfoWahana_lokasi(Info_Wahana(main, i)))){
-        for (int j = 0; j < InfoWahana_Nama(Info_Wahana(main, i)).Length; j++){
-          printf("%c", InfoWahana_Nama(Info_Wahana(main, i)).TabKata[j]);
+      for (int j = 0; j < InfoWahana_Nama(Info_WahanaMap(main, i)).Length; j++){
+        printf("%c", InfoWahana_Nama(Info_WahanaMap(main, i)).TabKata[j]);
         printf("\n");
-        }
       }
     }
   }
@@ -219,12 +217,10 @@ void wahana_details_print(program main, Kata choice) {
 	// kalo gaada, kirim error
   boolean found = false;
   for (int i = 0; i < maxel; i++){
-    if (NEQ(bknwahana, InfoWahana_lokasi(Info_Wahana(main, i)))){
-      if (isKataSama(choice, InfoWahana_Nama(Info_Wahana(main, i)))){
-        PrintInfoWahana(Info_Wahana(main, i));
-        found = true;
-        break;
-      }
+    if (isKataSama(choice, InfoWahana_Nama(Info_WahanaMap(main, i)))){
+      PrintInfoWahana(Info_WahanaMap(main, i));
+      found = true;
+      break;
     }
   }
   if (!found) {
@@ -321,7 +317,7 @@ void office(program main) {
 }
 
 void AddWahanaToMap(MATRIKS *M, int X, int Y) {
-	Elmt(*M,X,Y) = 'W';
+	Elmt(*M,Y,X) = 'W';
 }
 
 void build (program *main) {
@@ -349,7 +345,7 @@ void build (program *main) {
 			while (!EndKata) {
 				//sabi = cek_resource(CKata);
         if (isWahanaAda(*main, CKata)){
-          AddWahanaToMap(&Info_Map(*main), Absis(Info_Posisi(*main))-1, Ordinat(Info_Posisi(*main)));
+          AddWahanaToMap(&Info_Map(*main), Absis(Info_Posisi(*main))+1, Ordinat(Info_Posisi(*main)));
           cmd build;
           //WaktuCMD(build) = /* JAM sekian */;
           PerintahCMD(build) = _build;
