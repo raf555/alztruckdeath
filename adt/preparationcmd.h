@@ -4,20 +4,28 @@
 #include "jam.h"
 #include "point.h"
 #include "mesinkata.h"
-#include "mainprogram.h"
+
+/* target cmd */
+typedef struct { 
+	POINT titik; // untuk cmd build
+	Kata wahana; // untuk cmd upgrade
+	int jumlah; // untuk cmd buy
+} targetcmd;
 
 /* tipe data perintah pada preparation phase */
 typedef struct { 
 	JAM waktu; // banyaknya waktu yang dibutuhkan per-cmd
 	Kata perintah; // command
-	Wahana targetwahana; // target utk wahana
-  Bahan targetbahan; // target utk bahan
+	Kata target; // target cmd (bisa wahana / bahan)
+	targetcmd targetvalue; // value yg akan diubah utk target
 } cmd;
 
 /* selektor */
 #define WaktuCMD(c) (c).waktu
 #define PerintahCMD(c) (c).perintah
-#define TargetWahana(c) (c).targetwahana
-#define TargetBahan(c) (c).targetbahan
+#define TargetCMD(c) (c).target
+#define TargetBuild(c) (c).targetvalue.titik
+#define TargetUpgrade(c) (c).targetvalue.wahana
+#define TargetBuy(c) (c).targetvalue.jumlah
 
 #endif
