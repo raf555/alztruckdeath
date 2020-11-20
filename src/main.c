@@ -96,6 +96,19 @@ boolean isKataSama(Kata K1, Kata K2){
   }
 }
 
+boolean isWahanaAda(program main, Kata wahana) {
+  boolean found = false;
+  for (int i = 0; i < maxel; i++){
+    if (InfoWahana_Nama(Info_Wahana(main, i)).Length>0){
+      if (isKataSama(wahana, InfoWahana_Nama(Info_Wahana(main, i)))){
+        found = true;
+        break;
+      }
+    }
+  }
+  return found;
+}
+
 void inputnama(program *main){
   printf("Masukkan nama:\n$ ");
   STARTKATA();
@@ -155,6 +168,210 @@ void init(program *main){
   }
 }
 
+void wahana_print(program main, boolean prep) {
+	// baca file
+	// print semua nama wahana
+  POINT bknwahana;
+  bknwahana.X = -999;
+  bknwahana.Y = -999;
+
+  printf("List Wahana:\n");
+  for (int i = 0; i < maxel; i++){
+    if (prep) {
+      for (int j = 0; j < InfoWahana_Nama(Info_Wahana(main, i)).Length; j++){
+        printf("%c", InfoWahana_Nama(Info_Wahana(main, i)).TabKata[j]);
+        printf("\n");
+      }
+    } else {
+      if (NEQ(bknwahana, InfoWahana_lokasi(Info_Wahana(main, i)))){
+        for (int j = 0; j < InfoWahana_Nama(Info_Wahana(main, i)).Length; j++){
+          printf("%c", InfoWahana_Nama(Info_Wahana(main, i)).TabKata[j]);
+        printf("\n");
+        }
+      }
+    }
+  }
+}
+
+void PrintInfoWahana (Wahana x){
+  printf("Nama: ");
+  for (int i = 0; i < InfoWahana_Nama(x).Length; i++){
+    printf("%c",InfoWahana_Nama(x).TabKata[i]);
+  }
+  printf("\nTipe: %i\n", InfoWahana_Tipe(x));
+  printf("Harga: %i\n", InfoWahana_Harga(x));
+  printf("Lokasi: blom\n");
+  printf("Deskripsi: ");
+  for (int i = 0; i < InfoWahana_Deskripsi(x).Length; i++){
+    printf("%c",InfoWahana_Deskripsi(x).TabKata[i]);
+  }
+  printf("\nKapasitas: %i\n", InfoWahana_Kapasitas(x));
+  printf("History: blom\n");
+  printf("Durasi: blom\n\n");
+}
+
+void wahana_details_print(program main, Kata choice) {
+  POINT bknwahana;
+  bknwahana.X = -999;
+  bknwahana.Y = -999;
+	// baca file
+	// print semua detail sesuai choice
+	// kalo gaada, kirim error
+  boolean found = false;
+  for (int i = 0; i < maxel; i++){
+    if (NEQ(bknwahana, InfoWahana_lokasi(Info_Wahana(main, i)))){
+      if (isKataSama(choice, InfoWahana_Nama(Info_Wahana(main, i)))){
+        PrintInfoWahana(Info_Wahana(main, i));
+        found = true;
+        break;
+      }
+    }
+  }
+  if (!found) {
+    printf("Wahana tidak ditemukan\n\n");
+  }
+}
+
+void wahana_details(program main) {
+	// KAMUS
+
+	// ALGORITMA
+	printf("Pilih wahana:\n");
+	wahana_print(main, false);
+  printf("\n$ ");
+	STARTKATA();
+	while (!EndKata) {
+		wahana_details_print(main, CKata);
+    ADVKATA();
+	}
+}
+
+
+void wahana_reports_print(program main, Kata choice) {
+	// baca file
+	// print semua detail sesuai choice
+	// kalo gaada, kirim error
+  printf("report wahana\n");
+}
+
+void wahana_reports(program main) {
+	// KAMUS
+
+	// ALGORITMA
+	printf("Pilih wahana:\n");
+	wahana_print(main, false);
+  printf("\n$ ");
+	STARTKATA();
+	while (!EndKata) {
+		wahana_reports_print(main, CKata);
+    ADVKATA();
+	}
+}
+
+
+void office(program main) {
+	// KAMUS
+	boolean end;
+
+	// ALGORITMA
+	end = false;
+	while (!end) {
+    Kata CCdetails;
+    CCdetails.TabKata[0] = *"d";
+    CCdetails.TabKata[1] = *"e";
+    CCdetails.TabKata[2] = *"t";
+    CCdetails.TabKata[3] = *"a";
+    CCdetails.TabKata[4] = *"i";
+    CCdetails.TabKata[5] = *"l";
+    CCdetails.TabKata[6] = *"s";
+    CCdetails.Length = 7;
+
+    Kata CCreports;
+    CCreports.TabKata[0] = *"r";
+    CCreports.TabKata[1] = *"e";
+    CCreports.TabKata[2] = *"p";
+    CCreports.TabKata[3] = *"o";
+    CCreports.TabKata[4] = *"r";
+    CCreports.TabKata[5] = *"t";
+    CCreports.TabKata[6] = *"s";
+    CCreports.Length = 7;
+
+    Kata CCexit;
+    CCexit.TabKata[0] = *"e";
+    CCexit.TabKata[1] = *"x";
+    CCexit.TabKata[2] = *"i";
+    CCexit.TabKata[3] = *"t";
+    CCexit.Length = 4;
+		printf("Masukkan perintah (details / reports / exit)\n$ ");
+
+		STARTKATA();
+		while (!EndKata) {
+			if (isKataSama(CKata, CCdetails)) {
+				wahana_details(main);
+			} else if (isKataSama(CKata, CCreports)) {
+				wahana_reports(main);
+			} else if (isKataSama(CKata, CCexit)) {
+				end = true;
+			} else {
+				printf("Command salah!\n");
+			}
+      ADVKATA();
+		}
+	}
+}
+
+void AddWahanaToMap(MATRIKS *M, int X, int Y) {
+	Elmt(*M,X,Y) = 'W';
+}
+
+void build (program *main) {
+	// KAMUS
+	boolean sabi;
+	JAM waktu;
+  Kata _build;
+  _build.TabKata[0] = *"b";
+  _build.TabKata[1] = *"u";
+  _build.TabKata[2] = *"i";
+  _build.TabKata[3] = *"l";
+  _build.TabKata[4] = *"d";
+  _build.Length = 5;
+	
+	// ALGORITMA
+	if (!Info_Prep(*main)) {
+		printf("Anda sedang dalam main phase!");
+	} else {
+		//if (cekwaktu(waktu, 888)) {
+		//	kurangwaktu(&waktu, 1231213213132123131231);
+			printf("Pilih wahana:\n");
+			wahana_print(*main, true);
+      printf("$ ");
+			STARTKATA();
+			while (!EndKata) {
+				//sabi = cek_resource(CKata);
+        if (isWahanaAda(*main, CKata)){
+          AddWahanaToMap(&Info_Map(*main), Absis(Info_Posisi(*main))-1, Ordinat(Info_Posisi(*main)));
+          cmd build;
+          //WaktuCMD(build) = /* JAM sekian */;
+          PerintahCMD(build) = _build;
+          TargetCMD(build) = CKata;
+          TargetBuild(build).X = Absis(Info_Posisi(*main))-1;
+          TargetBuild(build).Y = Ordinat(Info_Posisi(*main));
+          Push (&Info_StackCMD(*main), build);
+        } else {
+          printf("Wahana tidak ditemukan!\n");
+        }
+        ADVKATA();
+			}
+			//if (sabi) {
+				// tambahin wahana ke point buat semu
+
+			//}
+		//} else {
+		//	printf("Tidak cukup waktu");
+		//}
+	}
+}
+
 boolean IsExit(program main){
   return !Info_Main(main) && !Info_Prep(main);
 }
@@ -174,12 +391,18 @@ void PrintInfoMain(program *main){
 }
 
 void play(program *main){
-  Kata _exitgame,_w,_a,_s,_d,_office,_main,_prep;
+  Kata _exitgame,_w,_a,_s,_d,_office,_main,_prep,_build;
   _main.TabKata[0] = *"m";
   _main.TabKata[1] = *"a";
   _main.TabKata[2] = *"i";
   _main.TabKata[3] = *"n";
   _main.Length = 4;
+  _build.TabKata[0] = *"b";
+  _build.TabKata[1] = *"u";
+  _build.TabKata[2] = *"i";
+  _build.TabKata[3] = *"l";
+  _build.TabKata[4] = *"d";
+  _build.Length = 5;
   _prep.TabKata[0] = *"p";
   _prep.TabKata[1] = *"r";
   _prep.TabKata[2] = *"e";
@@ -211,6 +434,7 @@ void play(program *main){
 
   if(!IsExit(*main)){
     while (!IsExit(*main)){
+      printf("\n");
       if (Info_Prep(*main)){
         PrintInfoPrep(main);
       } else {
@@ -260,13 +484,20 @@ void play(program *main){
         } else if (isKataSama(_main, CKata)){
           Info_Prep(*main) = false;
           Info_Main(*main) = true;
+        } else if (isKataSama(_build, CKata)){
+          if (Info_Prep(*main)){
+            build(main);
+          } else {
+            printf("gabisa build soalnya lagi main\n\n");
+          }
+        }
         /* PERINTAH UNTUK MAIN PHASE */
-        } else if (isKataSama(_prep, CKata)){
+          else if (isKataSama(_prep, CKata)){
           Info_Prep(*main) = true;
           Info_Main(*main) = false;
         } else if (isKataSama(_office, CKata)){
           if (Info_Main(*main) && IsOffice(Info_Posisi(*main), *main)){
-            printf("ini office\n\n");
+            office(*main);
           } else {
             printf("gabisa buka office krn masih prep atau bkn di posisi\n\n");
           }
@@ -283,6 +514,20 @@ int main() {
   program main;
   init(&main);
 
+  // tes wahana
+  POINT bknwahana;
+  bknwahana.X = -999;
+  bknwahana.Y = -999;
+  Wahana a;
+  a.tipe = 0;
+  a.harga = 2000;
+  a.deskripsi.TabKata[0] = *"g";
+  a.deskripsi.Length = 1;
+  a.nama.TabKata[0] = *"g";
+  a.nama.Length = 1;
+  a.kapasitas = 1;
+  a.lokasi = bknwahana;
+  main.wahana[0] = a;
   play(&main);
 	return 0;
 }

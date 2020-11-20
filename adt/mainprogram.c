@@ -1,5 +1,4 @@
 #include "mainprogram.h"
-#include "stackt.h"
 #include <stdio.h>
 
 void initmain(program *main, Kata nama) {
