@@ -369,14 +369,18 @@ void build (program *main) {
 			while (!EndKata) {
 				//sabi = cek_resource(CKata);
         if (isWahanaAda(*main, CKata)){
-          AddWahanaToMap(&Info_Map(*main), Absis(Info_Posisi(*main))+1, Ordinat(Info_Posisi(*main)));
-          cmd build;
-          //WaktuCMD(build) = /* JAM sekian */;
-          PerintahCMD(build) = _build;
-          TargetCMD(build) = CKata;
-          TargetBuild(build).X = Absis(Info_Posisi(*main))+1;
-          TargetBuild(build).Y = Ordinat(Info_Posisi(*main));
-          Push (&Info_StackCMD(*main), build);
+          if(Absis(Info_Posisi(*main))+1<=10){
+            AddWahanaToMap(&Info_Map(*main), Absis(Info_Posisi(*main))+1, Ordinat(Info_Posisi(*main)));
+            cmd build;
+            //WaktuCMD(build) = /* JAM sekian */;
+            PerintahCMD(build) = _build;
+            TargetCMD(build) = CKata;
+            TargetBuild(build).X = Absis(Info_Posisi(*main))+1;
+            TargetBuild(build).Y = Ordinat(Info_Posisi(*main));
+            Push (&Info_StackCMD(*main), build);
+          } else {
+            printf("Ada tembok! tidak dapat membangun wahana!\n");
+          }
         } else {
           printf("Wahana tidak ditemukan!\n");
         }
