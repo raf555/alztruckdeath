@@ -369,7 +369,7 @@ void build (program *main) {
 			while (!EndKata) {
 				//sabi = cek_resource(CKata);
         if (isWahanaAda(*main, CKata)){
-          if(Absis(Info_Posisi(*main))+1<=10){
+          if(Elmt(Info_Map(*main), (int) Absis(Info_Posisi(*main))+1, (int) Ordinat(Info_Posisi(*main))) == *"-"){
             AddWahanaToMap(&Info_Map(*main), Absis(Info_Posisi(*main))+1, Ordinat(Info_Posisi(*main)));
             cmd build;
             //WaktuCMD(build) = /* JAM sekian */;
@@ -379,7 +379,7 @@ void build (program *main) {
             TargetBuild(build).Y = Ordinat(Info_Posisi(*main));
             Push (&Info_StackCMD(*main), build);
           } else {
-            printf("Ada tembok! tidak dapat membangun wahana!\n");
+            printf("Ada sesuatu di kanan pemain, tidak dapat membangun wahana!\n");
           }
         } else {
           printf("Wahana tidak ditemukan!\n");
