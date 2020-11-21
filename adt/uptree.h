@@ -8,7 +8,7 @@
 #include <stdlib.h>
 
 #define Nil NULL
-#define MARK '.'
+#define MARKW '.'
 typedef int infotype;
 typedef struct tNode *addrNode;
 typedef struct tNode
@@ -18,7 +18,12 @@ typedef struct tNode
     addrNode right;
 } Node;
 
+typedef struct treetup{
+
+}
+
 typedef addrNode BinTree;
+typedef 
 
 /* *** PROTOTYPE *** */
 
@@ -30,7 +35,7 @@ typedef addrNode BinTree;
 extern char CC;
 extern boolean EOP;
 
-void START();
+void STARTW();
 /* Mesin siap dioperasikan. Pita disiapkan untuk dibaca. 
    Karakter pertama yang ada pada pita posisinya adalah pada jendela.
    I.S. : sembarang
@@ -38,7 +43,7 @@ void START();
    Jika CC != MARK maka EOP akan padam (false)
    Jika CC = MARK maka EOP akan menyala (true) */
 
-void ADV();
+void ADVW();
 /* Pita dimajukan satu karakter. 
    I.S. : Karakter pada jendela = CC, CC != MARK
    F.S. : CC adalah karakter berikutnya dari CC yang lama, 
@@ -52,7 +57,6 @@ void MakeTree(infotype Akar, BinTree L, BinTree R, BinTree *P);
 boolean IsTreeEmpty (BinTree P);
 void PrintPrefix (BinTree P);
 void BuildTree (BinTree *P);
-
 #endif
 
 

@@ -12,23 +12,23 @@ static int retval;
 static FILE *pt;
 // Imported dari mesinkar yg ori
 
-void START(char *filename) {
+void STARTW(char *filename) {
 /* Mesin siap dioperasikan. Pita disiapkan untuk dibaca. 
    Karakter pertama yang ada pada pita posisinya adalah pada jendela.
    I.S. : sembarang
    F.S. : CC adalah karakter pertama pada pita. Jika CC != MARK maka 
 		  EOP akan padam (false). Jika CC = MARK maka EOP akan menyala (true) */
 	pt = fopen(filename,"r");
-    ADV();
+    ADVW();
 }
 
-void ADV() {
+void ADVW() {
 /* Pita dimajukan satu karakter. 
    I.S. : Karakter pada jendela = CC, CC != MARK
    F.S. : CC adalah karakter berikutnya dari CC yang lama, CC mungkin = MARK
 		  Jika  CC = MARK maka EOP akan menyala (true) */
 	retval = fscanf(pt,"%c",&CC);
-	EOP = (CC == MARK);
+	EOP = (CC == MARKW);
     if(EOP)
         fclose(pt);
 }
@@ -85,16 +85,16 @@ void MakeTree(infotype Akar, BinTree L, BinTree R, BinTree *P)
 }
 
 void BuildTree (BinTree *P) { //Bikin tree dari ekspresi prefix
-    ADV();
+    ADVW();
     if(CC==')')
         *P = Nil;
     else{
         MakeTree(CC,Nil,Nil,P);
-        ADV();
+        ADVW();
         BuildTree(&(Left(*P)));
         BuildTree(&(Right(*P)));
     }
-    ADV();
+    ADVW();
 }
 
 boolean IsTreeEmpty (BinTree P) {
@@ -112,14 +112,22 @@ void PrintPrefix (BinTree P) { // Print dalam form prefix
 	}
 }
 
+void ReadTreeNode(TreeNode *T){
+    
+}
+void PrintTreeNode(TreeNode T){
+  
+}
+
 // DRIVER
 
-/*
+
 int main(){
     BinTree T;
-    START("turi.txt");
+    STARTW("turi.txt");
     BuildTree(&T);
     PrintPrefix(T);
     return 0;
 }
-*/
+
+//([Gocar,1000,4,5,serueuy,-1,-1]([Gotank,2000,4,5,lebiseru,10000,Iron]()())([Gomgomcar,2000,2,3,mobil elastis,10000,Gum]()())).

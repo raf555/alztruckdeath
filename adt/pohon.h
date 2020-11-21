@@ -20,24 +20,26 @@ typedef struct {
 typedef struct tNode *addrNode;
 typedef struct tNode
 {
-    char name[Wlen];
+    wahanode wahana;
     addrNode left;
     addrNode right;
 } Node;
 
 typedef addrNode BinTree;
 
-#define Akar(P) (P)->name
+#define Akar(P) (P)->wahana
 #define Left(P) (P)->left
 #define Right(P) (P)->right
 
-addrNode AlokNode(char X[]);
-void DealokNode(addrNode P);
-BinTree Tree(char Akar[], BinTree L, BinTree R);
-void MakeTree(char Akar[], BinTree L, BinTree R, BinTree *P);
+//addrNode AlokNode(wahanode X);
+//void DealokNode(addrNode P);
+BinTree Tree(wahanode Akar, BinTree L, BinTree R);
+void MakeTree(wahanode Akar, BinTree L, BinTree R, BinTree *P);
 boolean IsTreeEmpty (BinTree P);
 void BuildTree(BinTree *P);
 void WahReader(wahanode *W);
 void PrintPrefix (BinTree P);
+void PrintWahanode(wahanode W);
+void PrintIndent(BinTree P,int indent);
 
 #endif

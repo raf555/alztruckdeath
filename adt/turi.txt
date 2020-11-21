@@ -1,4 +1,4 @@
-GoCycle 1000 4 5 seru 10 Iron|GoKart 2000 4 5 brrr 15 Metal|. . 
+GoCycle 1000 4 5 seru 10 Iron|GoKart 2000 8 5 brrr 15 Metal|. . Gomgomcar 3000 5 7 skkrt 10 Gum|. . 
 
 
 
