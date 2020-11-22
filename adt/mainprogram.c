@@ -355,6 +355,7 @@ void build (program *main) {
 	_build.TabKata[3] = *"l";
 	_build.TabKata[4] = *"d";
 	_build.Length = 5;
+  int price = 100;
 	
 	// ALGORITMA
 	if (!Info_Prep(*main)) {
@@ -368,13 +369,14 @@ void build (program *main) {
 			STARTKATA();
 			while (!EndKata) {
 				//sabi = cek_resource(CKata);
-        if(InfoOrang_Duit(Info_Orang(*main))>=100){
+        if(InfoOrang_Duit(Info_Orang(*main))>=100 && Info_TotalPriceCMD(*main)+price<=InfoOrang_Duit(Info_Orang(*main))){
           if (isWahanaAda(*main, CKata)){
             if(Elmt(Info_Map(*main), (int) Ordinat(Info_Posisi(*main)), (int) Absis(Info_Posisi(*main))+1) == *"-"){
               AddWahanaToMap(&Info_Map(*main), Absis(Info_Posisi(*main))+1, Ordinat(Info_Posisi(*main)));
               cmd build;
+              Info_TotalPriceCMD(*main) += price;
               //WaktuCMD(build) = /* JAM sekian */;
-              HargaCMD(build) = 100;
+              HargaCMD(build) = price;
               PerintahCMD(build) = _build;
               TargetCMD(build) = CKata;
               TargetBuild(build).X = Absis(Info_Posisi(*main))+1;
@@ -606,6 +608,7 @@ void PrintInfoPrep(program *main){
   TulisMATRIKS(Info_Map(*main));
   printf("\n");
   printpemain(*main);
+  printf("\nTotal uang yang dibutuhkan: %i\n", Info_TotalPriceCMD(*main));
 }
 
 void PrintInfoMain(program *main){
