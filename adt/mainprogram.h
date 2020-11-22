@@ -27,6 +27,7 @@ typedef struct {
 typedef struct {
 	Kata nama;
 	int jumlah;
+	int harga;
 } Bahan;
 
 /* data orangnya */
@@ -49,6 +50,7 @@ typedef struct {
 	MATRIKS Map; // data map
 	POINT posisi; // posisi pemain
   POINT office; // posisi office
+  Bahan bahan;
 } program;
 
 /* selektor */
@@ -62,9 +64,15 @@ typedef struct {
 #define InfoWahana_Durasi(c) (c).durasi
 #define InfoWahana_lokasi(c) (c).lokasi
 
+// bahan
+#define InfoBahan_Nama(c) (c).nama
+#define InfoBahan_Jumlah(c) (c).jumlah
+#define InfoBahan_Harga(c) (c).harga
+
 // orang ama bahan
 #define InfoOrang_Nama(c) (c).nama
 #define InfoOrang_Duit(c) (c).duit
+#define InfoOrang_Bahan(c, i) (c).bahan[(i)]
 #define InfoOrang_Bahan_Nama(c, i) (c).bahan[(i)].nama
 #define InfoOrang_Bahan_Jumlah(c, i) (c).bahan[(i)].jumlah
 
@@ -100,9 +108,11 @@ void PrintInfoMain(program main);
 boolean IsOffice(POINT P1, program main);
 boolean isWahanaAda(program main, Kata wahana);
 boolean IsExit(program main);
+boolean isBahanAda(program main, Kata bahan);
 
 // search function
 Wahana CariWahana(program main, Kata wahana);
+Bahan CariBahan(program main, Kata bahan);
 
 // fungsi-fungsi / prosedur lain
 // wasd
@@ -124,6 +134,10 @@ void wahana_reports(program main);
 // build
 void AddWahanaToMap(MATRIKS *M, int X, int Y);
 void build (program *main);
+
+//buy
+void buy (program *main);
+void bahan_print(program main, boolean prep);
 
 // execute
 void execute(program *main);

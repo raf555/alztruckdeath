@@ -310,40 +310,6 @@ void AddWahanaToMap(MATRIKS *M, int X, int Y) {
 	Elmt(*M,Y,X) = 'W';
 }
 
-void buy (program *main) {
-  // KAMUS
-  boolean sabi;
-  JAM waktu;
-  Kata _buy;
-  _buy.TabKata[0] = *"b";
-  _buy.TabKata[1] = *"u";
-  _buy.TabKata[2] = *"y";
-  _buy.Length = 3;
-
-  // ALGORITMA
-  if (!Info_Prep(*main)) {
-		printf("Anda sedang dalam main phase!");
-  } else {
-    	printf("Ingin beli apa?\n");
-			// print list bahan
-			printf("$ ");
-			STARTKATA();
-			while (!EndKata) {
-				if (isWahanaAda(*main, CKata)){ //checking if bahan ada atau ga
-          AddWahanaToMap(&Info_Map(*main), Absis(Info_Posisi(*main))+1, Ordinat(Info_Posisi(*main)));
-          cmd buy;
-          //WaktuCMD(buy) = /* JAM sekian */;
-          PerintahCMD(buy) = _buy;
-          TargetCMD(buy) = CKata; // harus di split dulu cuma idk
-          TargetBuy(buy) = ConvertToInt(CKata);
-          Push (&Info_StackCMD(*main), buy);
-        } else {
-          printf("Material tidak ditemukan!\n");
-        }
-        ADVKATA();
-			}
-  }
-}
 void build (program *main) {
 	// KAMUS
 	boolean sabi;
@@ -457,7 +423,7 @@ void execute(program *main) {
 }
 
 void play(program *main){
-  Kata _exitgame,_w,_a,_s,_d,_office,_main,_prep,_build,_execute;
+  Kata _exitgame,_w,_a,_s,_d,_office,_main,_prep,_build,_execute,_buy;
   _main.TabKata[0] = *"m";
   _main.TabKata[1] = *"a";
   _main.TabKata[2] = *"i";
@@ -497,6 +463,10 @@ void play(program *main){
   _office.TabKata[4] = *"c";
   _office.TabKata[5] = *"e";
   _office.Length = 6;
+  _buy.TabKata[0] = *"b";
+  _buy.TabKata[1] = *"u";
+  _buy.TabKata[2] = *"y";
+  _buy.Length = 3;
   _w.TabKata[0] = *"w";
   _a.TabKata[0] = *"a";
   _s.TabKata[0] = *"s";
@@ -564,6 +534,12 @@ void play(program *main){
           } else {
             printf("gabisa build soalnya lagi main\n\n");
           }
+        } else if (isKataSama(_buy, CKata)){
+           if (Info_Prep(*main)){
+              buy(main);
+            } else {
+              printf("gabisa beli bahan soalnya lagi main\n\n");
+            }
         } else if (isKataSama(_execute, CKata)){
           if (Info_Prep(*main)){
             execute(main);
@@ -662,4 +638,90 @@ void PrintInfoWahana (Wahana x){
   printf("\nKapasitas: %i\n", InfoWahana_Kapasitas(x));
   printf("History: blom\n");
   printf("Durasi: blom\n\n");
+}
+
+/* Baru ditambah tar gw cek lagi */
+void buy (program *main) {
+  // KAMUS
+  boolean sabi;
+  JAM waktu;
+  Kata _buy;
+  _buy.TabKata[0] = *"b";
+  _buy.TabKata[1] = *"u";
+  _buy.TabKata[2] = *"y";
+  _buy.Length = 3;
+
+  // ALGORITMA
+  if (!Info_Prep(*main)) {
+		printf("Anda sedang dalam main phase!");
+  } else {
+    	printf("Ingin beli apa?\n");
+			bahan_print(*main,true);
+			printf("$ ");
+			STARTKATA();
+			while (!EndKata) {
+				if (isBahanAda(*main, CKata)){ // ingat belum di split
+          Bahan target = CariBahan(*main, CKata);
+          if (InfoOrang_Duit(Info_Orang(*main)) >= InfoBahan_Harga(target)){
+            cmd buy;
+            //WaktuCMD(buy) = /* JAM sekian */;
+            PerintahCMD(buy) = _buy;
+            TargetCMD(buy) = CKata; // harus di split dulu cuma idk
+            TargetBuy(buy) = ConvertToInt(CKata);
+            Push (&Info_StackCMD(*main), buy);
+          }
+          else {
+            printf("Uang Anda tidak mencukupi!\n");
+          }
+        } else {
+          printf("Material tidak ditemukan!\n");
+        }
+        ADVKATA();
+			}
+  }
+}
+
+boolean isBahanAda (program main, Kata bahan) {
+  boolean found = false;
+  for (int i = 0; i < maxel; i ++){
+    if (InfoOrang_Bahan_Nama(Info_Orang(main), i).Length > 0){
+      if (isKataSama(bahan, InfoOrang_Bahan_Nama(Info_Orang(main), i))){
+        found = true;
+        break;
+      }
+    }
+  }
+  return found;
+}
+
+Bahan CariBahan(program main, Kata bahan){
+  Bahan ret;
+  for (int i = 0; i < maxel; i++){
+    if (InfoOrang_Bahan_Nama(Info_Orang(main), i).Length > 0){
+      if (isKataSama(bahan, InfoOrang_Bahan_Nama(Info_Orang(main), i))){
+        ret = InfoOrang_Bahan(Info_Orang(main), i);
+        break;
+      }
+    }
+  }
+  return ret;
+}
+
+void bahan_print(program main, boolean prep) {
+  printf("List Material:\n");
+  for (int i = 0; i < maxel; i++){
+    if (prep) {
+      for (int j = 0; j < InfoOrang_Bahan_Nama(Info_Orang(main), i).Length; j++){
+        if (InfoOrang_Bahan_Nama(Info_Orang(main), i).Length>0){
+          if (j == 0){
+            printf("- ");
+          }
+          printf("%c", InfoOrang_Bahan_Nama(Info_Orang(main), i).TabKata[j]);
+          if (j == InfoOrang_Bahan_Nama(Info_Orang(main), i).Length-1){
+            printf("\n");
+          }
+        }
+      }
+    }
+  }
 }
