@@ -102,7 +102,7 @@ void splitKata(Kata K, Kata *Jml, Kata *nama){
   Jml->Length = i1;
 
   int i2 = i1+1;
-  while (K.TabKata[i2] != *" "){
+  while (i2 < K.Length){
     nama->TabKata[i2-(i1+1)] = K.TabKata[i2];
     i2++;
   }
