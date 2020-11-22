@@ -84,3 +84,13 @@ void ReverseStack(Stack *S){
     Push(S, X);
   }
 }
+
+int NbElmtStack(Stack S) {
+  int i = 0;
+  cmd out;
+  while (!IsEmpty(S)){
+    Pop(&S, &out);
+    i++;
+  }
+  return i;
+}
