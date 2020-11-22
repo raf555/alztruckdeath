@@ -48,5 +48,5 @@ void SalinKata();
 boolean isKataSama(Kata K1, Kata K2);
 
 int ConvertToInt (Kata K);
-Kata splitKata(Kata K, Kata *Jml, Kata *nama);
+void splitKata(Kata K, Kata *Jml, Kata *nama);
 #endif

@@ -93,16 +93,16 @@ int ConvertToInt (Kata K){
   return atoi(K.TabKata); 
 }
 
-Kata splitKata(Kata K, Kata *Jml, Kata *nama){
+void splitKata(Kata K, Kata *Jml, Kata *nama){
   int i1 = 0;
-  while (K.TabKata[i1] != " "){
+  while (K.TabKata[i1] != *" "){
     Jml->TabKata[i1] = K.TabKata[i1];
     i1++;
   }
   Jml->Length = i1;
 
   int i2 = i1+1;
-  while (K.TabKata[i2] != " "){
+  while (K.TabKata[i2] != *" "){
     nama->TabKata[i2-(i1+1)] = K.TabKata[i2];
     i2++;
   }
