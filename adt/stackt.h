@@ -59,5 +59,6 @@ void Pop (Stack * S, infotype* X);
 
 void CopyStack(Stack Sin, Stack *Sout);
 void ReverseStack(Stack *S);
+int NbElmtStack(Stack S);
 
 #endif
