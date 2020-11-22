@@ -48,13 +48,15 @@ void initmain(program *main, Kata nama) {
   InfoOrang_Nama(Info_Orang(*main)).Length = nama.Length;
   InfoOrang_Duit(Info_Orang(*main)) = 1000;
 
-  JAM skrg = MakeJAM(0, 0, 0);
-  Info_Waktu(*main) = skrg;
+  Info_Waktu(*main) = MakeJAM(21, 0, 0);
+  Info_Opening(*main) = MakeJAM(9, 0, 0);
+  Info_Closing(*main) = MakeJAM(21, 0, 0);
 
   Info_Prep(*main) = true;
   Info_Main(*main) = false;
 
   CreateEmpty(&Info_StackCMD(*main));
+  Info_WaktuCMD(*main) = MakeJAM(0, 0, 0);
 }
 
 void initgame(program *main){
@@ -288,7 +290,7 @@ void office(program main) {
     CCexit.TabKata[2] = *"i";
     CCexit.TabKata[3] = *"t";
     CCexit.Length = 4;
-		printf("Masukkan perintah (details / reports / exit)\n$ ");
+		printf("\nMasukkan perintah (details / reports / exit)\n$ ");
 
 		STARTKATA();
 		while (!EndKata) {
@@ -322,26 +324,35 @@ void build (program *main) {
 	_build.TabKata[4] = *"d";
 	_build.Length = 5;
   int price = 100;
+  long durasi = 5*3600;
+  cmd build;
 	
 	// ALGORITMA
 	if (!Info_Prep(*main)) {
 		printf("Anda sedang dalam main phase!");
 	} else {
-		//if (cekwaktu(waktu, 888)) {
-		//	kurangwaktu(&waktu, 1231213213132123131231);
-			printf("Pilih wahana:\n");
-			wahana_print(*main, true);
-      printf("$ ");
-			STARTKATA();
-			while (!EndKata) {
-				//sabi = cek_resource(CKata);
-        if(InfoOrang_Duit(Info_Orang(*main))>=price && Info_TotalPriceCMD(*main)+price<=InfoOrang_Duit(Info_Orang(*main))){
+		printf("Pilih wahana:\n");
+		wahana_print(*main, true);
+    printf("$ ");
+		STARTKATA();
+		while (!EndKata) {
+      // cek duit
+      if(InfoOrang_Duit(Info_Orang(*main))>=price && Info_TotalPriceCMD(*main)+price<=InfoOrang_Duit(Info_Orang(*main))){
+        // cek waktu
+        if (JAMToDetik(Info_WaktuCMD(*main))+durasi<=Durasi(Info_Waktu(*main), Info_Opening(*main))){
+          // cek wahana
           if (isWahanaAda(*main, CKata)){
+            // cek sekitar pemain
             if(Elmt(Info_Map(*main), (int) Ordinat(Info_Posisi(*main)), (int) Absis(Info_Posisi(*main))+1) == *"-"){
-              AddWahanaToMap(&Info_Map(*main), Absis(Info_Posisi(*main))+1, Ordinat(Info_Posisi(*main)));
-              cmd build;
+              // masukin (semu) wahana ke map
+              AddWahanaToMap(&Info_Map(*main), Absis(Info_Posisi(*main))+1,Ordinat(Info_Posisi(*main)));
+
+              // tambahin waktu sama duit ke program
               Info_TotalPriceCMD(*main) += price;
-              //WaktuCMD(build) = /* JAM sekian */;
+              Info_WaktuCMD(*main) = DetikToJAM(JAMToDetik(Info_WaktuCMD(*main))+durasi);
+
+              // masukin ke stack
+              WaktuCMD(build) = DetikToJAM(durasi);
               HargaCMD(build) = price;
               PerintahCMD(build) = _build;
               TargetCMD(build) = CKata;
@@ -355,17 +366,13 @@ void build (program *main) {
             printf("Wahana tidak ditemukan!\n");
           }
         } else {
-            printf("Tidak cukup uang!\n");
+          printf("Tidak cukup waktu!\n");
         }
-        ADVKATA();
-			}
-			//if (sabi) {
-				// tambahin wahana ke point buat semu
-
-			//}
-		//} else {
-		//	printf("Tidak cukup waktu");
-		//}
+      } else {
+          printf("Tidak cukup uang!\n");
+      }
+      ADVKATA();
+		}
 	}
 }
 
@@ -400,7 +407,7 @@ void execute(program *main) {
 	while (!IsEmpty(target)) {
 		Pop(&target, &c);
     InfoOrang_Duit(Info_Orang(*main)) -= HargaCMD(c);
-		// KURANGWAKTU(sekian)
+		// KURANGWAKTU(sekian) keknya ini gaperlu, waktu diperluin buat undo aja
 		if (isKataSama(c.perintah, _build)) {
       for (int i = 0; i < maxel; i++){
         if (InfoWahana_Nama(Info_WahanaMap(*main,i)).Length==0){
@@ -420,7 +427,10 @@ void execute(program *main) {
 	Info_Main(*main) = true;
 	Info_Prep(*main) = false;
   Info_TotalPriceCMD(*main) = 0;
+  Info_WaktuCMD(*main) = MakeJAM(0, 0, 0);
   CreateEmpty(&Info_StackCMD(*main));
+
+  Info_Waktu(*main) = Info_Opening(*main);
 }
 
 void play(program *main){
@@ -490,7 +500,7 @@ void play(program *main){
       } else {
         PrintInfoMain(*main);
       }
-      printf("Masukkan perintah:\n");
+      printf("\nMasukkan perintah:\n");
       if (IsOffice(Info_Posisi(*main), *main)){
         printf("(masukkan office untuk membuka office)\n");
       }
@@ -581,19 +591,43 @@ void play(program *main){
   }
 }
 
+boolean IsExit(program main){
+  return !Info_Main(main) && !Info_Prep(main);
+}
+
+void printwaktu(JAM jam){
+  if (Hour(jam) > 0){
+    if(Minute(jam) > 0){
+      printf("%.2i Hour(s) %.2i Minute(s)", Hour(jam), Minute(jam));
+    } else {
+      printf("%.2i Hour(s)", Hour(jam));
+    }
+  } else {
+    if(Minute(jam) > 0){
+      printf("%.2i Minute(s)", Minute(jam));
+    } else {
+      printf("0");
+    }
+  }
+}
+
 void printpemain(program main){
   printf("Name: ");
   for (int i = 0; i < InfoOrang_Nama(Info_Orang(main)).Length; i++){
     printf("%c", InfoOrang_Nama(Info_Orang(main)).TabKata[i]);
   }
   printf("\nMoney: %i\n", InfoOrang_Duit(Info_Orang(main)));
-  printf("Opening: gatau\n");
-  printf("Closing: gatau\n");
-  printf("Time remaining: gatau\n");
-}
-
-boolean IsExit(program main){
-  return !Info_Main(main) && !Info_Prep(main);
+  printf("Current Time: %.2i.%.2i\n", Hour(Info_Waktu(main)), Minute(Info_Waktu(main)));
+  if (Info_Prep(main)){
+    printf("Opening Time: %.2i.%.2i\n", Hour(Info_Opening(main)), Minute(Info_Opening(main)));
+    printf("Time remaining: ");
+    printwaktu(DetikToJAM(Durasi(Info_Waktu(main), Info_Opening(main))));
+  } else {
+    printf("Closing Time: %.2i.%.2i\n", Hour(Info_Closing(main)), Minute(Info_Closing(main)));
+    printf("Time remaining: ");
+    printwaktu(DetikToJAM(Durasi(Info_Waktu(main), Info_Closing(main))));
+  }
+  printf("\n");
 }
 
 void PrintInfoPrep(program main){
@@ -601,8 +635,10 @@ void PrintInfoPrep(program main){
   TulisMATRIKS(Info_Map(main));
   printf("\n");
   printpemain(main);
-  printf("\nTotal aksi yang akan dilakukan: %i\n", NbElmtStack(Info_StackCMD(main)));
-  printf("Total uang yang dibutuhkan: %i\n", Info_TotalPriceCMD(main));
+  printf("Total aksi yang akan dilakukan: %i\n", NbElmtStack(Info_StackCMD(main)));
+  printf("Total waktu yang diperlukan: ");
+  printwaktu(Info_WaktuCMD(main));
+  printf("\nTotal uang yang dibutuhkan: %i\n", Info_TotalPriceCMD(main));
 }
 
 void PrintInfoMain(program main){

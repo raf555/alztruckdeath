@@ -16,7 +16,11 @@ int main() {
   a.deskripsi.TabKata[0] = *"g";
   a.deskripsi.Length = 1;
   a.nama.TabKata[0] = *"g";
-  a.nama.Length = 1;
+  a.nama.TabKata[1] = *"a";
+  a.nama.TabKata[2] = *"t";
+  a.nama.TabKata[3] = *"a";
+  a.nama.TabKata[4] = *"u";
+  a.nama.Length = 5;
   a.kapasitas = 1;
   a.lokasi = bknwahana;
   main.wahana[0] = a;

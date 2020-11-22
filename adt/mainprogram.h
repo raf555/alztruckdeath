@@ -40,17 +40,25 @@ typedef struct {
 /* data keseluruhan program */
 typedef struct {
 	Orang orang; // nyimpen data org
+  /* waktu-waktuan */
 	JAM sekarang; // nyimpen jam skrg
-	Wahana wahana[maxel]; // nyimpen list wahana
-  Wahana wahana_map[maxel]; // nyimpen list wahana yg ada di MAP
+  JAM opening; // opening
+  JAM closing; // closing
+  int dayprep;
+  int daymain;
+  /* cmd related */
 	Stack prepexe; // stack preparation cmd
   int totalexe;
+  JAM waktuexe;
+  /* config program */
   boolean Main; // main phase
   boolean Prep; // prep phase
+  /* data program */
 	MATRIKS Map; // data map
 	POINT posisi; // posisi pemain
   POINT office; // posisi office
-  Bahan bahan;
+	Wahana wahana[maxel]; // nyimpen list wahana
+  Wahana wahana_map[maxel]; // nyimpen list wahana yg ada di MAP
 } program;
 
 /* selektor */
@@ -79,15 +87,20 @@ typedef struct {
 // keseluruhan program
 #define Info_Orang(c) (c).orang
 #define Info_Waktu(c) (c).sekarang
+#define Info_Opening(c) (c).opening
+#define Info_Closing(c) (c).closing
 #define Info_Wahana(c, i) (c).wahana[(i)]
 #define Info_WahanaMap(c, i) (c).wahana_map[(i)]
 #define Info_StackCMD(c) (c).prepexe
 #define Info_TotalPriceCMD(c) (c).totalexe
+#define Info_WaktuCMD(c) (c).waktuexe
 #define Info_Main(c) (c).Main
 #define Info_Prep(c) (c).Prep
 #define Info_Map(c) (c).Map
 #define Info_Posisi(c) (c).posisi
 #define Info_Office(c) (c).office
+#define Info_DayPrep(c) (c).dayprep
+#define Info_DayMain(c) (c).daymain
 
 // init
 void initmain(program *main, Kata nama);
@@ -103,6 +116,7 @@ void printpemain(program main);
 void PrintInfoWahana (Wahana x);
 void PrintInfoPrep(program main);
 void PrintInfoMain(program main);
+void printwaktu(JAM jam);
 
 // bool function
 boolean IsOffice(POINT P1, program main);
