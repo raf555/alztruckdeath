@@ -189,7 +189,7 @@ void wahana_print(program main, boolean prep) {
           }
           printf("%c", InfoWahana_Nama(Info_WahanaMap(main, i)).TabKata[j]);
           if (j == InfoWahana_Nama(Info_WahanaMap(main, i)).Length-1){
-            printf(" (%f,%f)", Absis(InfoWahana_lokasi(Info_WahanaMap(main, i))), Ordinat(InfoWahana_lokasi(Info_WahanaMap(main, i))));
+            printf(" (%i,%i)", (int) Absis(InfoWahana_lokasi(Info_WahanaMap(main, i))), (int) Ordinat(InfoWahana_lokasi(Info_WahanaMap(main, i))));
             printf("\n");
           }
         }
