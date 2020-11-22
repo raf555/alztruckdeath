@@ -28,19 +28,6 @@ void initOffice(MATRIKS *M, POINT *P) {
 }
 
 void initmain(program *main, Kata nama) {
-  /*
-  typedef struct {
-	Orang orang;
-	JAM sekarang;
-	Wahana wahana[100];
-	Stack prepexe;
-  boolean Main;
-  boolean Prep;
-	MATRIKS Map;
-	POINT posisi;
-  POINT office;
-} program;
-*/
   for (int i = 0; i < nama.Length; i++){
     InfoOrang_Nama(Info_Orang(*main)).TabKata[i] = nama.TabKata[i];
   }
@@ -57,10 +44,12 @@ void initmain(program *main, Kata nama) {
 
   CreateEmpty(&Info_StackCMD(*main));
   Info_WaktuCMD(*main) = MakeJAM(0, 0, 0);
+
+  Info_DayPrep(*main) = 1;
 }
 
 void initgame(program *main){
-  printf("Masukkan nama:\n$ ");
+  printf("Memulai permainan baru…\nMasukkan nama:\n$ ");
   STARTKATA();
   while(!EndKata){
     initmain(main, CKata);
@@ -163,19 +152,13 @@ void d(MATRIKS *M, POINT *P) {
 }
 
 void wahana_print(program main, boolean prep) {
-	// baca file
-	// print semua nama wahana
-  POINT bknwahana;
-  bknwahana.X = -999;
-  bknwahana.Y = -999;
-
-  printf("List Wahana:\n");
+  //printf("List Wahana:\n");
   for (int i = 0; i < maxel; i++){
     if (prep) {
       for (int j = 0; j < InfoWahana_Nama(Info_Wahana(main, i)).Length; j++){
         if (InfoWahana_Nama(Info_Wahana(main, i)).Length>0){
           if (j == 0){
-            printf("- ");
+            printf("   - ");
           }
           printf("%c", InfoWahana_Nama(Info_Wahana(main, i)).TabKata[j]);
           if (j == InfoWahana_Nama(Info_Wahana(main, i)).Length-1){
@@ -187,7 +170,7 @@ void wahana_print(program main, boolean prep) {
       for (int j = 0; j < InfoWahana_Nama(Info_WahanaMap(main, i)).Length; j++){
         if (InfoWahana_Nama(Info_WahanaMap(main, i)).Length>0){
           if (j == 0){
-            printf("- ");
+            printf("   - ");
           }
           printf("%c", InfoWahana_Nama(Info_WahanaMap(main, i)).TabKata[j]);
           if (j == InfoWahana_Nama(Info_WahanaMap(main, i)).Length-1){
@@ -201,12 +184,6 @@ void wahana_print(program main, boolean prep) {
 }
 
 void wahana_details_print(program main, Kata choice) {
-  POINT bknwahana;
-  bknwahana.X = -999;
-  bknwahana.Y = -999;
-	// baca file
-	// print semua detail sesuai choice
-	// kalo gaada, kirim error
   boolean found = false;
   for (int i = 0; i < maxel; i++){
     if (isKataSama(choice, InfoWahana_Nama(Info_WahanaMap(main, i)))){
@@ -224,7 +201,7 @@ void wahana_details(program main) {
 	// KAMUS
 
 	// ALGORITMA
-	printf("Pilih wahana:\n");
+	printf("Pilih wahana pada Map:\n");
 	wahana_print(main, false);
   printf("\n$ ");
 	STARTKATA();
@@ -331,7 +308,7 @@ void build (program *main) {
 	if (!Info_Prep(*main)) {
 		printf("Anda sedang dalam main phase!");
 	} else {
-		printf("Pilih wahana:\n");
+		printf("Ingin membangun apa?\n");
 		wahana_print(*main, true);
     printf("$ ");
 		STARTKATA();
@@ -426,10 +403,10 @@ void execute(program *main) {
 	}
 	Info_Main(*main) = true;
 	Info_Prep(*main) = false;
+  Info_DayPrep(*main) += 1;
   Info_TotalPriceCMD(*main) = 0;
   Info_WaktuCMD(*main) = MakeJAM(0, 0, 0);
   CreateEmpty(&Info_StackCMD(*main));
-
   Info_Waktu(*main) = Info_Opening(*main);
 }
 
@@ -576,6 +553,7 @@ void play(program *main){
           else if (isKataSama(_prep, CKata)){
           Info_Prep(*main) = true;
           Info_Main(*main) = false;
+          Info_Waktu(*main) = MakeJAM(21, 0, 0);
         } else if (isKataSama(_office, CKata)){
           if (Info_Main(*main) && IsOffice(Info_Posisi(*main), *main)){
             office(*main);
@@ -631,9 +609,10 @@ void printpemain(program main){
 }
 
 void PrintInfoPrep(program main){
-  printf("Preparation phase day 1\n");
+  printf("Preparation phase day %i\n", Info_DayPrep(main));
   TulisMATRIKS(Info_Map(main));
-  printf("\n");
+  printf("\nLegend:\nA = Antrian\nP = Player\nW = Wahana\nO = Office\n<, ^, >, V = Gerbang");
+  printf("\n\n");
   printpemain(main);
   printf("Total aksi yang akan dilakukan: %i\n", NbElmtStack(Info_StackCMD(main)));
   printf("Total waktu yang diperlukan: ");
@@ -642,9 +621,10 @@ void PrintInfoPrep(program main){
 }
 
 void PrintInfoMain(program main){
-  printf("Main phase day 1\n");
+  printf("Main phase day  %i\n", Info_DayMain(main));
   TulisMATRIKS(Info_Map(main));
-  printf("\n");
+  printf("\nLegend:\nA = Antrian\nP = Player\nW = Wahana\nO = Office\n<, ^, >, V = Gerbang");
+  printf("\n\n");
   printpemain(main);
 }
 
