@@ -13,7 +13,8 @@ typedef struct {
 } targetcmd;
 
 /* tipe data perintah pada preparation phase */
-typedef struct { 
+typedef struct {
+  int harga; 
 	JAM waktu; // banyaknya waktu yang dibutuhkan per-cmd
 	Kata perintah; // command
 	Kata target; // target cmd (bisa wahana / bahan)
@@ -21,6 +22,7 @@ typedef struct {
 } cmd;
 
 /* selektor */
+#define HargaCMD(c) (c).harga
 #define WaktuCMD(c) (c).waktu
 #define PerintahCMD(c) (c).perintah
 #define TargetCMD(c) (c).target
