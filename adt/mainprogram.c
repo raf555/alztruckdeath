@@ -411,7 +411,8 @@ void execute(program *main) {
         }
       }
 		} else if (isKataSama(c.perintah, _buy)) {
-			// do smrhng
+			Bahan target = CariBahan(*main, TargetCMD(c));
+      InfoBahan_Jumlah(target) += TargetBuy(c);
 		} else if (isKataSama(c.perintah, _upgrade)) {
 			// do smthng
 		}
