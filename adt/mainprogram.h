@@ -40,6 +40,8 @@ typedef struct {
 /* data keseluruhan program */
 typedef struct {
 	Orang orang; // nyimpen data org
+	Wahana wahana[maxel]; // nyimpen list wahana
+  Wahana wahana_map[maxel]; // nyimpen list wahana yg ada di MAP
   /* waktu-waktuan */
 	JAM sekarang; // nyimpen jam skrg
   JAM opening; // opening
@@ -57,8 +59,6 @@ typedef struct {
 	MATRIKS Map; // data map
 	POINT posisi; // posisi pemain
   POINT office; // posisi office
-	Wahana wahana[maxel]; // nyimpen list wahana
-  Wahana wahana_map[maxel]; // nyimpen list wahana yg ada di MAP
 } program;
 
 /* selektor */
