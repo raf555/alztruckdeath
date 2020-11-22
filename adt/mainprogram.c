@@ -369,7 +369,7 @@ void build (program *main) {
 			STARTKATA();
 			while (!EndKata) {
 				//sabi = cek_resource(CKata);
-        if(InfoOrang_Duit(Info_Orang(*main))>=100 && Info_TotalPriceCMD(*main)+price<=InfoOrang_Duit(Info_Orang(*main))){
+        if(InfoOrang_Duit(Info_Orang(*main))>=price && Info_TotalPriceCMD(*main)+price<=InfoOrang_Duit(Info_Orang(*main))){
           if (isWahanaAda(*main, CKata)){
             if(Elmt(Info_Map(*main), (int) Ordinat(Info_Posisi(*main)), (int) Absis(Info_Posisi(*main))+1) == *"-"){
               AddWahanaToMap(&Info_Map(*main), Absis(Info_Posisi(*main))+1, Ordinat(Info_Posisi(*main)));
@@ -452,6 +452,8 @@ void execute(program *main) {
 	}
 	Info_Main(*main) = true;
 	Info_Prep(*main) = false;
+  Info_TotalPriceCMD(*main) = 0;
+  CreateEmpty(&Info_StackCMD(*main));
 }
 
 void play(program *main){
@@ -508,9 +510,9 @@ void play(program *main){
     while (!IsExit(*main)){
       printf("\n");
       if (Info_Prep(*main)){
-        PrintInfoPrep(main);
+        PrintInfoPrep(*main);
       } else {
-        PrintInfoMain(main);
+        PrintInfoMain(*main);
       }
       printf("Masukkan perintah:\n");
       if (IsOffice(Info_Posisi(*main), *main)){
@@ -603,19 +605,20 @@ boolean IsExit(program main){
   return !Info_Main(main) && !Info_Prep(main);
 }
 
-void PrintInfoPrep(program *main){
+void PrintInfoPrep(program main){
   printf("Preparation phase day 1\n");
-  TulisMATRIKS(Info_Map(*main));
+  TulisMATRIKS(Info_Map(main));
   printf("\n");
-  printpemain(*main);
-  printf("\nTotal uang yang dibutuhkan: %i\n", Info_TotalPriceCMD(*main));
+  printpemain(main);
+  printf("\nTotal aksi yang akan dilakukan: %i\n", NbElmtStack(Info_StackCMD(main)));
+  printf("Total uang yang dibutuhkan: %i\n", Info_TotalPriceCMD(main));
 }
 
-void PrintInfoMain(program *main){
+void PrintInfoMain(program main){
   printf("Main phase day 1\n");
-  TulisMATRIKS(Info_Map(*main));
+  TulisMATRIKS(Info_Map(main));
   printf("\n");
-  printpemain(*main);
+  printpemain(main);
 }
 
 boolean isWahanaAda(program main, Kata wahana) {
