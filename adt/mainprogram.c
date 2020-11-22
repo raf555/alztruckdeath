@@ -424,7 +424,7 @@ void execute(program *main) {
 }
 
 void play(program *main){
-  Kata _exitgame,_w,_a,_s,_d,_office,_main,_prep,_build,_execute,_buy;
+  Kata _exitgame,_w,_a,_s,_d,_office,_main,_prep,_build,_execute,_buy,_undo;
   _main.TabKata[0] = *"m";
   _main.TabKata[1] = *"a";
   _main.TabKata[2] = *"i";
@@ -468,6 +468,11 @@ void play(program *main){
   _buy.TabKata[1] = *"u";
   _buy.TabKata[2] = *"y";
   _buy.Length = 3;
+  _undo.TabKata[0] = *"u";
+  _undo.TabKata[1] = *"n";
+  _undo.TabKata[2] = *"d";
+  _undo.TabKata[3] = *"o";
+  _undo.Length = 4;
   _w.TabKata[0] = *"w";
   _a.TabKata[0] = *"a";
   _s.TabKata[0] = *"s";
@@ -541,7 +546,16 @@ void play(program *main){
             } else {
               printf("gabisa beli bahan soalnya lagi main\n\n");
             }
-        } else if (isKataSama(_execute, CKata)){
+        } 
+        else if (isKataSama(_undo, CKata)){
+           if (Info_Prep(*main)){
+              undo(main);
+            } else {
+              printf("gabisa Undo soalnya lagi main\n\n");
+            }
+        } 
+        
+        else if (isKataSama(_execute, CKata)){
           if (Info_Prep(*main)){
             execute(main);
           } else {
@@ -725,4 +739,18 @@ void bahan_print(program main, boolean prep) {
       }
     }
   }
+}
+
+void undo(program *main){
+    cmd undone;
+    if(Info_Prep(*main)){
+        Pop(&Info_StackCMD(*main),&undone);
+        // Show deleted command
+        printf("Menghapus perintah ");
+        for (int i = 0; i < PerintahCMD(undone).Length; i++) printf("%c",PerintahCMD(undone).TabKata[i]);
+        // Works for buy, fitur show deleted command dihapus (cuma dijadiin comment juga gpp)
+        printf(" ");
+        for (int i = 0; i < TargetCMD(undone).Length; i++) printf("%c",TargetCMD(undone).TabKata[i]);
+        printf(" dari stack\n");
+    }
 }

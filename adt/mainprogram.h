@@ -142,4 +142,7 @@ void bahan_print(program main, boolean prep);
 // execute
 void execute(program *main);
 
+//undo
+void undo(program *main);
+
 #endif
