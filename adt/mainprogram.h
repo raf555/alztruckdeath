@@ -93,8 +93,8 @@ void initOffice(MATRIKS *M, POINT *P);
 // print2an
 void printpemain(program main);
 void PrintInfoWahana (Wahana x);
-void PrintInfoPrep(program *main);
-void PrintInfoMain(program *main);
+void PrintInfoPrep(program main);
+void PrintInfoMain(program main);
 
 // bool function
 boolean IsOffice(POINT P1, program main);
