@@ -43,6 +43,7 @@ typedef struct {
 	Wahana wahana[maxel]; // nyimpen list wahana
   Wahana wahana_map[maxel]; // nyimpen list wahana yg ada di MAP
 	Stack prepexe; // stack preparation cmd
+  int totalexe;
   boolean Main; // main phase
   boolean Prep; // prep phase
 	MATRIKS Map; // data map
@@ -73,6 +74,7 @@ typedef struct {
 #define Info_Wahana(c, i) (c).wahana[(i)]
 #define Info_WahanaMap(c, i) (c).wahana_map[(i)]
 #define Info_StackCMD(c) (c).prepexe
+#define Info_TotalPriceCMD(c) (c).totalexe
 #define Info_Main(c) (c).Main
 #define Info_Prep(c) (c).Prep
 #define Info_Map(c) (c).Map
@@ -124,6 +126,6 @@ void AddWahanaToMap(MATRIKS *M, int X, int Y);
 void build (program *main);
 
 // execute
-void execute(program *e);
+void execute(program *main);
 
 #endif
