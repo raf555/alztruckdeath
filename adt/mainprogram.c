@@ -27,50 +27,6 @@ void initOffice(MATRIKS *M, POINT *P) {
 	*P = MakePOINT(8,8);
 }
 
-void P_to_Dash(MATRIKS *M, POINT P) {
-	(*M).Mem[(int)P.Y][(int)P.X] = '-';
-}
-
-void Dash_to_P(MATRIKS *M, POINT P) {
-	(*M).Mem[(int)P.Y][(int)P.X] = 'P';
-}
-
-boolean IsOffice(POINT P1, program main){
-  return EQ(P1, Info_Office(main));
-}
-
-void w(MATRIKS *M, POINT *P) {
-	if ((*P).Y > 1) {
-		P_to_Dash(M,*P);
-		(*P).Y--;
-		Dash_to_P(M,*P);
-	}
-}
-
-void a(MATRIKS *M, POINT *P) {
-	if ((*P).X > 1) {
-		P_to_Dash(M,*P);
-		(*P).X--;
-		Dash_to_P(M,*P);
-	}
-}
-
-void s(MATRIKS *M, POINT *P) {
-	if ((*P).Y < 10) {
-		P_to_Dash(M,*P);
-		(*P).Y++;
-		Dash_to_P(M,*P);
-	}
-}
-
-void d(MATRIKS *M, POINT *P) {
-	if ((*P).X < 10) {
-		P_to_Dash(M,*P);
-		(*P).X++;
-		Dash_to_P(M,*P);
-	}
-}
-
 void initmain(program *main, Kata nama) {
   /*
   typedef struct {
@@ -158,6 +114,50 @@ void init(program *main){
       ADVKATA();
     }
   }
+}
+
+void P_to_Dash(MATRIKS *M, POINT P) {
+	(*M).Mem[(int)P.Y][(int)P.X] = '-';
+}
+
+void Dash_to_P(MATRIKS *M, POINT P) {
+	(*M).Mem[(int)P.Y][(int)P.X] = 'P';
+}
+
+boolean IsOffice(POINT P1, program main){
+  return EQ(P1, Info_Office(main));
+}
+
+void w(MATRIKS *M, POINT *P) {
+	if ((*P).Y > 1) {
+		P_to_Dash(M,*P);
+		(*P).Y--;
+		Dash_to_P(M,*P);
+	}
+}
+
+void a(MATRIKS *M, POINT *P) {
+	if ((*P).X > 1) {
+		P_to_Dash(M,*P);
+		(*P).X--;
+		Dash_to_P(M,*P);
+	}
+}
+
+void s(MATRIKS *M, POINT *P) {
+	if ((*P).Y < 10) {
+		P_to_Dash(M,*P);
+		(*P).Y++;
+		Dash_to_P(M,*P);
+	}
+}
+
+void d(MATRIKS *M, POINT *P) {
+	if ((*P).X < 10) {
+		P_to_Dash(M,*P);
+		(*P).X++;
+		Dash_to_P(M,*P);
+	}
 }
 
 void wahana_print(program main, boolean prep) {
@@ -368,21 +368,26 @@ void build (program *main) {
 			STARTKATA();
 			while (!EndKata) {
 				//sabi = cek_resource(CKata);
-        if (isWahanaAda(*main, CKata)){
-          if(Elmt(Info_Map(*main), (int) Ordinat(Info_Posisi(*main)), (int) Absis(Info_Posisi(*main))+1) == *"-"){
-            AddWahanaToMap(&Info_Map(*main), Absis(Info_Posisi(*main))+1, Ordinat(Info_Posisi(*main)));
-            cmd build;
-            //WaktuCMD(build) = /* JAM sekian */;
-            PerintahCMD(build) = _build;
-            TargetCMD(build) = CKata;
-            TargetBuild(build).X = Absis(Info_Posisi(*main))+1;
-            TargetBuild(build).Y = Ordinat(Info_Posisi(*main));
-            Push (&Info_StackCMD(*main), build);
+        if(InfoOrang_Duit(Info_Orang(*main))>=100){
+          if (isWahanaAda(*main, CKata)){
+            if(Elmt(Info_Map(*main), (int) Ordinat(Info_Posisi(*main)), (int) Absis(Info_Posisi(*main))+1) == *"-"){
+              AddWahanaToMap(&Info_Map(*main), Absis(Info_Posisi(*main))+1, Ordinat(Info_Posisi(*main)));
+              cmd build;
+              //WaktuCMD(build) = /* JAM sekian */;
+              HargaCMD(build) = 100;
+              PerintahCMD(build) = _build;
+              TargetCMD(build) = CKata;
+              TargetBuild(build).X = Absis(Info_Posisi(*main))+1;
+              TargetBuild(build).Y = Ordinat(Info_Posisi(*main));
+              Push (&Info_StackCMD(*main), build);
+            } else {
+              printf("Ada sesuatu di kanan pemain, tidak dapat membangun wahana!\n");
+            }
           } else {
-            printf("Ada sesuatu di kanan pemain, tidak dapat membangun wahana!\n");
+            printf("Wahana tidak ditemukan!\n");
           }
         } else {
-          printf("Wahana tidak ditemukan!\n");
+            printf("Tidak cukup uang!\n");
         }
         ADVKATA();
 			}
@@ -396,10 +401,10 @@ void build (program *main) {
 	}
 }
 
-void execute(program *e) {
+void execute(program *main) {
 	Stack target;
   cmd c;
-	CopyStack(Info_StackCMD(*e), &target);
+	CopyStack(Info_StackCMD(*main), &target);
 	ReverseStack(&target);
   Kata _build,_buy,_upgrade;
 
@@ -426,13 +431,14 @@ void execute(program *e) {
 
 	while (!IsEmpty(target)) {
 		Pop(&target, &c);
+    InfoOrang_Duit(Info_Orang(*main)) -= HargaCMD(c);
 		// KURANGWAKTU(sekian)
 		if (isKataSama(c.perintah, _build)) {
       for (int i = 0; i < maxel; i++){
-        if (InfoWahana_Nama(Info_WahanaMap(*e,i)).Length==0){
-          Info_WahanaMap(*e,i) = CariWahana(*e, TargetCMD(c));
-          Info_WahanaMap(*e,i).lokasi.X = c.targetvalue.titik.X;
-          Info_WahanaMap(*e,i).lokasi.Y = c.targetvalue.titik.Y;
+        if (InfoWahana_Nama(Info_WahanaMap(*main,i)).Length==0){
+          Info_WahanaMap(*main,i) = CariWahana(*main, TargetCMD(c));
+          Info_WahanaMap(*main,i).lokasi.X = c.targetvalue.titik.X;
+          Info_WahanaMap(*main,i).lokasi.Y = c.targetvalue.titik.Y;
           break;
         }
       }
@@ -442,8 +448,8 @@ void execute(program *e) {
 			// do smthng
 		}
 	}
-	Info_Main(*e) = true;
-	Info_Prep(*e) = false;
+	Info_Main(*main) = true;
+	Info_Prep(*main) = false;
 }
 
 void play(program *main){
