@@ -46,7 +46,7 @@ void initmain(program *main, Kata nama) {
   }
   
   InfoOrang_Nama(Info_Orang(*main)).Length = nama.Length;
-  InfoOrang_Duit(Info_Orang(*main)) = 0;
+  InfoOrang_Duit(Info_Orang(*main)) = 1000;
 
   JAM skrg = MakeJAM(0, 0, 0);
   Info_Waktu(*main) = skrg;
