@@ -49,7 +49,7 @@ void initmain(program *main, Kata nama) {
 }
 
 void initgame(program *main){
-  printf("Memulai permainan baru…\nMasukkan nama:\n$ ");
+  printf("Memulai permainan baru...\nMasukkan nama:\n$ ");
   STARTKATA();
   while(!EndKata){
     initmain(main, CKata);
