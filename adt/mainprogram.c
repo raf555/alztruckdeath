@@ -418,8 +418,8 @@ void execute(program *main) {
         }
       }
 		} else if (isKataSama(c.perintah, _buy)) {
-			Bahan target = CariBahan(*main, TargetCMD(c));
-      InfoBahan_Jumlah(target) += TargetBuy(c);
+        Bahan target = CariBahan(*main, TargetCMD(c));
+        InfoBahan_Jumlah(target) += TargetBuy(c);
 		} else if (isKataSama(c.perintah, _upgrade)) {
 			// do smthng
 		}
@@ -697,6 +697,7 @@ void buy (program *main) {
   boolean sabi;
   JAM waktu;
   Kata _buy;
+  Kata namaBahan,qty;
   _buy.TabKata[0] = *"b";
   _buy.TabKata[1] = *"u";
   _buy.TabKata[2] = *"y";
@@ -711,14 +712,15 @@ void buy (program *main) {
 			printf("$ ");
 			STARTKATA();
 			while (!EndKata) {
-				if (isBahanAda(*main, CKata)){ // ingat belum di split
-          Bahan target = CariBahan(*main, CKata);
+        splitKata(CKata,&qty,&namaBahan);
+				if (isBahanAda(*main, namaBahan)){
+          Bahan target = CariBahan(*main, namaBahan);
           if (InfoOrang_Duit(Info_Orang(*main)) >= InfoBahan_Harga(target)){
             cmd buy;
             //WaktuCMD(buy) = /* JAM sekian */;
             PerintahCMD(buy) = _buy;
-            TargetCMD(buy) = CKata; // harus di split dulu cuma idk
-            TargetBuy(buy) = ConvertToInt(CKata);
+            TargetCMD(buy) = namaBahan;
+            TargetBuy(buy) = ConvertToInt(qty);
             Push (&Info_StackCMD(*main), buy);
           }
           else {
