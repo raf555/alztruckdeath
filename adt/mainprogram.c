@@ -369,7 +369,7 @@ void build (program *main) {
 			while (!EndKata) {
 				//sabi = cek_resource(CKata);
         if (isWahanaAda(*main, CKata)){
-          if(Elmt(Info_Map(*main), (int) Absis(Info_Posisi(*main))+1, (int) Ordinat(Info_Posisi(*main))) == *"-"){
+          if(Elmt(Info_Map(*main), (int) Ordinat(Info_Posisi(*main)), (int) Absis(Info_Posisi(*main))+1) == *"-"){
             AddWahanaToMap(&Info_Map(*main), Absis(Info_Posisi(*main))+1, Ordinat(Info_Posisi(*main)));
             cmd build;
             //WaktuCMD(build) = /* JAM sekian */;
