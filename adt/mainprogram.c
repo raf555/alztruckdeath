@@ -49,7 +49,7 @@ void initmain(program *main, Kata nama) {
 }
 
 void initgame(program *main){
-  printf("Memulai permainan baru...\nMasukkan nama:\n$ ");
+  printf("Memulai permainan baru…\nMasukkan nama:\n$ ");
   STARTKATA();
   while(!EndKata){
     initmain(main, CKata);
@@ -201,7 +201,7 @@ void wahana_details(program main) {
 	// KAMUS
 
 	// ALGORITMA
-	printf("Pilih wahana pada Map:\n");
+	printf("Pilih wahana pada Map:\n(jika terdapat lebih dari satu, maka pilih salah satu saja dan tulis nama tanpa koordinat)\n");
 	wahana_print(main, false);
   printf("\n$ ");
 	STARTKATA();
@@ -223,7 +223,7 @@ void wahana_reports(program main) {
 	// KAMUS
 
 	// ALGORITMA
-	printf("Pilih wahana:\n");
+	printf("Pilih wahana pada Map:\n(jika terdapat lebih dari satu, maka pilih salah satu saja dan tulis nama tanpa koordinat)\n");
 	wahana_print(main, false);
   printf("\n$ ");
 	STARTKATA();
@@ -661,14 +661,15 @@ void PrintInfoWahana (Wahana x){
   }
   printf("\nTipe: %i\n", InfoWahana_Tipe(x));
   printf("Harga: %i\n", InfoWahana_Harga(x));
-  printf("Lokasi: blom\n");
+  printf("Lokasi: (%i,%i)\n",(int) Absis(InfoWahana_lokasi(x)), (int) Ordinat(InfoWahana_lokasi(x)));
   printf("Deskripsi: ");
   for (int i = 0; i < InfoWahana_Deskripsi(x).Length; i++){
     printf("%c",InfoWahana_Deskripsi(x).TabKata[i]);
   }
   printf("\nKapasitas: %i\n", InfoWahana_Kapasitas(x));
-  printf("History: blom\n");
-  printf("Durasi: blom\n\n");
+  printf("Durasi: ");
+  printwaktu(InfoWahana_Durasi(x));
+  printf("\nHistory: blom\n");
 }
 
 /* Baru ditambah tar gw cek lagi */
