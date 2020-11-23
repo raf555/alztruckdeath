@@ -90,7 +90,14 @@ boolean isKataSama(Kata K1, Kata K2){
 }
 
 int ConvertToInt (Kata K){
-  return atoi(K.TabKata); 
+  int i = 0;
+  int num = 0;
+  while (K.TabKata[i] != 0)
+  {
+      num =  (K.TabKata[i] - '0')  + (num * 10);
+      i++;
+  }
+  return num;; 
 }
 
 void splitKata(Kata K, Kata *Jml, Kata *nama){
