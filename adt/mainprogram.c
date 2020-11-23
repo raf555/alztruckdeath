@@ -188,8 +188,9 @@ void wahana_details_print(program main, Kata choice) {
   for (int i = 0; i < maxel; i++){
     if (isKataSama(choice, InfoWahana_Nama(Info_WahanaMap(main, i)))){
       PrintInfoWahana(Info_WahanaMap(main, i));
+      printf("\n");
       found = true;
-      break;
+      //break;
     }
   }
   if (!found) {
