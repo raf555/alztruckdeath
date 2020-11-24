@@ -10,3 +10,11 @@ YG BELOM
 - GRAF
 - MAIN PHASE PADA BELOM (termasuk antrian)
 - LAPORAN
+
+### Compiling program
+```
+cd src
+```
+```
+gcc -o main ../adt/jam.c ../adt/mainprogram.c ../adt/matriks.c ../adt/mesinkar.c ../adt/mesinkata.c ../adt/point.c ../adt/stackt.c main.c
+```
