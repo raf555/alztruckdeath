@@ -540,7 +540,7 @@ void play(program *main){
             while (!IsEmpty(Info_StackCMD(*main))){
               undo(main);
             }
-            Info_DayMain(*main) = 1;
+            Info_DayMain(*main) += 1;
             Info_Prep(*main) = false;
             Info_Main(*main) = true;
           } else {
