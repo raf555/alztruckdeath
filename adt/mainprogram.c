@@ -536,6 +536,10 @@ void play(program *main){
           }
         /* PERINTAH UNTUK PREP PHASE */
         } else if (isKataSama(_main, CKata)){
+          while (!IsEmpty(Info_StackCMD(*main))){
+            undo(main);
+          }
+          Info_DayMain(*main) = 1;
           Info_Prep(*main) = false;
           Info_Main(*main) = true;
         } else if (isKataSama(_build, CKata)){
