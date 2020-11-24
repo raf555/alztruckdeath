@@ -491,37 +491,61 @@ void play(program *main){
           Info_Prep(*main) = false;
           printf("tq\n");
         } else if (isKataSama(_w, CKata)){
-          if (IsOffice(Info_Posisi(*main), *main)){
-            w(&Info_Map(*main), &Info_Posisi(*main));
-            initOffice(&Info_Map(*main),&Info_Office(*main));
+          if(Elmt(Info_Map(*main), (int) Ordinat(Info_Posisi(*main))-1, (int) Absis(Info_Posisi(*main))) == *"W"){
+            printf("Terdapat Wahana di atas pemain, tidak dapat berpindah.\n");
           } else {
-            w(&Info_Map(*main), &Info_Posisi(*main));
+            if (IsOffice(Info_Posisi(*main), *main)){
+              w(&Info_Map(*main), &Info_Posisi(*main));
+              initOffice(&Info_Map(*main),&Info_Office(*main));
+            } else {
+              w(&Info_Map(*main), &Info_Posisi(*main));
+            }
           }
         } else if (isKataSama(_a, CKata)){
-          if (IsOffice(Info_Posisi(*main), *main)){
-            a(&Info_Map(*main), &Info_Posisi(*main));
-            initOffice(&Info_Map(*main),&Info_Office(*main));
+          if(Elmt(Info_Map(*main), (int) Ordinat(Info_Posisi(*main)), (int) Absis(Info_Posisi(*main))-1) == *"W"){
+            printf("Terdapat Wahana di kiri pemain, tidak dapat berpindah.\n");
           } else {
-            a(&Info_Map(*main), &Info_Posisi(*main));
+            if (IsOffice(Info_Posisi(*main), *main)){
+              a(&Info_Map(*main), &Info_Posisi(*main));
+              initOffice(&Info_Map(*main),&Info_Office(*main));
+            } else {
+              a(&Info_Map(*main), &Info_Posisi(*main));
+            }
           }
         } else if (isKataSama(_s, CKata)){
-          if (IsOffice(Info_Posisi(*main), *main)){
-            s(&Info_Map(*main), &Info_Posisi(*main));
-            initOffice(&Info_Map(*main),&Info_Office(*main));
+          if(Elmt(Info_Map(*main), (int) Ordinat(Info_Posisi(*main))+1, (int) Absis(Info_Posisi(*main))) == *"W"){
+            printf("Terdapat Wahana di bawah pemain, tidak dapat berpindah.\n");
           } else {
-            s(&Info_Map(*main), &Info_Posisi(*main));
+            if (IsOffice(Info_Posisi(*main), *main)){
+              s(&Info_Map(*main), &Info_Posisi(*main));
+              initOffice(&Info_Map(*main),&Info_Office(*main));
+            } else {
+              s(&Info_Map(*main), &Info_Posisi(*main));
+            }
           }
         } else if (isKataSama(_d, CKata)){
-          if (IsOffice(Info_Posisi(*main), *main)){
-            d(&Info_Map(*main), &Info_Posisi(*main));
-            initOffice(&Info_Map(*main),&Info_Office(*main));
+          if(Elmt(Info_Map(*main), (int) Ordinat(Info_Posisi(*main)), (int) Absis(Info_Posisi(*main))+1) == *"W"){
+            printf("Terdapat Wahana di kanan pemain, tidak dapat berpindah.\n");
           } else {
-            d(&Info_Map(*main), &Info_Posisi(*main));
+            if (IsOffice(Info_Posisi(*main), *main)){
+              d(&Info_Map(*main), &Info_Posisi(*main));
+              initOffice(&Info_Map(*main),&Info_Office(*main));
+            } else {
+              d(&Info_Map(*main), &Info_Posisi(*main));
+            }
           }
         /* PERINTAH UNTUK PREP PHASE */
         } else if (isKataSama(_main, CKata)){
-          Info_Prep(*main) = false;
-          Info_Main(*main) = true;
+          if (Info_Prep(*main)){
+            while (!IsEmpty(Info_StackCMD(*main))){
+              undo(main);
+            }
+            Info_DayMain(*main) = 1;
+            Info_Prep(*main) = false;
+            Info_Main(*main) = true;
+          } else {
+            printf("gabisa main soalnya lagi main\n\n");
+          }
         } else if (isKataSama(_build, CKata)){
           if (Info_Prep(*main)){
             build(main);
