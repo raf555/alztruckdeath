@@ -67,11 +67,15 @@ void Dequeue (PrioQueue * Q, infotype * X){
 
 void PrintPrioQueue (PrioQueue Q){
     if (!IsEmpty(Q)){
+        printf("(");
         int i, now;
-        for (i = 0; i < NBElmt(Q); i++){
+        for (i = 0; i < NBElmt(Q) - 1; i++){
             now = (Head(Q)+i+MaxEl(Q))%MaxEl(Q);
-            printf("%d %c\n", Prio(Elmt(Q,now)), Info(Elmt(Q,now)));
+            printf("%c,",Info(Elmt(Q,now)));
         }
+        now = (Head(Q)+i+MaxEl(Q))%MaxEl(Q);
+        printf("%c",Info(Elmt(Q,now)));
+        printf(")");
     }
-    printf("#\n");
+    printf(",");
 }

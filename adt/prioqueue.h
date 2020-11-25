@@ -2,6 +2,7 @@
 #define prioqueue_H
 
 #include "boolean.h"
+#include "mainprogram.h"
 
 #define Nil -1
 /* Konstanta untuk mendefinisikan address tak terdefinisi */
@@ -9,7 +10,9 @@
 /* Definisi elemen dan address */
 typedef struct {
     int prio;  /* [1..100], prioritas dengan nilai 1..100 (1 adalah prioritas tertinggi) */
-    char info;  /* elemen karakter */
+    char info;
+    Wahana wahana;
+      /* elemen karakter */
 } infotype;
 typedef int address;   /* indeks tabel */
 /* Contoh deklarasi variabel bertype PrioQueue : */
@@ -24,6 +27,7 @@ typedef struct {
 
 /* ********* AKSES (Selektor) ********* */
 /* Jika e adalah infotype dan Q adalah PrioQueue, maka akses elemen : */
+#define Wahana(e)   (e).wahana
 #define Prio(e)     (e).prio
 #define Info(e)     (e).info
 #define Head(Q)     (Q).HEAD
