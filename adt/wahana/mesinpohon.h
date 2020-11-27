@@ -40,6 +40,5 @@ void SalinKataW();
 void STARTW();
 void ADVW();
 void StrConv(char str[],char ns[]);
-int IntConv(char str[]);
 
 #endif

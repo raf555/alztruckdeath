@@ -89,17 +89,7 @@ void SalinKataW(){
 
 }
 
-int IntConv(char str[]){
-    int ret;
-    int i;
-    ret = 0;
-    i = 0;
-    while(str[i]!='\0'){
-        ret = 10*ret + (int)(str[i] - '0');
-        i++;
-    }
-    return ret;
-}
+
 void StrConv(char str[],char ns[]){
     int i = 0;
     while(str[i]!='\0' || ns[i]!='\0'){
