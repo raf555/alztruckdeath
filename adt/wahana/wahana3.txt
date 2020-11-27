@@ -1,0 +1,3 @@
+KolamCokelat 1000 4 5 seru 10 Cokelat
+KaliCokelat 2000 8 5 brrr 15 Cokelat
+SungaiCokelat 3000 5 7 skkrt 10 Cokelats

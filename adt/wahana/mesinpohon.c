@@ -1,21 +1,21 @@
-#include "boolean.h"
+#include "../boolean.h"
 #include "mesinpohon.h"
 #include <stdio.h>
 
 boolean EndKataW = false;
 char CKataW[100];
 char CC;
-boolean EOP;
+boolean EOP = false;
 static int retval;
 static FILE *pt;
 
-void STARTW() {
+void STARTW(char filename[]) {
 /* Mesin siap dioperasikan. Pita disiapkan untuk dibaca. 
    Karakter pertama yang ada pada pita posisinya adalah pada jendela.
    I.S. : sembarang
    F.S. : CC adalah karakter pertama pada pita. Jika CC != MARK maka 
 		  EOP akan padam (false). Jika CC = MARK maka EOP akan menyala (true) */
-	pt = fopen("turi.txt","r");
+	pt = fopen(filename,"r");
     ADVW();
 }
 
@@ -25,27 +25,28 @@ void ADVW() {
    F.S. : CC adalah karakter berikutnya dari CC yang lama, CC mungkin = MARK
 		  Jika  CC = MARK maka EOP akan menyala (true) */
 	retval = fscanf(pt,"%c",&CC);
-    if(retval==EOF)
-        fclose(pt);
+    EndKataW = (CC==MARKW);
+    if(retval==EOF){
         EOP = true;
+        fclose(pt);
+    }
 }
 
 void IgnoreBlankW(){
 /* Mengabaikan satu atau beberapa BLANK
    I.S. : CC sembarang 
    F.S. : CC ≠ BLANK atau CC = MARK */
-    while(CC==BLANK){
+    while(CC==BLANK || CC==MARKW){
         ADVW();
     }
-    if(CC==MARKW) EndKataW=true;
 
 }
-void STARTKATAW(){
+void STARTKATAW(char filename[]){
 /* I.S. : CC sembarang 
    F.S. : EndKata = true, dan CC = MARK; 
           atau EndKata = false, CKata adalah kata yang sudah diakuisisi,
           CC karakter pertama sesudah karakter terakhir kata */
-    STARTW();
+    STARTW(filename);
     IgnoreBlankW();
     if(CC==MARKW) EndKataW = true;
     else{
@@ -89,10 +90,21 @@ void SalinKataW(){
 
 }
 
+int IntConv(char str[]){
+    int ret;
+    int i;
+    ret = 0;
+    i = 0;
+    while(str[i]!='\0'){
+        ret = 10*ret + (int)(str[i]) - (int)('\0');
+        i++;
+    }
+    return ret;
+}
 
 void StrConv(char str[],char ns[]){
     int i = 0;
-    while(str[i]!='\0' || ns[i]!='\0'){
+    while(str[i]!='\0'){
         ns[i] = str[i];
         i++;
     }

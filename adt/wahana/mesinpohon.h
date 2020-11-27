@@ -1,11 +1,12 @@
 #ifndef __MESINPOHON_H__
 #define __MESINPOHON_H__
 
-#include "boolean.h"
+#include "../boolean.h"
 
 #define NMax 150
 #define BLANK ' '
-#define MARKW '|'
+#define MARKW '\n'
+#define TrueMark '.'
 
 /* State Mesin Kata */
 extern boolean EndKataW;
@@ -17,7 +18,7 @@ void IgnoreBlankW();
    I.S. : CC sembarang 
    F.S. : CC ≠ BLANK atau CC = MARK */
 
-void STARTKATAW();
+void STARTKATAW(char filename[]);
 /* I.S. : CC sembarang 
    F.S. : EndKata = true, dan CC = MARK; 
           atau EndKata = false, CKata adalah kata yang sudah diakuisisi,
@@ -37,8 +38,9 @@ void SalinKataW();
           CC = BLANK atau CC = MARK; 
           CC adalah karakter sesudah karakter terakhir yang diakuisisi.
           Jika panjang kata melebihi NMax, maka sisa kata "dipotong" */
-void STARTW();
+void STARTW(char filename[]);
 void ADVW();
 void StrConv(char str[],char ns[]);
+int IntConv(char str[]);
 
 #endif
