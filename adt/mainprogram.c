@@ -798,3 +798,9 @@ void undo(program *main){
         printf(" dari stack\n");
     }
 }
+
+void initWahanaTree(BinTree *P){
+    Wahana W;
+    STARTW("../wahana/wahana.txt");
+    BuildTreeFromFile(P);
+}

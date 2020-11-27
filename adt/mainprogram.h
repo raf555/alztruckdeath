@@ -8,6 +8,7 @@
 #include "boolean.h"
 #include "matriks.h"
 #include "point.h"
+#include "../wahana/bintree.h"
 
 #define maxel 100
 
@@ -158,5 +159,7 @@ void execute(program *main);
 
 //undo
 void undo(program *main);
+
+void initWahanaTree(BinTree *P); 
 
 #endif

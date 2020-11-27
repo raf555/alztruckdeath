@@ -38,6 +38,7 @@ void SalinKataW();
           CC = BLANK atau CC = MARK; 
           CC adalah karakter sesudah karakter terakhir yang diakuisisi.
           Jika panjang kata melebihi NMax, maka sisa kata "dipotong" */
+
 void STARTW(char filename[]);
 void ADVW();
 void StrConv(char str[],char ns[]);

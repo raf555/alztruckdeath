@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <stddef.h>
 
+
 /* *** Konstruktor *** */
 addrNode Tree(wahanode Akar, BinTree L, BinTree R)
 /* Menghasilkan sebuah pohon biner dari A, L, dan R, jika alokasi berhasil */
