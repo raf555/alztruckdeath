@@ -44,8 +44,23 @@ void initmain(program *main, Kata nama) {
 
   CreateEmpty(&Info_StackCMD(*main));
   Info_WaktuCMD(*main) = MakeJAM(0, 0, 0);
+  Info_CurrentMap(*main) = 0;
 
   Info_DayPrep(*main) = 1;
+}
+
+void initpanah(program *main){
+  Elmt(Info_Map(*main), 11, 5) = *"V";
+  Elmt(Info_Map(*main), 5, 11) = *">";
+
+  Elmt(Info_Map2(*main), 11, 5) = *"V";
+  Elmt(Info_Map2(*main), 5, 0) = *"<";
+
+  Elmt(Info_Map3(*main), 0, 5) = *"^";
+  Elmt(Info_Map3(*main), 5, 0) = *"<";
+
+  Elmt(Info_Map4(*main), 0, 5) = *"^";
+  Elmt(Info_Map4(*main), 5, 11) = *">";
 }
 
 void initgame(program *main){
@@ -54,7 +69,14 @@ void initgame(program *main){
   while(!EndKata){
     initmain(main, CKata);
     MakeMATRIKS(12,12,&Info_Map(*main));
+    MakeMATRIKS(12,12,&Info_Map2(*main));
+    MakeMATRIKS(12,12,&Info_Map3(*main));
+    MakeMATRIKS(12,12,&Info_Map4(*main));
     initMap(&Info_Map(*main));
+    initMap(&Info_Map2(*main));
+    initMap(&Info_Map3(*main));
+    initMap(&Info_Map4(*main));
+    initpanah(main);
     initPlayer(&Info_Map(*main),&Info_Posisi(*main));
     initOffice(&Info_Map(*main),&Info_Office(*main));
     ADVKATA();
@@ -119,35 +141,139 @@ boolean IsOffice(POINT P1, program main){
   return EQ(P1, Info_Office(main));
 }
 
-void w(MATRIKS *M, POINT *P) {
-	if ((*P).Y > 1/* && Elmt(*M, (int) Ordinat(*P)+1, (int) Absis(*P)) == *"-"*/) {
-		P_to_Dash(M,*P);
-		(*P).Y--;
-		Dash_to_P(M,*P);
+void w(program *main) {
+	if (Info_Posisi(*main).Y >= 1) {
+    MATRIKS *mapb4, *mapa4;
+    if (Info_CurrentMap(*main) == 2){
+      mapb4 = &Info_Map3(*main);
+      mapa4 = &Info_Map2(*main);
+    } else if (Info_CurrentMap(*main) == 3){
+      mapb4 = &Info_Map4(*main);
+      mapa4 = &Info_Map(*main);
+    } else if (Info_CurrentMap(*main) == 0){
+      mapb4 = &Info_Map(*main);
+    } else if (Info_CurrentMap(*main) == 1){
+      mapb4 = &Info_Map2(*main);
+    }
+    if (Elmt(*mapb4, (int) Ordinat(Info_Posisi(*main))-1, (int) Absis(Info_Posisi(*main))) == *"^"){
+      if (Info_CurrentMap(*main) == 2) {
+        Info_CurrentMap(*main) = 1;
+      } else if (Info_CurrentMap(*main) == 3) {
+        Info_CurrentMap(*main) = 0;
+      }
+		  P_to_Dash(mapb4,Info_Posisi(*main));
+      Info_Posisi(*main) = MakePOINT(5, 11);
+		  Info_Posisi(*main).Y--;
+		  Dash_to_P(mapa4,Info_Posisi(*main));
+    } else { 
+      if(Info_Posisi(*main).Y > 1){
+        P_to_Dash(mapb4,Info_Posisi(*main));
+        Info_Posisi(*main).Y--;
+        Dash_to_P(mapb4,Info_Posisi(*main));
+      }
+    }
 	}
 }
 
-void a(MATRIKS *M, POINT *P) {
-	if ((*P).X > 1/* && Elmt(*M, (int) Ordinat(*P), (int) Absis(*P)-1) == *"-"*/) {
-		P_to_Dash(M,*P);
-		(*P).X--;
-		Dash_to_P(M,*P);
+void a(program *main) {
+	if (Info_Posisi(*main).X >= 1) {
+    MATRIKS *mapb4, *mapa4;
+    if (Info_CurrentMap(*main) == 1){
+      mapb4 = &Info_Map2(*main);
+      mapa4 = &Info_Map(*main);
+    } else if (Info_CurrentMap(*main) == 2){
+      mapb4 = &Info_Map3(*main);
+      mapa4 = &Info_Map4(*main);
+    } else if (Info_CurrentMap(*main) == 3){
+      mapb4 = &Info_Map4(*main);
+    } else if (Info_CurrentMap(*main) == 0){
+      mapb4 = &Info_Map(*main);
+    }
+    if (Elmt(*mapb4, (int) Ordinat(Info_Posisi(*main)), (int) Absis(Info_Posisi(*main))-1) == *"<"){
+      if (Info_CurrentMap(*main) == 1) {
+        Info_CurrentMap(*main) = 0;
+      } else if (Info_CurrentMap(*main) == 2) {
+        Info_CurrentMap(*main) = 3;
+      }
+		  P_to_Dash(mapb4,Info_Posisi(*main));
+      Info_Posisi(*main) = MakePOINT(11, 5);
+		  Info_Posisi(*main).X--;
+		  Dash_to_P(mapa4,Info_Posisi(*main));
+    } else { 
+      if(Info_Posisi(*main).X > 1){
+        P_to_Dash(mapb4,Info_Posisi(*main));
+        Info_Posisi(*main).X--;
+        Dash_to_P(mapb4,Info_Posisi(*main));
+      }
+    }
 	}
 }
 
-void s(MATRIKS *M, POINT *P) {
-	if ((*P).Y < 10/* && Elmt(*M, (int) Ordinat(*P)-1, (int) Absis(*P)) == *"-"*/) {
-		P_to_Dash(M,*P);
-		(*P).Y++;
-		Dash_to_P(M,*P);
+void s(program *main) {
+	if (Info_Posisi(*main).Y <= 10) {
+    MATRIKS *mapb4, *mapa4;
+    if (Info_CurrentMap(*main) == 0){
+      mapb4 = &Info_Map(*main);
+      mapa4 = &Info_Map4(*main);
+    } else if (Info_CurrentMap(*main) == 1){
+      mapb4 = &Info_Map2(*main);
+      mapa4 = &Info_Map3(*main);
+    } else if (Info_CurrentMap(*main) == 2){
+      mapb4 = &Info_Map3(*main);
+    } else if (Info_CurrentMap(*main) == 3){
+      mapb4 = &Info_Map4(*main);
+    }
+    if (Elmt(*mapb4, (int) Ordinat(Info_Posisi(*main))+1, (int) Absis(Info_Posisi(*main))) == *"V"){
+      if (Info_CurrentMap(*main) == 0) {
+        Info_CurrentMap(*main) = 3;
+      } else if (Info_CurrentMap(*main) == 1) {
+        Info_CurrentMap(*main) = 2;
+      }
+		  P_to_Dash(mapb4,Info_Posisi(*main));
+      Info_Posisi(*main) = MakePOINT(5, 0);
+		  Info_Posisi(*main).Y++;
+		  Dash_to_P(mapa4,Info_Posisi(*main));
+    } else { 
+      if(Info_Posisi(*main).Y < 10){
+        P_to_Dash(mapb4,Info_Posisi(*main));
+        Info_Posisi(*main).Y++;
+        Dash_to_P(mapb4,Info_Posisi(*main));
+      }
+    }
 	}
 }
 
-void d(MATRIKS *M, POINT *P) {
-	if ((*P).X < 10/* && Elmt(*M, (int) Ordinat(*P), (int) Absis(*P)+1) == *"-"*/) {
-		P_to_Dash(M,*P);
-		(*P).X++;
-		Dash_to_P(M,*P);
+void d(program *main) {
+	if (Info_Posisi(*main).X <= 10) {
+    MATRIKS *mapb4, *mapa4;
+    if (Info_CurrentMap(*main) == 0){
+      mapb4 = &Info_Map(*main);
+      mapa4 = &Info_Map2(*main);
+    } else if (Info_CurrentMap(*main) == 3){
+      mapb4 = &Info_Map4(*main);
+      mapa4 = &Info_Map3(*main);
+    } else if (Info_CurrentMap(*main) == 1){
+      mapb4 = &Info_Map2(*main);
+    } else if (Info_CurrentMap(*main) == 2){
+      mapb4 = &Info_Map3(*main);
+    }
+    if (Elmt(*mapb4, (int) Ordinat(Info_Posisi(*main)), (int) Absis(Info_Posisi(*main))+1) == *">"){
+      if (Info_CurrentMap(*main) == 0) {
+        Info_CurrentMap(*main) = 1;
+      } else if (Info_CurrentMap(*main) == 3) {
+        Info_CurrentMap(*main) = 2;
+      }
+		  P_to_Dash(mapb4,Info_Posisi(*main));
+      Info_Posisi(*main) = MakePOINT(0, 5);
+		  Info_Posisi(*main).X++;
+		  Dash_to_P(mapa4,Info_Posisi(*main));
+    } else { 
+      if(Info_Posisi(*main).X < 10){
+        P_to_Dash(mapb4,Info_Posisi(*main));
+        Info_Posisi(*main).X++;
+        Dash_to_P(mapb4,Info_Posisi(*main));
+      }
+    }
 	}
 }
 
@@ -174,7 +300,7 @@ void wahana_print(program main, boolean prep) {
           }
           printf("%c", InfoWahana_Nama(Info_WahanaMap(main, i)).TabKata[j]);
           if (j == InfoWahana_Nama(Info_WahanaMap(main, i)).Length-1){
-            printf(" (%i,%i)", (int) Absis(InfoWahana_lokasi(Info_WahanaMap(main, i))), (int) Ordinat(InfoWahana_lokasi(Info_WahanaMap(main, i))));
+            printf(" (%i,%i) (Denah: %i)", (int) Absis(InfoWahana_lokasi(Info_WahanaMap(main, i))), (int) Ordinat(InfoWahana_lokasi(Info_WahanaMap(main, i))),InfoWahana_lokasidenah(Info_WahanaMap(main,i)));
             printf("\n");
           }
         }
@@ -304,11 +430,21 @@ void build (program *main) {
   int price = 100;
   long durasi = 5*3600;
   cmd build;
+  MATRIKS *map;
 	
 	// ALGORITMA
 	if (!Info_Prep(*main)) {
 		printf("Anda sedang dalam main phase!");
 	} else {
+    if(Info_CurrentMap(*main) == 0){
+      map = &Info_Map(*main);
+    } else if(Info_CurrentMap(*main) == 1){
+      map = &Info_Map2(*main);
+    } else if(Info_CurrentMap(*main) == 2){
+      map = &Info_Map3(*main);
+    } else if(Info_CurrentMap(*main) == 3){
+      map = &Info_Map4(*main);
+    }
 		printf("Ingin membangun apa?\n");
 		wahana_print(*main, true);
     printf("$ ");
@@ -321,9 +457,9 @@ void build (program *main) {
           // cek wahana
           if (isWahanaAda(*main, CKata)){
             // cek sekitar pemain
-            if(Elmt(Info_Map(*main), (int) Ordinat(Info_Posisi(*main)), (int) Absis(Info_Posisi(*main))+1) == *"-"){
+            if(Elmt(*map, (int) Ordinat(Info_Posisi(*main)), (int) Absis(Info_Posisi(*main))+1) == *"-"){
               // masukin (semu) wahana ke map
-              AddWahanaToMap(&Info_Map(*main), Absis(Info_Posisi(*main))+1,Ordinat(Info_Posisi(*main)));
+              AddWahanaToMap(map, Absis(Info_Posisi(*main))+1,Ordinat(Info_Posisi(*main)));
 
               // tambahin waktu sama duit ke program
               Info_TotalPriceCMD(*main) += price;
@@ -336,6 +472,7 @@ void build (program *main) {
               TargetCMD(build) = CKata;
               TargetBuild(build).X = Absis(Info_Posisi(*main))+1;
               TargetBuild(build).Y = Ordinat(Info_Posisi(*main));
+              TargetDenah(build) = Info_CurrentMap(*main);
               Push (&Info_StackCMD(*main), build);
             } else {
               printf("Ada sesuatu di kanan pemain, tidak dapat membangun wahana!\n");
@@ -392,6 +529,7 @@ void execute(program *main) {
           Info_WahanaMap(*main,i) = CariWahana(*main, TargetCMD(c));
           Info_WahanaMap(*main,i).lokasi.X = c.targetvalue.titik.X;
           Info_WahanaMap(*main,i).lokasi.Y = c.targetvalue.titik.Y;
+          Info_WahanaMap(*main,i).denah = c.targetvalue.denah;
           break;
         }
       }
@@ -501,10 +639,10 @@ void play(program *main){
             printf("Terdapat Wahana di atas pemain, tidak dapat berpindah.\n");
           } else {
             if (IsOffice(Info_Posisi(*main), *main)){
-              w(&Info_Map(*main), &Info_Posisi(*main));
+              w(main);
               initOffice(&Info_Map(*main),&Info_Office(*main));
             } else {
-              w(&Info_Map(*main), &Info_Posisi(*main));
+              w(main);
             }
           }
         } else if (isKataSama(_a, CKata)){
@@ -512,10 +650,10 @@ void play(program *main){
             printf("Terdapat Wahana di kiri pemain, tidak dapat berpindah.\n");
           } else {
             if (IsOffice(Info_Posisi(*main), *main)){
-              a(&Info_Map(*main), &Info_Posisi(*main));
+              a(main);
               initOffice(&Info_Map(*main),&Info_Office(*main));
             } else {
-              a(&Info_Map(*main), &Info_Posisi(*main));
+              a(main);
             }
           }
         } else if (isKataSama(_s, CKata)){
@@ -523,10 +661,10 @@ void play(program *main){
             printf("Terdapat Wahana di bawah pemain, tidak dapat berpindah.\n");
           } else {
             if (IsOffice(Info_Posisi(*main), *main)){
-              s(&Info_Map(*main), &Info_Posisi(*main));
+              s(main);
               initOffice(&Info_Map(*main),&Info_Office(*main));
             } else {
-              s(&Info_Map(*main), &Info_Posisi(*main));
+              s(main);
             }
           }
         } else if (isKataSama(_d, CKata)){
@@ -534,10 +672,10 @@ void play(program *main){
             printf("Terdapat Wahana di kanan pemain, tidak dapat berpindah.\n");
           } else {
             if (IsOffice(Info_Posisi(*main), *main)){
-              d(&Info_Map(*main), &Info_Posisi(*main));
+              d(main);
               initOffice(&Info_Map(*main),&Info_Office(*main));
             } else {
-              d(&Info_Map(*main), &Info_Posisi(*main));
+              d(main);
             }
           }
         /* PERINTAH UNTUK PREP PHASE */
@@ -641,7 +779,18 @@ void printpemain(program main){
 
 void PrintInfoPrep(program main){
   printf("Preparation phase day %i\n", Info_DayPrep(main));
-  TulisMATRIKS(Info_Map(main));
+  MATRIKS current;
+
+  if(Info_CurrentMap(main) == 0){
+    current = Info_Map(main);
+  } else if(Info_CurrentMap(main) == 1){
+    current = Info_Map2(main);
+  } else if(Info_CurrentMap(main) == 2){
+    current = Info_Map3(main);
+  } else if(Info_CurrentMap(main) == 3){
+    current = Info_Map4(main);
+  }
+  TulisMATRIKS(current);
   printf("\nLegend:\nA = Antrian\nP = Player\nW = Wahana\nO = Office\n<, ^, >, V = Gerbang");
   printf("\n\n");
   printpemain(main);
@@ -693,6 +842,7 @@ void PrintInfoWahana (Wahana x){
   printf("\nTipe: %i\n", InfoWahana_Tipe(x));
   printf("Harga: %i\n", InfoWahana_Harga(x));
   printf("Lokasi: (%i,%i)\n",(int) Absis(InfoWahana_lokasi(x)), (int) Ordinat(InfoWahana_lokasi(x)));
+  printf("Posisi Denah: %i\n",(InfoWahana_lokasidenah(x)+1));
   printf("Deskripsi: ");
   for (int i = 0; i < InfoWahana_Deskripsi(x).Length; i++){
     printf("%c",InfoWahana_Deskripsi(x).TabKata[i]);
@@ -983,10 +1133,4 @@ void undo(program *main,MATRIKS *M){
         printf(" dari stack\n");
         }
     }
-}
-
-void initWahanaTree(BinTree *P){
-    Wahana W;
-    STARTW("../wahana/wahana.txt");
-    BuildTreeFromFile(P);
 }

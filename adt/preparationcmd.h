@@ -8,6 +8,7 @@
 /* target cmd */
 typedef struct { 
 	POINT titik; // untuk cmd build
+  int denah; // denah lokasi build
 	Kata wahana; // untuk cmd upgrade
 	int jumlah; // untuk cmd buy
 } targetcmd;
@@ -29,5 +30,6 @@ typedef struct {
 #define TargetBuild(c) (c).targetvalue.titik
 #define TargetUpgrade(c) (c).targetvalue.wahana
 #define TargetBuy(c) (c).targetvalue.jumlah
+#define TargetDenah(c) (c).targetvalue.denah
 
 #endif

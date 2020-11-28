@@ -20,6 +20,7 @@ typedef struct {
 	Kata deskripsi;
 	JAM durasi;
 	POINT lokasi;
+  int denah;
 	// history ama ukuran blom
 } Wahana;
 
@@ -55,8 +56,12 @@ typedef struct {
   /* config program */
   boolean Main; // main phase
   boolean Prep; // prep phase
-  /* data program */
+  /* data map */
 	MATRIKS Map; // data map
+	MATRIKS Map2;
+	MATRIKS Map3;
+	MATRIKS Map4;
+  int currentmap;
 	POINT posisi; // posisi pemain
   POINT office; // posisi office
 } program;
@@ -71,6 +76,7 @@ typedef struct {
 #define InfoWahana_Deskripsi(c) (c).deskripsi
 #define InfoWahana_Durasi(c) (c).durasi
 #define InfoWahana_lokasi(c) (c).lokasi
+#define InfoWahana_lokasidenah(c) (c).denah
 
 // bahan
 #define InfoBahan_Nama(c) (c).nama
@@ -97,6 +103,10 @@ typedef struct {
 #define Info_Main(c) (c).Main
 #define Info_Prep(c) (c).Prep
 #define Info_Map(c) (c).Map
+#define Info_Map2(c) (c).Map2
+#define Info_Map3(c) (c).Map3
+#define Info_Map4(c) (c).Map4
+#define Info_CurrentMap(c) (c).currentmap
 #define Info_Posisi(c) (c).posisi
 #define Info_Office(c) (c).office
 #define Info_DayPrep(c) (c).dayprep
@@ -132,10 +142,11 @@ Bahan CariBahan(program main, Kata bahan);
 // wasd
 void P_to_Dash(MATRIKS *M, POINT P);
 void Dash_to_P(MATRIKS *M, POINT P);
-void w(MATRIKS *M, POINT *P);
-void a(MATRIKS *M, POINT *P);
-void s(MATRIKS *M, POINT *P);
-void d(MATRIKS *M, POINT *P);
+void w(program *main);
+void a(program *main);
+void s(program *main);
+void d(program *main);
+void initpanah(program *M);
 
 // office
 void office(program main);
@@ -166,7 +177,5 @@ void execute(program *main);
 
 //undo
 void undo(program *main,MATRIKS *M);
-
-void initWahanaTree(BinTree *P); 
 
 #endif
