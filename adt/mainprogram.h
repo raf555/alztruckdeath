@@ -20,7 +20,7 @@ typedef struct {
 	Kata deskripsi;
 	JAM durasi;
 	POINT lokasi;
-  int denah;
+  	int denah;
 	// history ama ukuran blom
 } Wahana;
 
@@ -177,5 +177,9 @@ void execute(program *main);
 
 //undo
 void undo(program *main,MATRIKS *M);
+
+void initListWahana(int i,program *main,BinTree *T);
+void MakeListWahana(program *main,BinTree *T);
+void initTreeWahana(BinTree *T);
 
 #endif
