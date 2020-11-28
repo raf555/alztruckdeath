@@ -145,20 +145,18 @@ void WahReader(char *namafile,BinTree *P){
     W.nama.Length = i;
     W.nama.TabKata[i] = '\0';
     ADVW();
-    while(CC!=NEW){
-        W.tipe = (int)CC - 48;
-        ADVW();
-    }
+    W.tipe = CC - '0';
+    ADVW();
     ADVW();
     W.harga = 0;
     while(CC!=NEW){
-        W.harga = W.harga*10 + (int)CC - 48;
+        W.harga = W.harga * 10 + (CC- '0');
         ADVW();
     }
     ADVW();
     W.kapasitas = 0;
     while(CC!=NEW){
-        W.kapasitas = W.kapasitas*10 + (int)CC - 48;
+        W.kapasitas = W.kapasitas * 10 + (CC- '0');
         ADVW();
     }
     ADVW();
@@ -174,13 +172,13 @@ void WahReader(char *namafile,BinTree *P){
     W.durasi.HH = 0;
     W.durasi.MM = 0;
     W.durasi.SS = 0;
-    while(CC!=NEW){
-        W.durasi.MM = W.durasi.MM*10 + (int)CC - 48;
+    while(CC!=NEW && CC!=MARKW){
+        W.durasi.MM = W.durasi.MM * 10 + (CC- '0');
         ADVW();
     }
     MakeTree(W,NULL,NULL,P);
     ADVW();
-    Kiri = false;
+    Kiri = true;
     while(CC!=MARKW){
         i = 0;
         while(CC!=NEW){
@@ -191,20 +189,18 @@ void WahReader(char *namafile,BinTree *P){
         W.nama.Length = i;
         W.nama.TabKata[i] = '\0';
         ADVW();
-        while(CC!=NEW){
-            W.tipe = (int)CC - 48;
-            ADVW();
-        }
+        W.tipe = CC - '0';
+        ADVW();
         ADVW();
         W.harga = 0;
         while(CC!=NEW){
-            W.harga = W.harga*10 + (int)CC - 48;
+            W.harga = W.harga*10 + (CC- '0');
             ADVW();
         }
         ADVW();
         W.kapasitas = 0;
         while(CC!=NEW){
-            W.kapasitas = W.kapasitas*10 + (int)CC - 48;
+            W.kapasitas = W.kapasitas*10 + (CC- '0');
             ADVW();
         }
         ADVW();
@@ -220,15 +216,14 @@ void WahReader(char *namafile,BinTree *P){
         W.durasi.HH = 0;
         W.durasi.MM = 0;
         W.durasi.SS = 0;
-        while(CC!=NEW){
-            W.durasi.MM = W.durasi.MM*10 + (int)CC - 48;
+        while(CC!=NEW && CC!=MARKW){
+            W.durasi.MM =W.durasi.MM * 10 + (CC- '0');
             ADVW();
         }
+        AddDaun(P,W.tipe,W,Kiri);
+        ADVW();
         if(Kiri) Kiri = false;
         else Kiri = true;
-
-        AddDaun(P,W.tipe,W,Kiri);
-        if(CC==NEW) ADVW();
 
     }
 
