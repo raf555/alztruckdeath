@@ -154,6 +154,9 @@ void build (program *main);
 void buy (program *main);
 void bahan_print(program main, boolean prep);
 
+//repair
+void repair (program *main);
+
 //upgrade
 void upgrade (program *main);
 void LocateThenUpgrade(program main, int absis, int ordinat, cmd c);
@@ -163,7 +166,7 @@ Wahana LocateWahana (program main, int absis, int ordinat);
 void execute(program *main);
 
 //undo
-void undo(program *main);
+void undo(program *main,MATRIKS *M);
 
 void initWahanaTree(BinTree *P); 
 

@@ -1,9 +1,24 @@
 #include "mainprogram.h"
 #include <math.h>
+#include <string.h>
 #include "preparationcmd.h"
 #include <stdio.h>
 #include <stdlib.h>
 
+ Wahana StrukWahana(infotype X){
+   Wahana W;
+   if(X==1){
+     strcpy(W.nama.TabKata,"RollerCoaster");
+     W.tipe = 1;
+     W.harga = 10;
+     W.kapasitas = 10;
+     strcpy(W.deskripsi.TabKata,"RollerCoaster");
+     W.durasi.HH = 0;
+     W.durasi.MM = 10;
+     W.durasi.SS = 0;
+     W.lokasi = ;
+   }
+ }
 
 
 int main(){

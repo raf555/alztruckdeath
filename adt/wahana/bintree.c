@@ -23,7 +23,6 @@ int HargaWahana[7] ={10,10,10,10,10,10,10};
 int KapasitasWahana[7] = {10,10,10,10,10,10,10};
 int DurasiWahana[7] = {10,10,10,10,10,10,10};
 int UangBangunan[7] ={0,100,200,200,100,200,200};
-
 StrWahana BahanBangunan[7] ={"iron","iron","iron","iron","iron","iron","cokelat"};
 
 /* *** Konstruktor *** */
@@ -135,7 +134,7 @@ void PrintPreorder(BinTree P)
 {
     printf("(");
     if(!IsTreeEmpty(P)){
-        printf("%c",Akar(P));
+        printf("%d",Akar(P));
         PrintPreorder(Left(P));
         PrintPreorder(Right(P));
     }
@@ -154,7 +153,7 @@ void PrintInorder(BinTree P)
     printf("(");
     if(!IsTreeEmpty(P)){
         PrintInorder(Left(P));
-        printf("%c",Akar(P));
+        printf("%d",Akar(P));
         PrintInorder(Right(P));
     }
     printf(")");
@@ -173,7 +172,7 @@ void PrintPostorder(BinTree P)
     if(!IsTreeEmpty(P)){
         PrintPostorder(Left(P));
         PrintPostorder(Right(P));
-        printf("%c",Akar(P));
+        printf("%d",Akar(P));
     }
     printf(")");
 }
@@ -181,7 +180,7 @@ void PrintPostorder(BinTree P)
 void PrintIndent(BinTree P,int indent,int h){
     if(!IsTreeEmpty(P)){
         printf("%*s",indent,"");
-        printf("%c\n",Akar(P));
+        printf("%d\n",Akar(P));
         PrintIndent(Left(P),indent+h,h);
         PrintIndent(Right(P),indent+h,h);
 
@@ -409,7 +408,8 @@ void BuildTreeFromFile(BinTree *P) { //Bikin tree dari ekspresi prefix
     if(CC==')')
         *P = Nil;
     else{
-        MakeTree(CC,Nil,Nil,P);
+        int tmp = (int)(CC) - 48;
+        MakeTree(tmp,Nil,Nil,P);
         ADVW();
         BuildTreeFromFile(&(Left(*P)));
         BuildTreeFromFile(&(Right(*P)));

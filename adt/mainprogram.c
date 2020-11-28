@@ -877,17 +877,88 @@ void upgrade (program *main) { // harus nambah parameter node wahana yang ada di
     }
   }
 }
-void undo(program *main){
+
+void repair (program *main) { // repair wahana disebelah pemain, blm ditambah indikator wahana rusak , blm final
+// KAMUS
+  boolean sabi;
+  JAM waktu;
+  Kata _repair;
+  Kata namaBahan,qty;
+  _repair.TabKata[0] = *"r";
+  _repair.TabKata[1] = *"e";
+  _repair.TabKata[2] = *"p";
+  _repair.TabKata[3] = *"a";
+  _repair.TabKata[4] = *"i";
+  _repair.TabKata[5] = *"r";
+  _repair.Length = 6;
+  int price = 0;
+  int durasi = 5*3600;
+  // Algoritme
+  if (!Info_Prep(*main)) {
+		printf("Anda sedang dalam main phase!");
+  } else {
+    if (Elmt(Info_Map(*main), (int) Ordinat(Info_Posisi(*main)), (int) Absis(Info_Posisi(*main))+1) == *"W"){ // Blm nambah is W rusak
+      Wahana targetRep = LocateWahana(*main,(int) Ordinat(Info_Posisi(*main)), (int) Absis(Info_Posisi(*main))+1); 
+      printf("Apakah anda ingin merepair wahana berikut :\n");
+      printf("$ ");
+      STARTKATA();
+      while (!EndKata) {
+        // cek duit
+        if(InfoOrang_Duit(Info_Orang(*main))>=price && Info_TotalPriceCMD(*main)+price<=InfoOrang_Duit(Info_Orang(*main))){
+          // cek waktu
+          if (JAMToDetik(Info_WaktuCMD(*main))+durasi<=Durasi(Info_Waktu(*main), Info_Opening(*main))){
+            // cek wahana
+            if (isWahanaAda(*main, CKata)){
+              cmd repair;
+              // tambahin waktu sama duit ke program
+              Info_TotalPriceCMD(*main) += price;
+              Info_WaktuCMD(*main) = DetikToJAM(JAMToDetik(Info_WaktuCMD(*main))+durasi);
+
+              // masukin ke stack
+              WaktuCMD(repair) = DetikToJAM(durasi);
+              HargaCMD(repair) = price;
+              PerintahCMD(repair) = _repair;
+              TargetCMD(repair) = CKata;
+              TargetUpgrade(repair) = CKata;
+              Push (&Info_StackCMD(*main), repair);
+            } else {
+              printf("Wahana tidak ditemukan!\n");
+            }
+          } else {
+            printf("Tidak cukup waktu!\n");
+          }
+        } else {
+            printf("Tidak cukup uang!\n");
+        }
+        ADVKATA();
+      }
+    } else {
+      printf("Kamu tidak sedang berada di sebelah kiri wahana\n");
+    }
+  }
+}
+
+
+
+void undo(program *main,MATRIKS *M){
     cmd undone;
+    int x,y;
     if(Info_Prep(*main)){
         Pop(&Info_StackCMD(*main),&undone);
+        if(PerintahCMD(undone).TabKata[0]=='b' && PerintahCMD(undone).TabKata[1]=='u' && PerintahCMD(undone).TabKata[2]=='i' && PerintahCMD(undone).TabKata[3]=='l' && PerintahCMD(undone).TabKata[4]=='d'){
+            printf("Menghapus perintah ");
+            for (int i = 0; i < PerintahCMD(undone).Length; i++) printf("%c",PerintahCMD(undone).TabKata[i]);printf("\n");
+            TargetBuild(undone).X = x;
+            TargetBuild(undone).Y = y;
+            Elmt(*M,y,x) = '-';
+        }
+        else{
         // Show deleted command
         printf("Menghapus perintah ");
         for (int i = 0; i < PerintahCMD(undone).Length; i++) printf("%c",PerintahCMD(undone).TabKata[i]);
         // Works for buy, fitur show deleted command dihapus (cuma dijadiin comment juga gpp)
-        printf(" ");
-        for (int i = 0; i < TargetCMD(undone).Length; i++) printf("%c",TargetCMD(undone).TabKata[i]);
         printf(" dari stack\n");
+        }
     }
 }
 
