@@ -1,27 +1,31 @@
 #ifndef __WAHANATREE_H__
 #define __WAHANATREE_H__
 
-#include "../boolean.h"
 #include "mesinpohon.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include "../boolean.h"
+#include "../point.h"
+#include "../mesinkata.h"
+#include "../jam.h"
 
 #define Wlen 50
-#define Nil NULL
 typedef struct {
-	char nama[Wlen]; /* Nama Wahana */
-	int prc; /* Price */
-	int cap; /* Capacity */
-	int mnt; /* Durasi(Menit) */
-	char desc[Wlen]; /* Deskripsi*/
-	int cost;/*Cost to upgrade, untuk akar didefine -1*/
-	char bhn[Wlen];/* Bahan untuk upgrade, untuk akar didefine -1*/
-} wahanode;
+	Kata nama;
+	int tipe;
+	int harga;
+	int kapasitas;
+	Kata deskripsi;
+	JAM durasi;
+	POINT lokasi;
+	// history ama ukuran blom
+} Wahana;
+
 
 typedef struct tNode *addrNode;
 typedef struct tNode
 {
-    wahanode wahana;
+    Wahana wahana;
     addrNode left;
     addrNode right;
 } Node;
@@ -34,16 +38,20 @@ typedef addrNode BinTree;
 
 //addrNode AlokNode(wahanode X);
 //void DealokNode(addrNode P);
-BinTree Tree(wahanode Akar, BinTree L, BinTree R);
-void MakeTree(wahanode Akar, BinTree L, BinTree R, BinTree *P);
-addrNode Alok(wahanode Akar);
+BinTree Tree(Wahana Akar, BinTree L, BinTree R);
+void MakeTree(Wahana Akar, BinTree L, BinTree R, BinTree *P);
+addrNode Alok(Wahana Akar);
 boolean IsTreeEmpty (BinTree P);
-BinTree BuildTree();
-BinTree WahReader(char namafile[]);
+boolean IsUnerLeft (BinTree P);
+boolean IsUnerRight (BinTree P);
+boolean IsBiner (BinTree P);
+void WahReader(char *namafile,BinTree *P);
+void AddDaun (BinTree *P, int id, Wahana W, boolean Kiri);
 void PrintPrefix (BinTree P);
-void PrintWahanode(wahanode W);
+void PrintWahanode(Wahana W);
 void PrintIndent(BinTree P,int indent);
 void Dealok(addrNode P);
-
+void DealokTree(BinTree *P);
+boolean SearchTree (BinTree P, int id);
 #endif
 

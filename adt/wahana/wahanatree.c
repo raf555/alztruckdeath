@@ -4,42 +4,54 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stddef.h>
+#include <string.h>
 
+
+/* data wahana 
+typedef struct {
+	Kata nama;
+	int tipe;
+	int harga;
+	int kapasitas;
+	Kata deskripsi;
+	JAM durasi;
+	POINT lokasi;
+	// history ama ukuran blom
+} Wahana;
+*/
 
 /* *** Konstruktor *** */
-addrNode Tree(wahanode Akar, BinTree L, BinTree R)
+BinTree Tree(Wahana Akar, BinTree L, BinTree R)
 /* Menghasilkan sebuah pohon biner dari A, L, dan R, jika alokasi berhasil */
 /* Menghasilkan pohon kosong (Nil) jika alokasi gagal */
 {
-  addrNode T = malloc(sizeof(Node));
-  if (T != Nil)
+  BinTree T = Alok(Akar);
+  if (T != NULL)
   {
-    StrConv(Akar.nama,Akar(T).nama);
-    (Akar(T)).prc = Akar.prc;
-    (Akar(T)).cap = Akar.cap;
-    (Akar(T)).mnt = Akar.mnt;
-    StrConv(Akar.desc,(Akar(T)).desc);
-    (Akar(T)).cost = Akar.cost;
-    StrConv(Akar.bhn,(Akar(T)).bhn);
     Left(T) = L;
     Right(T) = R;
   }
   return T;
 }
 
-addrNode Alok(wahanode Akar){
-  addrNode T = malloc(sizeof(Node));
-  if (T != Nil)
+addrNode Alok(Wahana Akar){
+  addrNode T = (addrNode) malloc(sizeof(Node));
+  if (T != NULL)
   {
-    StrConv(Akar.nama,Akar(T).nama);
-    (Akar(T)).prc = Akar.prc;
-    (Akar(T)).cap = Akar.cap;
-    (Akar(T)).mnt = Akar.mnt;
-    StrConv(Akar.desc,(Akar(T)).desc);
-    (Akar(T)).cost = Akar.cost;
-    StrConv(Akar.bhn,(Akar(T)).bhn);
-    Left(T) = Nil;
-    Right(T) = Nil;
+    CopyString(Akar(T).nama.TabKata,Akar.nama.TabKata);
+    Akar(T).nama.Length =(Akar.nama.Length);
+    (Akar(T)).tipe = Akar.tipe;
+    (Akar(T)).harga = Akar.harga;
+    (Akar(T)).kapasitas = Akar.kapasitas;
+    CopyString((Akar(T)).deskripsi.TabKata,Akar.deskripsi.TabKata);
+    Akar(T).deskripsi.Length = Akar.deskripsi.Length;
+    Akar(T).durasi.HH = Akar.durasi.HH;
+    Akar(T).durasi.MM = Akar.durasi.MM; 
+    Akar(T).durasi.SS = Akar.durasi.SS;
+    Akar(T).lokasi.X = -999;
+    Akar(T).lokasi.Y = -999;
+    Left(T) = NULL;
+    Right(T) = NULL;
   }
       return T;
 }
@@ -47,7 +59,16 @@ void Dealok(addrNode P){
     free(P);
 }
 
-void MakeTree(wahanode Akar, BinTree L, BinTree R, BinTree *P)
+void DealokTree(BinTree *P){
+    if(*P != NULL){
+        DealokTree(&Left(*P));
+        DealokTree(&Right(*P));
+        Dealok(*P);
+        *P = NULL;
+    }
+}
+
+void MakeTree(Wahana Akar, BinTree L, BinTree R, BinTree *P)
 /* I.S. Akar, L, R terdefinisi. P Sembarang */
 /* F.S. Membentuk pohon P dengan Akar(P)=Akar, Left(P)=L, dan Right(P)=R
    jika alokasi berhasil. P = Nil jika alokasi gagal. */
@@ -56,21 +77,34 @@ void MakeTree(wahanode Akar, BinTree L, BinTree R, BinTree *P)
 }
 
 boolean IsTreeEmpty (BinTree P) {
-    return(P==Nil);
+    return(P==NULL);
 }
 
+boolean IsUnerLeft (BinTree P)
+{
+    return((Left(P) != NULL) && (Right(P) == NULL));
+}
+
+boolean IsUnerRight (BinTree P)
+{
+    return((Left(P) == NULL) && (Right(P) != NULL));
+}
+
+boolean IsBiner (BinTree P)
+{
+    return((Left(P) != NULL) && (Right(P) != NULL));
+}
 
 
 // help fix gan
 
-void PrintWahanode(wahanode W){
-    printf("%s ",W.nama);
-    printf("%d ",W.prc);
-    printf("%d ",W.cap);
-    printf("%d ",W.mnt);
-    printf("%s ",W.desc);
-    printf("%d ",W.cost);
-    printf("%s", W.bhn);
+void PrintWahanode(Wahana W){
+    printf("%s ",W.nama.TabKata);
+    printf("%d ",W.tipe);
+    printf("%d ",W.harga);
+    printf("%d ",W.kapasitas);
+    printf("%s ",W.deskripsi.TabKata);
+    printf("%d ",W.durasi.MM);
 }
 
 void PrintPrefix (BinTree P) { // Print dalam form prefix
@@ -97,42 +131,150 @@ void PrintIndent(BinTree P,int indent){
     }
 }
 
-BinTree WahReader(char namafile[]){
-    BinTree P[3],whn;
-    int c = 0;
-    P[0] = malloc(sizeof(Node));
-    P[1] = malloc(sizeof(Node));
-    P[2] = malloc(sizeof(Node));
-    if (P[0] != Nil && P[1]!=Nil && P[2]!=Nil){
-    STARTKATAW(namafile);
-    while(!EOP){
-        while(!EndKataW){
-            StrConv(CKataW,Akar(P[c]).nama);
-            ADVKATAW();
-            Akar(P[c]).prc = atoi(CKataW);
-            ADVKATAW();
-            Akar(P[c]).cap = atoi(CKataW);
-            ADVKATAW();
-            Akar(P[c]).mnt = atoi(CKataW);
-            ADVKATAW();
-            StrConv(CKataW,Akar(P[c]).desc);
-            ADVKATAW();
-            Akar(P[c]).cost = atoi(CKataW);
-            ADVKATAW();
-            StrConv(CKataW,Akar(P[c]).bhn);
-            }
-        Left(P[c]) = NULL;
-        Right(P[c]) = NULL;
-        ADVKATAW();
-        c++;
+void WahReader(char *namafile,BinTree *P){
+    int i;
+    Wahana W;
+    boolean Kiri;
+    i = 0;
+    STARTW(namafile);
+    while(CC!=NEW){
+        W.nama.TabKata[i] = CC;
+        i++;
+        ADVW();
     }
-    
-    Left(P[0]) = P[1];
-    Right(P[0]) = P[2];
-    return P[0];
+    W.nama.Length = i;
+    W.nama.TabKata[i] = '\0';
+    ADVW();
+    while(CC!=NEW){
+        W.tipe = (int)CC - 48;
+        ADVW();
     }
-    // TBAdded : entah tree langsung bentuk node atau nambah fungsi bikin list of wahana disini
-    //return W;
+    ADVW();
+    W.harga = 0;
+    while(CC!=NEW){
+        W.harga = W.harga*10 + (int)CC - 48;
+        ADVW();
+    }
+    ADVW();
+    W.kapasitas = 0;
+    while(CC!=NEW){
+        W.kapasitas = W.kapasitas*10 + (int)CC - 48;
+        ADVW();
+    }
+    ADVW();
+    i = 0;
+    while(CC!=NEW){
+        W.deskripsi.TabKata[i] = CC;
+        i++;
+        ADVW();
+    }
+    W.deskripsi.Length = i;
+    W.deskripsi.TabKata[i] = '\0';
+    ADVW();
+    W.durasi.HH = 0;
+    W.durasi.MM = 0;
+    W.durasi.SS = 0;
+    while(CC!=NEW){
+        W.durasi.MM = W.durasi.MM*10 + (int)CC - 48;
+        ADVW();
+    }
+    MakeTree(W,NULL,NULL,P);
+    ADVW();
+    Kiri = false;
+    while(CC!=MARKW){
+        i = 0;
+        while(CC!=NEW){
+            W.nama.TabKata[i] = CC;
+            i++;
+            ADVW();
+        }
+        W.nama.Length = i;
+        W.nama.TabKata[i] = '\0';
+        ADVW();
+        while(CC!=NEW){
+            W.tipe = (int)CC - 48;
+            ADVW();
+        }
+        ADVW();
+        W.harga = 0;
+        while(CC!=NEW){
+            W.harga = W.harga*10 + (int)CC - 48;
+            ADVW();
+        }
+        ADVW();
+        W.kapasitas = 0;
+        while(CC!=NEW){
+            W.kapasitas = W.kapasitas*10 + (int)CC - 48;
+            ADVW();
+        }
+        ADVW();
+        i = 0;
+        while(CC!=NEW){
+            W.deskripsi.TabKata[i] = CC;
+            i++;
+            ADVW();
+        }
+        W.deskripsi.Length = i;
+        W.deskripsi.TabKata[i] = '\0';
+        ADVW();
+        W.durasi.HH = 0;
+        W.durasi.MM = 0;
+        W.durasi.SS = 0;
+        while(CC!=NEW){
+            W.durasi.MM = W.durasi.MM*10 + (int)CC - 48;
+            ADVW();
+        }
+        if(Kiri) Kiri = false;
+        else Kiri = true;
 
-    return Nil;
+        AddDaun(P,W.tipe,W,Kiri);
+        if(CC==NEW) ADVW();
+
+    }
+
+
+}
+
+void AddDaun (BinTree *P, int id, Wahana W, boolean Kiri)
+{
+    if(Akar(*P).tipe == (int) id/2)
+    {
+        if(Kiri)
+        {
+            Left(*P) = Alok(W);
+        }
+        else
+        {
+            Right(*P) = Alok(W);
+        }
+    }
+    else
+    {
+        if(SearchTree(Left(*P), id))
+        {
+            AddDaun(&Left(*P), id, W, Kiri);
+        }
+        else
+        {
+            AddDaun(&Right(*P), id, W, Kiri);
+        }
+    }
+}
+
+boolean SearchTree (BinTree P, int id)
+{
+    /* ALGORITMA */
+    if(IsTreeEmpty(P))
+    {
+        return false;
+    }
+    else if(Akar(P).tipe == (int) id/2)
+    {
+        return true;
+    }
+    else
+    {
+        return ((SearchTree(Left(P), id)) || SearchTree(Right(P), id));
+    }
+
 }

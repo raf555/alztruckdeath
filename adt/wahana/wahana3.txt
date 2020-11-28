@@ -1,3 +1,42 @@
-KolamCokelat 1000 4 5 seru 10 Cokelat
-KaliCokelat 2000 8 5 brrr 15 Cokelat
-SungaiCokelat 3000 5 7 skkrt 10 Cokelats
+rollercoaster
+1
+10
+10
+Gud
+10.
+uwucoaster
+2
+10
+10
+Yea
+10.
+engidescent
+3
+10
+10
+Nani
+10.
+wangkyuniverse
+4
+10
+10
+Cool
+10.
+halolintar
+5
+10
+10
+www
+10.
+fieryfist
+6
+10
+10
+serem
+10.
+chocolatedive
+7
+10
+10
+wut
+10.*

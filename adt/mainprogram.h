@@ -8,7 +8,6 @@
 #include "boolean.h"
 #include "matriks.h"
 #include "point.h"
-#include "../wahana/bintree.h"
 
 #define maxel 100
 

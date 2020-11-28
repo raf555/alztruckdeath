@@ -3,9 +3,9 @@
 
 #include "../boolean.h"
 
-#define NMax 150
 #define BLANK ' '
-#define MARKW '\n'
+#define MARKW '*'
+#define NEW '\n'
 #define TrueMark '.'
 
 /* State Mesin Kata */
@@ -18,7 +18,7 @@ void IgnoreBlankW();
    I.S. : CC sembarang 
    F.S. : CC ≠ BLANK atau CC = MARK */
 
-void STARTKATAW(char filename[]);
+void STARTKATAW(char *namafile);
 /* I.S. : CC sembarang 
    F.S. : EndKata = true, dan CC = MARK; 
           atau EndKata = false, CKata adalah kata yang sudah diakuisisi,
@@ -39,9 +39,9 @@ void SalinKataW();
           CC adalah karakter sesudah karakter terakhir yang diakuisisi.
           Jika panjang kata melebihi NMax, maka sisa kata "dipotong" */
 
-void STARTW(char filename[]);
+void STARTW(char *namafile);
 void ADVW();
-void StrConv(char str[],char ns[]);
+void CopyString (char *dest, char *source);
 int IntConv(char str[]);
 
 #endif

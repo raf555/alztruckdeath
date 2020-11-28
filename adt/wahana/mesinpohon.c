@@ -7,15 +7,15 @@ char CKataW[100];
 char CC;
 boolean EOP = false;
 static int retval;
-static FILE *pt;
+static FILE *pita;
 
-void STARTW(char filename[]) {
+void STARTW(char *namafile) {
 /* Mesin siap dioperasikan. Pita disiapkan untuk dibaca. 
    Karakter pertama yang ada pada pita posisinya adalah pada jendela.
    I.S. : sembarang
    F.S. : CC adalah karakter pertama pada pita. Jika CC != MARK maka 
 		  EOP akan padam (false). Jika CC = MARK maka EOP akan menyala (true) */
-	pt = fopen(filename,"r");
+	pita = fopen(namafile,"r");
     ADVW();
 }
 
@@ -24,11 +24,10 @@ void ADVW() {
    I.S. : Karakter pada jendela = CC, CC != MARK
    F.S. : CC adalah karakter berikutnya dari CC yang lama, CC mungkin = MARK
 		  Jika  CC = MARK maka EOP akan menyala (true) */
-	retval = fscanf(pt,"%c",&CC);
-    EndKataW = (CC==MARKW);
-    if(retval==EOF){
-        EOP = true;
-        fclose(pt);
+	retval = fscanf(pita,"%c",&CC);
+    EOP = (CC==MARKW);
+    if(EOP){
+        fclose(pita);
     }
 }
 
@@ -41,12 +40,12 @@ void IgnoreBlankW(){
     }
 
 }
-void STARTKATAW(char filename[]){
+void STARTKATAW(char *namafile){
 /* I.S. : CC sembarang 
    F.S. : EndKata = true, dan CC = MARK; 
           atau EndKata = false, CKata adalah kata yang sudah diakuisisi,
           CC karakter pertama sesudah karakter terakhir kata */
-    STARTW(filename);
+    STARTW(namafile);
     IgnoreBlankW();
     if(CC==MARKW) EndKataW = true;
     else{
@@ -102,11 +101,15 @@ int IntConv(char str[]){
     return ret;
 }
 
-void StrConv(char str[],char ns[]){
-    int i = 0;
-    while(str[i]!='\0'){
-        ns[i] = str[i];
+void CopyString (char *dest, char *source)
+
+{
+    int i;
+    i = 0;
+    while(source[i] != '\0')
+    {
+        dest[i] = source[i];
         i++;
     }
-
+    dest[i] = '\0';
 }
