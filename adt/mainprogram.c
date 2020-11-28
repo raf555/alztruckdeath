@@ -396,8 +396,13 @@ void execute(program *main) {
         }
       }
 		} else if (isKataSama(c.perintah, _buy)) {
-        Bahan target = CariBahan(*main, TargetCMD(c)); //check ASAP
-        InfoBahan_Jumlah(target) += TargetBuy(c);
+        for (int i = 0; i < maxel; i++){
+          if (isKataSama(Info_Orang(*main).bahan[i].nama,TargetCMD(c))){
+            Info_Orang(*main).bahan[i] = CariBahan(*main, TargetCMD(c));
+            Info_Orang(*main).bahan[i].jumlah += TargetBuy(c);
+            break;
+          }
+        }
 		} else if (isKataSama(c.perintah, _upgrade)) {
 			 LocateThenUpgrade(*main,(int) Ordinat(Info_Posisi(*main)), (int) Absis(Info_Posisi(*main))+1,c);
       }
@@ -705,10 +710,15 @@ void buy (program *main) {
   JAM waktu;
   Kata _buy;
   Kata namaBahan,qty;
+  Bahan target;
   _buy.TabKata[0] = *"b";
   _buy.TabKata[1] = *"u";
   _buy.TabKata[2] = *"y";
   _buy.Length = 3;
+  int price;
+  int amount;
+  int durasi = 5000;
+  cmd buy;
 
   // ALGORITMA
   if (!Info_Prep(*main)) {
@@ -720,22 +730,36 @@ void buy (program *main) {
 			STARTKATA();
 			while (!EndKata) {
         splitKata(CKata,&qty,&namaBahan);
-				if (isBahanAda(*main, namaBahan)){
-          Bahan target = CariBahan(*main, namaBahan);
-          if (InfoOrang_Duit(Info_Orang(*main)) >= InfoBahan_Harga(target)){
-            cmd buy;
-            //WaktuCMD(buy) = /* JAM sekian */;
-            PerintahCMD(buy) = _buy;
-            TargetCMD(buy) = namaBahan;
-            TargetBuy(buy) = ConvertToInt(qty);
-            Push (&Info_StackCMD(*main), buy);
-          }
-          else {
-            printf("Uang Anda tidak mencukupi!\n");
-          }
+        // cek bahan
+        if (isBahanAda(*main, namaBahan)){
+          target = CariBahan(*main, namaBahan);
+          amount = ConvertToInt(qty);
+          price = InfoBahan_Harga(target)*amount;
+          // cek duit
+          if(InfoOrang_Duit(Info_Orang(*main))>=price && Info_TotalPriceCMD(*main)+price<=InfoOrang_Duit(Info_Orang(*main))){
+            // cek waktu
+            if (JAMToDetik(Info_WaktuCMD(*main))+durasi<=Durasi(Info_Waktu(*main), Info_Opening(*main))){
+
+                // tambahin waktu sama duit ke program
+                Info_TotalPriceCMD(*main) += price;
+                Info_WaktuCMD(*main) = DetikToJAM(JAMToDetik(Info_WaktuCMD(*main))+durasi);
+
+                // masukin ke stack
+                WaktuCMD(buy) = DetikToJAM(durasi);
+                PerintahCMD(buy) = _buy;
+                TargetCMD(buy) = namaBahan;
+                TargetBuy(buy) = amount;
+                Push (&Info_StackCMD(*main), buy);
+
+            } else {
+                printf("Tidak cukup waktu!\n");
+              }
+          } else {
+              printf("Tidak cukup uang!\n");
+            }
         } else {
-          printf("Material tidak ditemukan!\n");
-        }
+            printf("Material tidak ditemukan!\n");
+          }
         ADVKATA();
 			}
   }
@@ -787,7 +811,6 @@ void bahan_print(program main, boolean prep) {
 }
 
 void LocateThenUpgrade(program main, int absis, int ordinat, cmd c) {
-
   boolean upgraded = false;
   int i = 0;
   while (!upgraded && i < maxel){
