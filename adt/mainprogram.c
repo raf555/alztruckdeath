@@ -805,8 +805,19 @@ void PrintInfoPrep(program main){
 }
 
 void PrintInfoMain(program main){
+  MATRIKS current;
+
+  if(Info_CurrentMap(main) == 0){
+    current = Info_Map(main);
+  } else if(Info_CurrentMap(main) == 1){
+    current = Info_Map2(main);
+  } else if(Info_CurrentMap(main) == 2){
+    current = Info_Map3(main);
+  } else if(Info_CurrentMap(main) == 3){
+    current = Info_Map4(main);
+  }
   printf("Main phase day  %i\n", Info_DayMain(main));
-  TulisMATRIKS(Info_Map(main));
+  TulisMATRIKS(current);
   printf("\nLegend:\nA = Antrian\nP = Player\nW = Wahana\nO = Office\n<, ^, >, V = Gerbang");
   printf("\n\n");
   printpemain(main);
