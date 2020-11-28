@@ -454,31 +454,35 @@ void build (program *main) {
       if(InfoOrang_Duit(Info_Orang(*main))>=price && Info_TotalPriceCMD(*main)+price<=InfoOrang_Duit(Info_Orang(*main))){
         // cek waktu
         if (JAMToDetik(Info_WaktuCMD(*main))+durasi<=Durasi(Info_Waktu(*main), Info_Opening(*main))){
-          // cek wahana
-          if (isWahanaAda(*main, CKata)){
-            // cek sekitar pemain
-            if(Elmt(*map, (int) Ordinat(Info_Posisi(*main)), (int) Absis(Info_Posisi(*main))+1) == *"-"){
-              // masukin (semu) wahana ke map
-              AddWahanaToMap(map, Absis(Info_Posisi(*main))+1,Ordinat(Info_Posisi(*main)));
+          if(!(Elmt(*map, (int) Ordinat(Info_Posisi(*main))+1, (int) Absis(Info_Posisi(*main))+1) == *"V" || Elmt(*map, (int) Ordinat(Info_Posisi(*main)), (int) Absis(Info_Posisi(*main))+1+1) == *">" || Elmt(*map, (int) Ordinat(Info_Posisi(*main))-1, (int) Absis(Info_Posisi(*main))+1) == *"^")){
+            // cek wahana
+            if (isWahanaAda(*main, CKata)){
+              // cek sekitar pemain
+              if(Elmt(*map, (int) Ordinat(Info_Posisi(*main)), (int) Absis(Info_Posisi(*main))+1) == *"-"){
+                // masukin (semu) wahana ke map
+                AddWahanaToMap(map, Absis(Info_Posisi(*main))+1,Ordinat(Info_Posisi(*main)));
 
-              // tambahin waktu sama duit ke program
-              Info_TotalPriceCMD(*main) += price;
-              Info_WaktuCMD(*main) = DetikToJAM(JAMToDetik(Info_WaktuCMD(*main))+durasi);
+                // tambahin waktu sama duit ke program
+                Info_TotalPriceCMD(*main) += price;
+                Info_WaktuCMD(*main) = DetikToJAM(JAMToDetik(Info_WaktuCMD(*main))+durasi);
 
-              // masukin ke stack
-              WaktuCMD(build) = DetikToJAM(durasi);
-              HargaCMD(build) = price;
-              PerintahCMD(build) = _build;
-              TargetCMD(build) = CKata;
-              TargetBuild(build).X = Absis(Info_Posisi(*main))+1;
-              TargetBuild(build).Y = Ordinat(Info_Posisi(*main));
-              TargetDenah(build) = Info_CurrentMap(*main);
-              Push (&Info_StackCMD(*main), build);
+                // masukin ke stack
+                WaktuCMD(build) = DetikToJAM(durasi);
+                HargaCMD(build) = price;
+                PerintahCMD(build) = _build;
+                TargetCMD(build) = CKata;
+                TargetBuild(build).X = Absis(Info_Posisi(*main))+1;
+                TargetBuild(build).Y = Ordinat(Info_Posisi(*main));
+                TargetDenah(build) = Info_CurrentMap(*main);
+                Push (&Info_StackCMD(*main), build);
+              } else {
+                printf("Ada sesuatu di kanan pemain, tidak dapat membangun wahana!\n");
+              }
             } else {
-              printf("Ada sesuatu di kanan pemain, tidak dapat membangun wahana!\n");
+              printf("Wahana tidak ditemukan!\n");
             }
           } else {
-            printf("Wahana tidak ditemukan!\n");
+            printf("Tidak dapat membangun menghalangi entry!\n");
           }
         } else {
           printf("Tidak cukup waktu!\n");
