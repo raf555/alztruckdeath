@@ -300,7 +300,7 @@ void wahana_print(program main, boolean prep) {
           }
           printf("%c", InfoWahana_Nama(Info_WahanaMap(main, i)).TabKata[j]);
           if (j == InfoWahana_Nama(Info_WahanaMap(main, i)).Length-1){
-            printf(" (%i,%i) (Denah: %i)", (int) Absis(InfoWahana_lokasi(Info_WahanaMap(main, i))), (int) Ordinat(InfoWahana_lokasi(Info_WahanaMap(main, i))),InfoWahana_lokasidenah(Info_WahanaMap(main,i)));
+            printf(" (%i,%i) (Denah: %i)", (int) Absis(InfoWahana_lokasi(Info_WahanaMap(main, i))), (int) Ordinat(InfoWahana_lokasi(Info_WahanaMap(main, i))),InfoWahana_lokasidenah(Info_WahanaMap(main,i))+1);
             printf("\n");
           }
         }
@@ -428,7 +428,7 @@ void build (program *main) {
 	_build.TabKata[4] = *"d";
 	_build.Length = 5;
   int price = 100;
-  long durasi = 5*3600;
+  long durasi = 3600;
   cmd build;
   MATRIKS *map;
 	
@@ -552,7 +552,7 @@ void execute(program *main) {
 	}
 	Info_Main(*main) = true;
 	Info_Prep(*main) = false;
-  Info_DayPrep(*main) += 1;
+  Info_DayMain(*main) += 1;
   Info_TotalPriceCMD(*main) = 0;
   Info_WaktuCMD(*main) = MakeJAM(0, 0, 0);
   CreateEmpty(&Info_StackCMD(*main));
@@ -686,7 +686,7 @@ void play(program *main){
         } else if (isKataSama(_main, CKata)){
           if (Info_Prep(*main)){
             while (!IsEmpty(Info_StackCMD(*main))){
-              undo(main,&Info_Map(*main));
+              undo(main,&Info_Map(*main)); /* nantidiganti */
             }
             Info_DayMain(*main) += 1;
             Info_Prep(*main) = false;
@@ -709,7 +709,7 @@ void play(program *main){
         } 
         else if (isKataSama(_undo, CKata)){
            if (Info_Prep(*main)){
-              undo(main, &Info_Map(*main));
+              undo(main, &Info_Map(*main)); /* nantidiganti */
             } else {
               printf("gabisa Undo soalnya lagi main\n\n");
             }
@@ -724,6 +724,7 @@ void play(program *main){
         }
         /* PERINTAH UNTUK MAIN PHASE */
           else if (isKataSama(_prep, CKata)){
+          Info_DayPrep(*main) += 1;
           Info_Prep(*main) = true;
           Info_Main(*main) = false;
           Info_Waktu(*main) = MakeJAM(21, 0, 0);
@@ -805,8 +806,19 @@ void PrintInfoPrep(program main){
 }
 
 void PrintInfoMain(program main){
-  printf("Main phase day  %i\n", Info_DayMain(main));
-  TulisMATRIKS(Info_Map(main));
+  MATRIKS current;
+
+  if(Info_CurrentMap(main) == 0){
+    current = Info_Map(main);
+  } else if(Info_CurrentMap(main) == 1){
+    current = Info_Map2(main);
+  } else if(Info_CurrentMap(main) == 2){
+    current = Info_Map3(main);
+  } else if(Info_CurrentMap(main) == 3){
+    current = Info_Map4(main);
+  }
+  printf("Main phase day %i\n", Info_DayMain(main));
+  TulisMATRIKS(current);
   printf("\nLegend:\nA = Antrian\nP = Player\nW = Wahana\nO = Office\n<, ^, >, V = Gerbang");
   printf("\n\n");
   printpemain(main);
