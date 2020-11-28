@@ -300,7 +300,7 @@ void wahana_print(program main, boolean prep) {
           }
           printf("%c", InfoWahana_Nama(Info_WahanaMap(main, i)).TabKata[j]);
           if (j == InfoWahana_Nama(Info_WahanaMap(main, i)).Length-1){
-            printf(" (%i,%i) (Denah: %i)", (int) Absis(InfoWahana_lokasi(Info_WahanaMap(main, i))), (int) Ordinat(InfoWahana_lokasi(Info_WahanaMap(main, i))),InfoWahana_lokasidenah(Info_WahanaMap(main,i)));
+            printf(" (%i,%i) (Denah: %i)", (int) Absis(InfoWahana_lokasi(Info_WahanaMap(main, i))), (int) Ordinat(InfoWahana_lokasi(Info_WahanaMap(main, i))),InfoWahana_lokasidenah(Info_WahanaMap(main,i))+1);
             printf("\n");
           }
         }
@@ -428,7 +428,7 @@ void build (program *main) {
 	_build.TabKata[4] = *"d";
 	_build.Length = 5;
   int price = 100;
-  long durasi = 5*3600;
+  long durasi = 3600;
   cmd build;
   MATRIKS *map;
 	
