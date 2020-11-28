@@ -539,7 +539,7 @@ void play(program *main){
         } else if (isKataSama(_main, CKata)){
           if (Info_Prep(*main)){
             while (!IsEmpty(Info_StackCMD(*main))){
-              undo(main);
+              undo(main,&Info_Map(*main));
             }
             Info_DayMain(*main) += 1;
             Info_Prep(*main) = false;
@@ -562,7 +562,7 @@ void play(program *main){
         } 
         else if (isKataSama(_undo, CKata)){
            if (Info_Prep(*main)){
-              undo(main);
+              undo(main, &Info_Map(*main));
             } else {
               printf("gabisa Undo soalnya lagi main\n\n");
             }
