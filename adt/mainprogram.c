@@ -165,11 +165,19 @@ void w(program *main) {
       Info_Posisi(*main) = MakePOINT(5, 11);
 		  Info_Posisi(*main).Y--;
 		  Dash_to_P(mapa4,Info_Posisi(*main));
+        if(Info_Main(*main)){
+          int nows = JAMToDetik(Info_Waktu(*main));
+          Info_Waktu(*main) = DetikToJAM((long) nows+60);
+        }
     } else { 
       if(Info_Posisi(*main).Y > 1){
         P_to_Dash(mapb4,Info_Posisi(*main));
         Info_Posisi(*main).Y--;
         Dash_to_P(mapb4,Info_Posisi(*main));
+        if(Info_Main(*main)){
+          int nows = JAMToDetik(Info_Waktu(*main));
+          Info_Waktu(*main) = DetikToJAM((long) nows+60);
+        }
       }
     }
 	}
@@ -199,11 +207,19 @@ void a(program *main) {
       Info_Posisi(*main) = MakePOINT(11, 5);
 		  Info_Posisi(*main).X--;
 		  Dash_to_P(mapa4,Info_Posisi(*main));
+        if(Info_Main(*main)){
+          int nows = JAMToDetik(Info_Waktu(*main));
+          Info_Waktu(*main) = DetikToJAM((long) nows+60);
+        }
     } else { 
       if(Info_Posisi(*main).X > 1){
         P_to_Dash(mapb4,Info_Posisi(*main));
         Info_Posisi(*main).X--;
         Dash_to_P(mapb4,Info_Posisi(*main));
+        if(Info_Main(*main)){
+          int nows = JAMToDetik(Info_Waktu(*main));
+          Info_Waktu(*main) = DetikToJAM((long) nows+60);
+        }
       }
     }
 	}
@@ -233,11 +249,19 @@ void s(program *main) {
       Info_Posisi(*main) = MakePOINT(5, 0);
 		  Info_Posisi(*main).Y++;
 		  Dash_to_P(mapa4,Info_Posisi(*main));
+        if(Info_Main(*main)){
+          int nows = JAMToDetik(Info_Waktu(*main));
+          Info_Waktu(*main) = DetikToJAM((long) nows+60);
+        }
     } else { 
       if(Info_Posisi(*main).Y < 10){
         P_to_Dash(mapb4,Info_Posisi(*main));
         Info_Posisi(*main).Y++;
         Dash_to_P(mapb4,Info_Posisi(*main));
+        if(Info_Main(*main)){
+          int nows = JAMToDetik(Info_Waktu(*main));
+          Info_Waktu(*main) = DetikToJAM((long) nows+60);
+        }
       }
     }
 	}
@@ -267,11 +291,19 @@ void d(program *main) {
       Info_Posisi(*main) = MakePOINT(0, 5);
 		  Info_Posisi(*main).X++;
 		  Dash_to_P(mapa4,Info_Posisi(*main));
+        if(Info_Main(*main)){
+          int nows = JAMToDetik(Info_Waktu(*main));
+          Info_Waktu(*main) = DetikToJAM((long) nows+60);
+        }
     } else { 
       if(Info_Posisi(*main).X < 10){
         P_to_Dash(mapb4,Info_Posisi(*main));
         Info_Posisi(*main).X++;
         Dash_to_P(mapb4,Info_Posisi(*main));
+        if(Info_Main(*main)){
+          int nows = JAMToDetik(Info_Waktu(*main));
+          Info_Waktu(*main) = DetikToJAM((long) nows+60);
+        }
       }
     }
 	}
@@ -618,6 +650,17 @@ void play(program *main){
   _s.Length = 1;
   _d.Length = 1;
 
+  MATRIKS current;
+  if(Info_CurrentMap(*main) == 0){
+    current = Info_Map(*main);
+  } else if(Info_CurrentMap(*main) == 1){
+    current = Info_Map2(*main);
+  } else if(Info_CurrentMap(*main) == 2){
+    current = Info_Map3(*main);
+  } else if(Info_CurrentMap(*main) == 3){
+    current = Info_Map4(*main);
+  }
+
   if(!IsExit(*main)){
     while (!IsExit(*main)){
       printf("\n");
@@ -639,7 +682,7 @@ void play(program *main){
           Info_Prep(*main) = false;
           printf("tq\n");
         } else if (isKataSama(_w, CKata)){
-          if(Elmt(Info_Map(*main), (int) Ordinat(Info_Posisi(*main))-1, (int) Absis(Info_Posisi(*main))) == *"W"){
+          if(Elmt(current, (int) Ordinat(Info_Posisi(*main))-1, (int) Absis(Info_Posisi(*main))) == *"W"){
             printf("Terdapat Wahana di atas pemain, tidak dapat berpindah.\n");
           } else {
             if (IsOffice(Info_Posisi(*main), *main)){
@@ -650,7 +693,7 @@ void play(program *main){
             }
           }
         } else if (isKataSama(_a, CKata)){
-          if(Elmt(Info_Map(*main), (int) Ordinat(Info_Posisi(*main)), (int) Absis(Info_Posisi(*main))-1) == *"W"){
+          if(Elmt(current, (int) Ordinat(Info_Posisi(*main)), (int) Absis(Info_Posisi(*main))-1) == *"W"){
             printf("Terdapat Wahana di kiri pemain, tidak dapat berpindah.\n");
           } else {
             if (IsOffice(Info_Posisi(*main), *main)){
@@ -661,7 +704,7 @@ void play(program *main){
             }
           }
         } else if (isKataSama(_s, CKata)){
-          if(Elmt(Info_Map(*main), (int) Ordinat(Info_Posisi(*main))+1, (int) Absis(Info_Posisi(*main))) == *"W"){
+          if(Elmt(current, (int) Ordinat(Info_Posisi(*main))+1, (int) Absis(Info_Posisi(*main))) == *"W"){
             printf("Terdapat Wahana di bawah pemain, tidak dapat berpindah.\n");
           } else {
             if (IsOffice(Info_Posisi(*main), *main)){
@@ -672,7 +715,7 @@ void play(program *main){
             }
           }
         } else if (isKataSama(_d, CKata)){
-          if(Elmt(Info_Map(*main), (int) Ordinat(Info_Posisi(*main)), (int) Absis(Info_Posisi(*main))+1) == *"W"){
+          if(Elmt(current, (int) Ordinat(Info_Posisi(*main)), (int) Absis(Info_Posisi(*main))+1) == *"W"){
             printf("Terdapat Wahana di kanan pemain, tidak dapat berpindah.\n");
           } else {
             if (IsOffice(Info_Posisi(*main), *main)){
@@ -691,6 +734,10 @@ void play(program *main){
             Info_DayMain(*main) += 1;
             Info_Prep(*main) = false;
             Info_Main(*main) = true;
+            Info_TotalPriceCMD(*main) = 0;
+            Info_WaktuCMD(*main) = MakeJAM(0, 0, 0);
+            CreateEmpty(&Info_StackCMD(*main));
+            Info_Waktu(*main) = Info_Opening(*main);
           } else {
             printf("gabisa main soalnya lagi main\n\n");
           }
@@ -817,6 +864,7 @@ void PrintInfoMain(program main){
   } else if(Info_CurrentMap(main) == 3){
     current = Info_Map4(main);
   }
+
   printf("Main phase day %i\n", Info_DayMain(main));
   TulisMATRIKS(current);
   printf("\nLegend:\nA = Antrian\nP = Player\nW = Wahana\nO = Office\n<, ^, >, V = Gerbang");
