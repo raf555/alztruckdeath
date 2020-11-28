@@ -651,18 +651,18 @@ void play(program *main){
   _d.Length = 1;
 
   MATRIKS current;
-  if(Info_CurrentMap(*main) == 0){
-    current = Info_Map(*main);
-  } else if(Info_CurrentMap(*main) == 1){
-    current = Info_Map2(*main);
-  } else if(Info_CurrentMap(*main) == 2){
-    current = Info_Map3(*main);
-  } else if(Info_CurrentMap(*main) == 3){
-    current = Info_Map4(*main);
-  }
 
   if(!IsExit(*main)){
     while (!IsExit(*main)){
+      if(Info_CurrentMap(*main) == 0){
+        current = Info_Map(*main);
+      } else if(Info_CurrentMap(*main) == 1){
+        current = Info_Map2(*main);
+      } else if(Info_CurrentMap(*main) == 2){
+        current = Info_Map3(*main);
+      } else if(Info_CurrentMap(*main) == 3){
+        current = Info_Map4(*main);
+      }
       printf("\n");
       if (Info_Prep(*main)){
         PrintInfoPrep(*main);
@@ -1221,11 +1221,11 @@ void initListWahana(int i,program *main,BinTree *T){
 }
 
 void MakeListWahana(program *main,BinTree *T){
-  initListWahana(0,&main,&T);
-  initListWahana(1,&main,&Left(*T));
-  initListWahana(2,&main,&Right(*T));
-  initListWahana(3,&main,&Left(Left(*T)));
-  initListWahana(4,&main,&Right(Left(*T)));
-  initListWahana(5,&main,&Left(Right(*T)));
-  initListWahana(6,&main,&Right(Right(*T)));
+  initListWahana(0,main,T);
+  initListWahana(1,main,&Left(*T));
+  initListWahana(2,main,&Right(*T));
+  initListWahana(3,main,&Left(Left(*T)));
+  initListWahana(4,main,&Right(Left(*T)));
+  initListWahana(5,main,&Left(Right(*T)));
+  initListWahana(6,main,&Right(Right(*T)));
 }

@@ -8,18 +8,10 @@
 #include "../point.h"
 #include "../mesinkata.h"
 #include "../jam.h"
+#include "../maindata.h"
+
 
 #define Wlen 50
-typedef struct {
-	Kata nama;
-	int tipe;
-	int harga;
-	int kapasitas;
-	Kata deskripsi;
-	JAM durasi;
-	POINT lokasi;
-	// history ama ukuran blom
-} Wahana;
 
 
 typedef struct tNode *addrNode;
