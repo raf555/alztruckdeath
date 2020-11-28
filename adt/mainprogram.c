@@ -120,7 +120,7 @@ boolean IsOffice(POINT P1, program main){
 }
 
 void w(MATRIKS *M, POINT *P) {
-	if ((*P).Y > 1 && Elmt(*M, (int) Ordinat(*P)+1, (int) Absis(*P)) == *"-") {
+	if ((*P).Y > 1/* && Elmt(*M, (int) Ordinat(*P)+1, (int) Absis(*P)) == *"-"*/) {
 		P_to_Dash(M,*P);
 		(*P).Y--;
 		Dash_to_P(M,*P);
@@ -128,7 +128,7 @@ void w(MATRIKS *M, POINT *P) {
 }
 
 void a(MATRIKS *M, POINT *P) {
-	if ((*P).X > 1 && Elmt(*M, (int) Ordinat(*P), (int) Absis(*P)-1) == *"-") {
+	if ((*P).X > 1/* && Elmt(*M, (int) Ordinat(*P), (int) Absis(*P)-1) == *"-"*/) {
 		P_to_Dash(M,*P);
 		(*P).X--;
 		Dash_to_P(M,*P);
@@ -136,7 +136,7 @@ void a(MATRIKS *M, POINT *P) {
 }
 
 void s(MATRIKS *M, POINT *P) {
-	if ((*P).Y < 10 && Elmt(*M, (int) Ordinat(*P)-1, (int) Absis(*P)) == *"-") {
+	if ((*P).Y < 10/* && Elmt(*M, (int) Ordinat(*P)-1, (int) Absis(*P)) == *"-"*/) {
 		P_to_Dash(M,*P);
 		(*P).Y++;
 		Dash_to_P(M,*P);
@@ -144,7 +144,7 @@ void s(MATRIKS *M, POINT *P) {
 }
 
 void d(MATRIKS *M, POINT *P) {
-	if ((*P).X < 10 && Elmt(*M, (int) Ordinat(*P), (int) Absis(*P)+1) == *"-") {
+	if ((*P).X < 10/* && Elmt(*M, (int) Ordinat(*P), (int) Absis(*P)+1) == *"-"*/) {
 		P_to_Dash(M,*P);
 		(*P).X++;
 		Dash_to_P(M,*P);
