@@ -552,7 +552,7 @@ void execute(program *main) {
 	}
 	Info_Main(*main) = true;
 	Info_Prep(*main) = false;
-  Info_DayPrep(*main) += 1;
+  Info_DayMain(*main) += 1;
   Info_TotalPriceCMD(*main) = 0;
   Info_WaktuCMD(*main) = MakeJAM(0, 0, 0);
   CreateEmpty(&Info_StackCMD(*main));
@@ -686,7 +686,7 @@ void play(program *main){
         } else if (isKataSama(_main, CKata)){
           if (Info_Prep(*main)){
             while (!IsEmpty(Info_StackCMD(*main))){
-              undo(main,&Info_Map(*main));
+              undo(main,&Info_Map(*main)); /* nantidiganti */
             }
             Info_DayMain(*main) += 1;
             Info_Prep(*main) = false;
@@ -709,7 +709,7 @@ void play(program *main){
         } 
         else if (isKataSama(_undo, CKata)){
            if (Info_Prep(*main)){
-              undo(main, &Info_Map(*main));
+              undo(main, &Info_Map(*main)); /* nantidiganti */
             } else {
               printf("gabisa Undo soalnya lagi main\n\n");
             }
@@ -724,6 +724,7 @@ void play(program *main){
         }
         /* PERINTAH UNTUK MAIN PHASE */
           else if (isKataSama(_prep, CKata)){
+          Info_DayPrep(*main) += 1;
           Info_Prep(*main) = true;
           Info_Main(*main) = false;
           Info_Waktu(*main) = MakeJAM(21, 0, 0);
@@ -816,7 +817,7 @@ void PrintInfoMain(program main){
   } else if(Info_CurrentMap(main) == 3){
     current = Info_Map4(main);
   }
-  printf("Main phase day  %i\n", Info_DayMain(main));
+  printf("Main phase day %i\n", Info_DayMain(main));
   TulisMATRIKS(current);
   printf("\nLegend:\nA = Antrian\nP = Player\nW = Wahana\nO = Office\n<, ^, >, V = Gerbang");
   printf("\n\n");
