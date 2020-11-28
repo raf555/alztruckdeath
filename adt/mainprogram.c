@@ -1198,3 +1198,34 @@ void undo(program *main,MATRIKS *M){
         }
     }
 }
+
+void initTreeWahana(BinTree *T){
+    WahReader("wahana/wahana3.txt",T);
+}
+
+void initListWahana(int i,program *main,BinTree *T){
+    if(*T != NULL){
+      CopyString(Info_Wahana(*main,i).nama.TabKata,Akar(*T).nama.TabKata);
+      Info_Wahana(*main,i).nama.Length = Akar(*T).nama.Length;
+      Info_Wahana(*main,i).tipe = Akar(*T).tipe;
+      Info_Wahana(*main,i).harga = Akar(*T).harga;
+      Info_Wahana(*main,i).kapasitas = Akar(*T).kapasitas;
+      CopyString(Info_Wahana(*main,i).deskripsi.TabKata,Akar(*T).deskripsi.TabKata);
+      Info_Wahana(*main,i).deskripsi.Length = Akar(*T).deskripsi.Length;
+      Info_Wahana(*main,i).durasi.HH =  Akar(*T).durasi.HH;
+      Info_Wahana(*main,i).durasi.MM =  Akar(*T).durasi.MM;
+      Info_Wahana(*main,i).durasi.SS =  Akar(*T).durasi.SS;
+      Info_Wahana(*main,i).lokasi.X =   Akar(*T).lokasi.X;
+      Info_Wahana(*main,i).lokasi.Y =   Akar(*T).lokasi.Y;
+    }
+}
+
+void MakeListWahana(program *main,BinTree *T){
+  initListWahana(0,&main,&T);
+  initListWahana(1,&main,&Left(*T));
+  initListWahana(2,&main,&Right(*T));
+  initListWahana(3,&main,&Left(Left(*T)));
+  initListWahana(4,&main,&Right(Left(*T)));
+  initListWahana(5,&main,&Left(Right(*T)));
+  initListWahana(6,&main,&Right(Right(*T)));
+}
