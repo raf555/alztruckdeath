@@ -1,0 +1,7 @@
+Batu
+3
+Kayu
+4
+Besi
+5
+*

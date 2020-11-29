@@ -1273,3 +1273,38 @@ void MakeListWahana(program *main,BinTree *T){
   initListWahana(5,main,&Left(Right(*T)));
   initListWahana(6,main,&Right(Right(*T)));
 }
+
+void initListBahan(program *main){
+  BahReader("../exfile/material.txt",Info_Orang(*main).bahan);
+}
+void addToListBahan(int i, Bahan bahan[], Bahan B){
+  copystring (bahan[i].nama.TabKata,B.nama.TabKata);
+  bahan[i].nama.Length = B.nama.Length;
+  bahan[i].jumlah = 0;
+  bahan[i].harga = B.harga;
+}
+void BahReader(char *namafile, Bahan bahan[]){
+  int i;
+  Bahan B;
+  int idx = 0;
+  STARTW(namafile);
+  while(CC!=MARKW){
+    i = 0;
+    while(CC!=NEW){
+        B.nama.TabKata[i] = CC;
+        i++;
+        ADVW();
+    }
+    B.nama.Length = i+1;
+    B.nama.TabKata[i] = '\0';
+    ADVW();
+    B.harga = 0;
+    while(CC!=NEW && CC!=MARKW){
+      B.harga = B.harga * 10 + (CC- '0');
+      ADVW();
+    }
+    addToListBahan(idx,bahan,B);
+    idx++;
+    ADVW();
+  }
+
