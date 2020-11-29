@@ -603,7 +603,7 @@ void execute(program *main) {
 }
 
 void play(program *main){
-  Kata _exitgame,_w,_a,_s,_d,_office,_main,_prep,_build,_execute,_buy,_undo,_upgrade;
+  Kata _exitgame,_w,_a,_s,_d,_office,_main,_prep,_build,_execute,_buy,_undo,_upgrade,_repair;
   _main.TabKata[0] = *"m";
   _main.TabKata[1] = *"a";
   _main.TabKata[2] = *"i";
@@ -668,6 +668,13 @@ void play(program *main){
   _upgrade.TabKata[5] = *"d";
   _upgrade.TabKata[6] = *"e";
   _upgrade.Length = 7;
+  _repair.TabKata[0] = *"r";
+  _repair.TabKata[1] = *"e";
+  _repair.TabKata[2] = *"p";
+  _repair.TabKata[3] = *"a";
+  _repair.TabKata[4] = *"i";
+  _repair.TabKata[5] = *"r";
+  _repair.Length = 6;
 
   MATRIKS current;
 
@@ -790,7 +797,15 @@ void play(program *main){
           } else {
             printf("Tidak dapat menjalankan perintah karena sedang Main Phase!\n\n");
           }
+        } else if (isKataSama(_repair, CKata)){
+           if (Info_Prep(*main)){
+              repair(main); /* nantidiganti */
+            } else {
+              printf("Tidak dapat menjalankan perintah karena sedang Main Phase!\n\n");
+            }
         }
+
+        
         /* PERINTAH UNTUK MAIN PHASE */
           else if (isKataSama(_prep, CKata)){
           Info_DayPrep(*main) += 1;
@@ -1129,18 +1144,12 @@ void repair (program *main) { // repair wahana disebelah pemain, blm ditambah in
   JAM waktu;
   Kata _repair;
   Kata namaBahan,qty;
-  _repair.TabKata[0] = *"r";
-  _repair.TabKata[1] = *"e";
-  _repair.TabKata[2] = *"p";
-  _repair.TabKata[3] = *"a";
-  _repair.TabKata[4] = *"i";
-  _repair.TabKata[5] = *"r";
-  _repair.Length = 6;
+
   int price = 0;
   int durasi = 3600;
   // Algoritme
-  if (!Info_Prep(*main)) {
-		printf("Anda sedang dalam main phase!");
+  if (Info_Prep(*main)) {
+		printf("Anda sedang dalam preparation phase!");
   } else {
     if (Elmt(Info_Map(*main), (int) Ordinat(Info_Posisi(*main)), (int) Absis(Info_Posisi(*main))+1) == *"W"){ // Blm nambah is W rusak
       Wahana targetRep = LocateWahana(*main,(int) Ordinat(Info_Posisi(*main)), (int) Absis(Info_Posisi(*main))+1, Info_CurrentMap(*main)); 
