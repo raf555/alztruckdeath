@@ -1,7 +1,7 @@
 #ifndef __MESINPOHON_H__
 #define __MESINPOHON_H__
 
-#include "../boolean.h"
+#include "boolean.h"
 
 #define BLANK ' '
 #define MARKW '*'

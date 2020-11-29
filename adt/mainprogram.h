@@ -9,7 +9,7 @@
 #include "matriks.h"
 #include "point.h"
 #include "maindata.h"
-#include "wahana/wahanatree.h"
+#include "wahanatree.h"
 
 #define maxel 100
 

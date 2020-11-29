@@ -1212,7 +1212,7 @@ void undo(program *main){
 }
 
 void initTreeWahana(BinTree *T){
-    WahReader("wahana/wahana3.txt",T);
+    WahReader("../src/wahana3.txt",T);
 }
 
 void initListWahana(int i,program *main,BinTree *T){

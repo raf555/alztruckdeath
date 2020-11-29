@@ -6,24 +6,12 @@ int main() {
   program main;
   init(&main);
 
-  // tes wahana
-  POINT bknwahana;
-  bknwahana.X = -999;
-  bknwahana.Y = -999;
-  Wahana a;
-  a.tipe = 0;
-  a.harga = 2000;
-  a.deskripsi.TabKata[0] = *"g";
-  a.deskripsi.Length = 1;
-  a.nama.TabKata[0] = *"g";
-  a.nama.TabKata[1] = *"a";
-  a.nama.TabKata[2] = *"t";
-  a.nama.TabKata[3] = *"a";
-  a.nama.TabKata[4] = *"u";
-  a.nama.Length = 5;
-  a.kapasitas = 1;
-  a.lokasi = bknwahana;
-  main.wahana[0] = a;
+  /* load wahana */
+  if(Info_Prep(main) || Info_Main(main)) {
+    BinTree P;
+    WahReader("wahana3.txt",&P);
+    MakeListWahana(&main,&P);
+  }
 
   // start
   play(&main);
