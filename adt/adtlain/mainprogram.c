@@ -453,13 +453,44 @@ void build (program *main) {
 	// KAMUS
 	boolean sabi;
 	JAM waktu;
-	Kata _build;
+	Kata _build,_bata,_semen,_kayu,_besi;
 	_build.TabKata[0] = *"b";
 	_build.TabKata[1] = *"u";
 	_build.TabKata[2] = *"i";
 	_build.TabKata[3] = *"l";
 	_build.TabKata[4] = *"d";
 	_build.Length = 5;
+  
+	_semen.TabKata[0] = *"s";
+	_semen.TabKata[1] = *"e";
+	_semen.TabKata[2] = *"m";
+	_semen.TabKata[3] = *"e";
+	_semen.TabKata[4] = *"n";
+	_semen.Length = 5;
+  
+	_kayu.TabKata[0] = *"k";
+	_kayu.TabKata[1] = *"a";
+	_kayu.TabKata[2] = *"y";
+	_kayu.TabKata[3] = *"u";
+	_kayu.Length = 4;
+  
+	_besi.TabKata[0] = *"b";
+	_besi.TabKata[1] = *"e";
+	_besi.TabKata[2] = *"s";
+	_besi.TabKata[3] = *"i";
+	_besi.Length = 4;
+  
+	_bata.TabKata[0] = *"b";
+	_bata.TabKata[1] = *"a";
+	_bata.TabKata[2] = *"t";
+	_bata.TabKata[3] = *"u";
+	_bata.TabKata[4] = *" ";
+	_bata.TabKata[5] = *"b";
+	_bata.TabKata[6] = *"a";
+	_bata.TabKata[7] = *"t";
+	_bata.TabKata[8] = *"a";
+	_bata.Length = 9;
+
   int price = 100;
   long durasi = 3600;
   cmd build;
@@ -483,45 +514,78 @@ void build (program *main) {
     printf("$ ");
 		STARTKATA();
 		while (!EndKata) {
-      // cek duit
-      if(InfoOrang_Duit(Info_Orang(*main))>=price && Info_TotalPriceCMD(*main)+price<=InfoOrang_Duit(Info_Orang(*main))){
-        // cek waktu
-        if (JAMToDetik(Info_WaktuCMD(*main))+durasi<=Durasi(Info_Waktu(*main), Info_Opening(*main))){
-          if(!(Elmt(*map, (int) Ordinat(Info_Posisi(*main))+1, (int) Absis(Info_Posisi(*main))+1) == *"V" || Elmt(*map, (int) Ordinat(Info_Posisi(*main)), (int) Absis(Info_Posisi(*main))+1+1) == *">" || Elmt(*map, (int) Ordinat(Info_Posisi(*main))-1, (int) Absis(Info_Posisi(*main))+1) == *"^")){
-            // cek wahana
-            if (isWahanaAda(*main, CKata)){
-              // cek sekitar pemain
-              if(Elmt(*map, (int) Ordinat(Info_Posisi(*main)), (int) Absis(Info_Posisi(*main))+1) == *"-"){
-                // masukin (semu) wahana ke map
-                AddWahanaToMap(map, Absis(Info_Posisi(*main))+1,Ordinat(Info_Posisi(*main)));
+      // cek bahan
+      if((isBahanAda(*main, _semen) && isBahanAda(*main, _kayu) && isBahanAda(*main, _bata) && isBahanAda(*main, _besi)) && CariBahan(*main, _semen).jumlah>=5 && CariBahan(*main, _kayu).jumlah>=10 && CariBahan(*main, _besi).jumlah>=7 && CariBahan(*main, _bata).jumlah>=10){
+        // cek duit
+        if(InfoOrang_Duit(Info_Orang(*main))>=price && Info_TotalPriceCMD(*main)+price<=InfoOrang_Duit(Info_Orang(*main))){
+          // cek waktu
+          if (JAMToDetik(Info_WaktuCMD(*main))+durasi<=Durasi(Info_Waktu(*main), Info_Opening(*main))){
+            if(!(Elmt(*map, (int) Ordinat(Info_Posisi(*main))+1, (int) Absis(Info_Posisi(*main))+1) == *"V" || Elmt(*map, (int) Ordinat(Info_Posisi(*main)), (int) Absis(Info_Posisi(*main))+1+1) == *">" || Elmt(*map, (int) Ordinat(Info_Posisi(*main))-1, (int) Absis(Info_Posisi(*main))+1) == *"^")){
+              // cek wahana
+              if (isWahanaAda(*main, CKata)){
+                // cek sekitar pemain
+                if(Elmt(*map, (int) Ordinat(Info_Posisi(*main)), (int) Absis(Info_Posisi(*main))+1) == *"-"){
+                  // masukin (semu) wahana ke map
+                  AddWahanaToMap(map, Absis(Info_Posisi(*main))+1,Ordinat(Info_Posisi(*main)));
 
-                // tambahin waktu sama duit ke program
-                Info_TotalPriceCMD(*main) += price;
-                Info_WaktuCMD(*main) = DetikToJAM(JAMToDetik(Info_WaktuCMD(*main))+durasi);
+                  // tambahin waktu sama duit ke program
+                  Info_TotalPriceCMD(*main) += price;
+                  Info_WaktuCMD(*main) = DetikToJAM(JAMToDetik(Info_WaktuCMD(*main))+durasi);
 
-                // masukin ke stack
-                WaktuCMD(build) = DetikToJAM(durasi);
-                HargaCMD(build) = price;
-                PerintahCMD(build) = _build;
-                TargetCMD(build) = CKata;
-                TargetBuild(build).X = Absis(Info_Posisi(*main))+1;
-                TargetBuild(build).Y = Ordinat(Info_Posisi(*main));
-                TargetDenah(build) = Info_CurrentMap(*main);
-                Push (&Info_StackCMD(*main), build);
+                  // masukin ke stack
+                  WaktuCMD(build) = DetikToJAM(durasi);
+                  HargaCMD(build) = price;
+                  PerintahCMD(build) = _build;
+                  TargetCMD(build) = CKata;
+                  TargetBuild(build).X = Absis(Info_Posisi(*main))+1;
+                  TargetBuild(build).Y = Ordinat(Info_Posisi(*main));
+                  TargetDenah(build) = Info_CurrentMap(*main);
+                  Push (&Info_StackCMD(*main), build);
+
+                  // kurangin bahan
+                  for (int i = 0; i < maxel; i++){
+                    if (isKataSama(Info_Orang(*main).bahan[i].nama,_semen)){
+                      Info_Orang(*main).bahan[i].jumlah -= 5;
+                      break;
+                    }
+                  }
+                  for (int i = 0; i < maxel; i++){
+                    if (isKataSama(Info_Orang(*main).bahan[i].nama,_bata)){
+                      Info_Orang(*main).bahan[i].jumlah -= 10;
+                      break;
+                    }
+                  }
+                  for (int i = 0; i < maxel; i++){
+                    if (isKataSama(Info_Orang(*main).bahan[i].nama,_kayu)){
+                      Info_Orang(*main).bahan[i].jumlah -= 10;
+                      break;
+                    }
+                  }
+                  for (int i = 0; i < maxel; i++){
+                    if (isKataSama(Info_Orang(*main).bahan[i].nama,_besi)){
+                      Info_Orang(*main).bahan[i].jumlah -= 7;
+                      break;
+                    }
+                  }
+                } else {
+                  printf("Ada sesuatu di kanan pemain, tidak dapat membangun wahana!\n");
+                }
               } else {
-                printf("Ada sesuatu di kanan pemain, tidak dapat membangun wahana!\n");
+                printf("Wahana tidak ditemukan!\n");
               }
             } else {
-              printf("Wahana tidak ditemukan!\n");
+              printf("Tidak dapat membangun menghalangi entry!\n");
             }
           } else {
-            printf("Tidak dapat membangun menghalangi entry!\n");
+            printf("Tidak cukup waktu!\n");
           }
         } else {
-          printf("Tidak cukup waktu!\n");
+            printf("Tidak cukup uang!\n");
         }
       } else {
-          printf("Tidak cukup uang!\n");
+        printf("Tidak cukup bahan!\n");
+        printf("Build Requirements:\n");
+        printf("Semen: %i/5\nBatu Bata: %i/10\nKayu: %i/10\nBesi: %i/7\n",CariBahan(*main, _semen).jumlah,CariBahan(*main, _bata).jumlah,CariBahan(*main, _kayu).jumlah,CariBahan(*main, _besi).jumlah);
       }
       ADVKATA();
 		}
@@ -574,11 +638,11 @@ void execute(program *main) {
           Info_WahanaMap(*main,i).denah = c.targetvalue.denah;
           break;
         }
-      }
+      }        
 		} else if (isKataSama(c.perintah, _buy)) {
         for (int i = 0; i < maxel; i++){
           if (isKataSama(Info_Orang(*main).bahan[i].nama,TargetCMD(c))){
-            Info_Orang(*main).bahan[i] = CariBahan(*main, TargetCMD(c));
+            //Info_Orang(*main).bahan[i] = CariBahan(*main, TargetCMD(c));
             Info_Orang(*main).bahan[i].jumlah += TargetBuy(c);
             break;
           }
@@ -1241,6 +1305,68 @@ void undo(program *main){
             x =TargetBuild(undone).X;
             y =TargetBuild(undone).Y;
             Elmt(*map,y,x) = '-';
+            // balikin bahan
+            Kata _build,_bata,_semen,_kayu,_besi;
+              _build.TabKata[0] = *"b";
+              _build.TabKata[1] = *"u";
+              _build.TabKata[2] = *"i";
+              _build.TabKata[3] = *"l";
+              _build.TabKata[4] = *"d";
+              _build.Length = 5;
+              
+              _semen.TabKata[0] = *"s";
+              _semen.TabKata[1] = *"e";
+              _semen.TabKata[2] = *"m";
+              _semen.TabKata[3] = *"e";
+              _semen.TabKata[4] = *"n";
+              _semen.Length = 5;
+              
+              _kayu.TabKata[0] = *"k";
+              _kayu.TabKata[1] = *"a";
+              _kayu.TabKata[2] = *"y";
+              _kayu.TabKata[3] = *"u";
+              _kayu.Length = 4;
+              
+              _besi.TabKata[0] = *"b";
+              _besi.TabKata[1] = *"e";
+              _besi.TabKata[2] = *"s";
+              _besi.TabKata[3] = *"i";
+              _besi.Length = 4;
+              
+              _bata.TabKata[0] = *"b";
+              _bata.TabKata[1] = *"a";
+              _bata.TabKata[2] = *"t";
+              _bata.TabKata[3] = *"u";
+              _bata.TabKata[4] = *" ";
+              _bata.TabKata[5] = *"b";
+              _bata.TabKata[6] = *"a";
+              _bata.TabKata[7] = *"t";
+              _bata.TabKata[8] = *"a";
+              _bata.Length = 9;
+              for (int i = 0; i < maxel; i++){
+                if (isKataSama(Info_Orang(*main).bahan[i].nama,_semen)){
+                  Info_Orang(*main).bahan[i].jumlah += 5;
+                  break;
+                }
+              }
+              for (int i = 0; i < maxel; i++){
+                if (isKataSama(Info_Orang(*main).bahan[i].nama,_bata)){
+                  Info_Orang(*main).bahan[i].jumlah += 10;
+                  break;
+                }
+              }
+              for (int i = 0; i < maxel; i++){
+                if (isKataSama(Info_Orang(*main).bahan[i].nama,_kayu)){
+                  Info_Orang(*main).bahan[i].jumlah += 10;
+                  break;
+                }
+              }
+              for (int i = 0; i < maxel; i++){
+                if (isKataSama(Info_Orang(*main).bahan[i].nama,_besi)){
+                  Info_Orang(*main).bahan[i].jumlah += 7;
+                  break;
+                }
+              }
         }
         else{
         // Show deleted command
@@ -1297,7 +1423,7 @@ void addToListBahan(int i, program *main, Bahan B){
     //printf("%i--%c\n",i,B.nama.TabKata[j]);
   }
   InfoBahan_Nama(InfoOrang_Bahan(Info_Orang(*main), i)).Length = B.nama.Length;
-  InfoOrang_Bahan(Info_Orang(*main), i).jumlah = 0;
+  InfoOrang_Bahan(Info_Orang(*main), i).jumlah = 20;
   InfoOrang_Bahan(Info_Orang(*main), i).harga = B.harga;
   //printf("%i\n",B.harga);
 }
@@ -1331,7 +1457,7 @@ void RusakinWahana(program *main){
     int i;
     int num;
     i = 0;
-    while (i<maxel && InfoWahana_nama(Info_WahanaMap(*main,i)).Length>0) i++;
+    while (i<maxel && InfoWahana_Nama(Info_WahanaMap(*main,i)).Length>0) i++;
     num = rand()%(i+1);
     Info_WahanaMap(*main,num).rusak = 1;    
 }
