@@ -90,14 +90,39 @@ boolean isKataSama(Kata K1, Kata K2){
 }
 
 int ConvertToInt (Kata K){
-  int i = 0;
+  int ang;
   int num = 0;
-  while (K.TabKata[i] != 0)
-  {
-      num =  (K.TabKata[i] - '0')  + (num * 10);
-      i++;
-  }
-  return num;; 
+    for (int j = 0; j < K.Length; j++){
+      if (K.TabKata[j] == *"0"){
+        ang = 0;
+      } else if (K.TabKata[j] == *"1"){
+        ang = 1;
+      } else if (K.TabKata[j] == *"2"){
+        ang = 2;
+      } else if (K.TabKata[j] == *"3"){
+        ang = 3;
+      } else if (K.TabKata[j] == *"4"){
+        ang = 4;
+      } else if (K.TabKata[j] == *"5"){
+        ang = 5;
+      } else if (K.TabKata[j] == *"6"){
+        ang = 6;
+      } else if (K.TabKata[j] == *"7"){
+        ang = 7;
+      } else if (K.TabKata[j] == *"8"){
+        ang = 8;
+      } else if (K.TabKata[j] == *"9"){
+        ang = 9;
+      }
+      int pow = K.Length-j-1;
+      int res = 1;
+      while (pow != 0){
+        res *= 10;
+        --pow;
+      }
+      num += ang*res;
+    }
+    return num;
 }
 
 void splitKata(Kata K, Kata *Jml, Kata *nama){
