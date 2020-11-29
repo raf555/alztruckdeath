@@ -1432,7 +1432,8 @@ void RusakinWahana(program *main){
     int num;
     i = 0;
     while (i<maxel && InfoWahana_Nama(Info_WahanaMap(*main,i)).Length>0) i++;
-    num = rand()%(i);
+    srand(time(0));
+    num = rand()%(i+1);
     Info_WahanaMap(*main,num).rusak = 1;    
 }
 
@@ -1440,7 +1441,8 @@ void BenerinWahana(Wahana W,program *main){
   int i = 0;
   boolean found = false;
   while (i<maxel && !found){
-    if(isKataSama(W.nama,InfoWahana_Nama(Info_WahanaMap(*main,i)))) found = true;break;
+    if(isKataSama(W.nama,InfoWahana_Nama(Info_WahanaMap(*main,i)))){
+      found = true;break;}
     i++;
   }
   Info_WahanaMap(*main,i).rusak = 0; 
@@ -1450,7 +1452,7 @@ boolean isWahanaRusak(Wahana W,program main){
   int i = 0;
   boolean found = false;
   while (i<maxel && !found){
-    if(isKataSama(W.nama,InfoWahana_Nama(Info_WahanaMap(main,i)))) found = true;break;
+    if(isKataSama(W.nama,InfoWahana_Nama(Info_WahanaMap(main,i)))){ found = true;break;}
     i++;
   }
   return(Info_WahanaMap(main,i).rusak == 1);
