@@ -1274,11 +1274,8 @@ void MakeListWahana(program *main,BinTree *T){
   initListWahana(6,main,&Right(Right(*T)));
 }
 
-void initListBahan(program *main){
-  BahReader("../exfile/material.txt",Info_Orang(*main).bahan);
-}
 void addToListBahan(int i, Bahan bahan[], Bahan B){
-  copystring (bahan[i].nama.TabKata,B.nama.TabKata);
+  CopyString (bahan[i].nama.TabKata,B.nama.TabKata);
   bahan[i].nama.Length = B.nama.Length;
   bahan[i].jumlah = 0;
   bahan[i].harga = B.harga;
@@ -1307,4 +1304,5 @@ void BahReader(char *namafile, Bahan bahan[]){
     idx++;
     ADVW();
   }
+}
 
