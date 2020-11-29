@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include "matriks.h"
-#include "boolean.h"
+#include "../boolean.h"
 
 void MakeMATRIKS (int NB, int NK, MATRIKS * M){
     M->NBrsEff = NB;

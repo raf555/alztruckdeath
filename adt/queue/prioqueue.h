@@ -1,8 +1,8 @@
 #ifndef prioqueue_H
 #define prioqueue_H
 
-#include "boolean.h"
-#include "mainprogram.h"
+#include "../boolean.h"
+#include "../adtlain/maindata.h"
 
 #define Nil -1
 /* Konstanta untuk mendefinisikan address tak terdefinisi */

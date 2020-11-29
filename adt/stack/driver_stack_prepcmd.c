@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "../stackt.h"
+#include "stackt.h"
 
 int main(void) {
   Stack S;

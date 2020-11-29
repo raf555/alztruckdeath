@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "../mesinkata.h"
+#include "mesinkata.h"
 
 int main(void) {
   Kata tes;

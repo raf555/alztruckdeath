@@ -1,4 +1,4 @@
-#include "boolean.h"
+#include "../boolean.h"
 #include "mesinpohon.h"
 #include <stdio.h>
 

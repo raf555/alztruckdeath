@@ -1,5 +1,5 @@
-#include "../wahanatree.h"
-#include "../mesinpohon.h"
+#include "wahanatree.h"
+#include "mesinpohon.h"
 #include <stdio.h>
 #include <stdlib.h>
 

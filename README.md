@@ -16,5 +16,5 @@ YG BELOM
 cd src
 ```
 ```
- gcc -o main ../adt/jam.c ../adt/mainprogram.c ../adt/matriks.c ../adt/mesinkar.c ../adt/mesinkata.c ../adt/point.c ../adt/stackt.c ../adt/wahanatree.c ../adt/mesinpohon.c main.c 
+ gcc -o main ../adt/jam/jam.c ../adt/adtlain/mainprogram.c ../adt/matriks/matriks.c ../adt/mesinkar_mesinkata/mesinkar.c ../adt/mesinkar_mesinkata/mesinkata.c ../adt/point/point.c ../adt/stack/stackt.c ../adt/tree/wahanatree.c ../adt/tree/mesinpohon.c main.c 
 ```

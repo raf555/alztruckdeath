@@ -1,9 +1,9 @@
 #ifndef preparationcmd_H
 #define preparationcmd_H
 
-#include "jam.h"
-#include "point.h"
-#include "mesinkata.h"
+#include "../jam/jam.h"
+#include "../point/point.h"
+#include "../mesinkar_mesinkata/mesinkata.h"
 
 /* target cmd */
 typedef struct { 

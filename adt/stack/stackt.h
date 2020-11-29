@@ -5,8 +5,8 @@
 #ifndef stackt_H
 #define stackt_H
 
-#include "boolean.h"
-#include "preparationcmd.h"
+#include "../boolean.h"
+#include "../adtlain/preparationcmd.h"
 
 #define Nil -1
 #define MaxEl 10

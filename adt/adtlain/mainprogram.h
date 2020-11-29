@@ -1,15 +1,15 @@
 #ifndef mainprogram_H
 #define mainprogram_H
 
-#include "mesinkata.h"
-#include "jam.h"
-#include "point.h"
-#include "stackt.h"
-#include "boolean.h"
-#include "matriks.h"
-#include "point.h"
+#include "../mesinkar_mesinkata/mesinkata.h"
+#include "../jam/jam.h"
+#include "../point/point.h"
+#include "../stack/stackt.h"
+#include "../boolean.h"
+#include "../matriks/matriks.h"
+#include "../point/point.h"
 #include "maindata.h"
-#include "wahanatree.h"
+#include "../tree/wahanatree.h"
 
 #define maxel 100
 

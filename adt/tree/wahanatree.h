@@ -4,11 +4,11 @@
 #include "mesinpohon.h"
 #include <stdio.h>
 #include <stdlib.h>
-#include "boolean.h"
-#include "point.h"
-#include "mesinkata.h"
-#include "jam.h"
-#include "maindata.h"
+#include "../boolean.h"
+#include "../point/point.h"
+#include "../mesinkar_mesinkata/mesinkata.h"
+#include "../jam/jam.h"
+#include "../adtlain/maindata.h"
 
 
 #define Wlen 50
