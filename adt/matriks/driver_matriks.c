@@ -41,7 +41,7 @@ int main(void) {
         printf("$ "); scanint(input);
         switch (input) {
             case 1: // BacaMATRIKS
-                printf("Masukkan elemen matriks %dx%d",brs,kol); ENDL;
+                printf("Masukkan elemen baru matriks %dx%d",brs,kol); ENDL;
                 BacaMATRIKS(&M,brs,kol); break;
             case 2: // TulisMATRIKS
                 TulisMATRIKS(M); break;
@@ -54,8 +54,7 @@ int main(void) {
             case 4: // IsIdxValid
                 printf("Masukkan index baris: "); scanint(i);
                 printf("Masukkan index kolom: "); scanint(j);
-                printf("valid? ");
-                printf("%s", IsIdxValid(i,j) ? "true" : "false"); break;
+                printf("valid? %s", IsIdxValid(i,j) ? "true" : "false"); break;
             case 5: // GetFirstIdxBrs
                 printf("Index baris pertama: %d", GetFirstIdxBrs(M)); break;
             case 6: // GetFirstIdxKol
@@ -67,8 +66,7 @@ int main(void) {
             case 9: // IsIdxEff
                 printf("Masukkan index baris: "); scanint(i);
                 printf("Masukkan index kolom: "); scanint(j);
-                printf("efficient? ");
-                printf("%s", IsIdxEff(M,i,j) ? "true" : "false"); break;
+                printf("efficient? %s", IsIdxEff(M,i,j) ? "true" : "false"); break;
             case 10: // GetElmtDiagonal
                 printf("Masukkan index diagonal: "); scanint(i);
                 printf("Elemen di indeks (%d,%d) adalah %c",i,i,GetElmtDiagonal(M,i)); break;
@@ -79,8 +77,10 @@ int main(void) {
                 printf("Matriks hasil copy:"); ENDL;
                 TulisMATRIKS(Mcopy); break;
             case 12: // Exit
-                endTEST = true; break;
-                printf("thank you!");
+                endTEST = true;
+                printf("thank you, sudah mencoba!"); break;
+            default:
+                printf("input invalid"); break;
         }
         ENDL; ENDL;
     }

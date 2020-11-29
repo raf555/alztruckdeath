@@ -816,13 +816,7 @@ void play(program *main){
           } else {
             printf("Tidak dapat menjalankan perintah karena sedang Main Phase!\n\n");
           }
-        } else if (isKataSama(_repair, CKata)){
-           if (Info_Prep(*main)){
-              repair(main); /* nantidiganti */
-            } else {
-              printf("Tidak dapat menjalankan perintah karena sedang Main Phase!\n\n");
-            }
-        }
+        } 
 
         
         /* PERINTAH UNTUK MAIN PHASE */
@@ -838,7 +832,16 @@ void play(program *main){
           } else {
             printf("Tidak dapat menjalankan perintah karena sedang Preparation Phase!\n\n");
           }
-        } else {
+        }else if (isKataSama(_repair, CKata)){
+           if (Info_Main(*main)){
+              repair(main); /* nantidiganti */
+            } else {
+              printf("Tidak dapat menjalankan perintah karena sedang Preparation Phase!\n\n");
+            }
+        }
+        
+        
+         else {
           printf("Perintah yang dimasukkan salah!\n\n");
         }
         ADVKATA();
@@ -1169,7 +1172,7 @@ void repair (program *main) { // repair wahana disebelah pemain, blm ditambah in
   int price = 0;
   int durasi = 3600;
   // Algoritme
-  if (Info_Prep(*main)) {
+  if (!Info_Main(*main)) {
 		printf("Anda sedang dalam preparation phase!");
   } else {
     if (Elmt(Info_Map(*main), (int) Ordinat(Info_Posisi(*main)), (int) Absis(Info_Posisi(*main))+1) == *"W"){ // Blm nambah is W rusak
