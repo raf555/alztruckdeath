@@ -129,7 +129,7 @@ Wahana LocateWahana (program main, int absis, int ordinat);
 void execute(program *main);
 
 //undo
-void undo(program *main,MATRIKS *M);
+void undo(program *main);
 
 void initListWahana(int i,program *main,BinTree *T);
 void MakeListWahana(program *main,BinTree *T);

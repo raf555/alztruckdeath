@@ -105,7 +105,7 @@ void init(program *main){
   exitgame.Length = 4;
 
   end = false;
-  printf("Met dateng (new / load / exit\n");
+  printf("Selamat datang di Taman Bermain Willy Wangky!\n(new / exit)\n");
   while (!end){
     printf("$ ");
     STARTKATA();
@@ -119,10 +119,10 @@ void init(program *main){
       } else if(isKataSama(CKata, exitgame)){
         Info_Main(*main) = false;
         Info_Prep(*main) = false;
-        printf("tq\n");
+        printf("Terima kasih sudah menggunakan program ini! ^_^\n");
         end = true;
       } else {
-        printf("Perintah salah!\n");
+        printf("Perintah yang dimasukkan salah!\n");
       }
       ADVKATA();
     }
@@ -437,7 +437,7 @@ void office(program main) {
 			} else if (isKataSama(CKata, CCexit)) {
 				end = true;
 			} else {
-				printf("Command salah!\n");
+				printf("Perintah yang dimasukkan salah!\n");
 			}
       ADVKATA();
 		}
@@ -729,7 +729,7 @@ void play(program *main){
         } else if (isKataSama(_main, CKata)){
           if (Info_Prep(*main)){
             while (!IsEmpty(Info_StackCMD(*main))){
-              undo(main,&Info_Map(*main)); /* nantidiganti */
+              undo(main);
             }
             Info_DayMain(*main) += 1;
             Info_Prep(*main) = false;
@@ -739,26 +739,26 @@ void play(program *main){
             CreateEmpty(&Info_StackCMD(*main));
             Info_Waktu(*main) = Info_Opening(*main);
           } else {
-            printf("gabisa main soalnya lagi main\n\n");
+            printf("Tidak dapat menjalankan perintah karena sedang Main Phase!\n\n");
           }
         } else if (isKataSama(_build, CKata)){
           if (Info_Prep(*main)){
             build(main);
           } else {
-            printf("gabisa build soalnya lagi main\n\n");
+            printf("Tidak dapat menjalankan perintah karena sedang Main Phase!\n\n");
           }
         } else if (isKataSama(_buy, CKata)){
            if (Info_Prep(*main)){
               buy(main);
             } else {
-              printf("gabisa beli bahan soalnya lagi main\n\n");
+              printf("Tidak dapat menjalankan perintah karena sedang Main Phase!\n\n");
             }
         } 
         else if (isKataSama(_undo, CKata)){
            if (Info_Prep(*main)){
-              undo(main, &Info_Map(*main)); /* nantidiganti */
+              undo(main); /* nantidiganti */
             } else {
-              printf("gabisa Undo soalnya lagi main\n\n");
+              printf("Tidak dapat menjalankan perintah karena sedang Main Phase!\n\n");
             }
         } 
         
@@ -766,7 +766,7 @@ void play(program *main){
           if (Info_Prep(*main)){
             execute(main);
           } else {
-            printf("gabisa exe soalnya lagi main\n\n");
+            printf("Tidak dapat menjalankan perintah karena sedang Main Phase!\n\n");
           }
         }
         /* PERINTAH UNTUK MAIN PHASE */
@@ -779,10 +779,10 @@ void play(program *main){
           if (Info_Main(*main) && IsOffice(Info_Posisi(*main), *main)){
             office(*main);
           } else {
-            printf("gabisa buka office krn masih prep atau bkn di posisi\n\n");
+            printf("Tidak dapat menjalankan perintah karena sedang Preparation Phase!\n\n");
           }
         } else {
-          printf("Cmd salah!\n\n");
+          printf("Perintah yang dimasukkan salah!\n\n");
         }
         ADVKATA();
       }
@@ -1177,17 +1177,27 @@ void repair (program *main) { // repair wahana disebelah pemain, blm ditambah in
 
 
 
-void undo(program *main,MATRIKS *M){
+void undo(program *main){
     cmd undone;
     int x,y;
+    MATRIKS *map;
     if(Info_Prep(*main)){
         Pop(&Info_StackCMD(*main),&undone);
         if(PerintahCMD(undone).TabKata[0]=='b' && PerintahCMD(undone).TabKata[1]=='u' && PerintahCMD(undone).TabKata[2]=='i' && PerintahCMD(undone).TabKata[3]=='l' && PerintahCMD(undone).TabKata[4]=='d'){
+          if(TargetDenah(undone) == 0){
+            map = &Info_Map(*main);
+          } else if(TargetDenah(undone) == 1){
+            map = &Info_Map2(*main);
+          } else if(TargetDenah(undone) == 2){
+            map = &Info_Map3(*main);
+          } else if(TargetDenah(undone) == 3){
+            map = &Info_Map4(*main);
+          }
             printf("Menghapus perintah ");
             for (int i = 0; i < PerintahCMD(undone).Length; i++) printf("%c",PerintahCMD(undone).TabKata[i]);printf("\n");
-            TargetBuild(undone).X = x;
-            TargetBuild(undone).Y = y;
-            Elmt(*M,y,x) = '-';
+            x =TargetBuild(undone).X;
+            y =TargetBuild(undone).Y;
+            Elmt(*map,y,x) = '-';
         }
         else{
         // Show deleted command
@@ -1196,6 +1206,8 @@ void undo(program *main,MATRIKS *M){
         // Works for buy, fitur show deleted command dihapus (cuma dijadiin comment juga gpp)
         printf(" dari stack\n");
         }
+        Info_WaktuCMD(*main) = DetikToJAM((JAMToDetik(Info_WaktuCMD(*main))-JAMToDetik(undone.waktu)));
+        Info_TotalPriceCMD(*main) -= undone.harga;
     }
 }
 
