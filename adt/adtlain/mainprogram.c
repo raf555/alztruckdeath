@@ -1230,7 +1230,7 @@ void upgrade (program *main) {
   _upgrade.TabKata[6] = *"e";
   _upgrade.Length = 7;
 
-  int price = -999;
+  int price = 100;
   int durasi = 3600;
   Kata temp[2]; // container possible wahana target upgrade
 
@@ -1240,49 +1240,48 @@ void upgrade (program *main) {
   } else {
     if (Elmt(Info_Map(*main), (int) Ordinat(Info_Posisi(*main)), (int) Absis(Info_Posisi(*main))+1) == *"W"){
       Wahana targetUp = LocateWahana(*main,(int) Absis(Info_Posisi(*main))+1, (int) Ordinat(Info_Posisi(*main)),Info_CurrentMap(*main));
-      // if (Level(Info_WahanaTree(*main), InfoWahana_Tipe(targetUp)) == Tinggi(Info_WahanaTree(*main))){
+      if (Level(Info_WahanaTree(*main), InfoWahana_Tipe(targetUp)) == Tinggi(Info_WahanaTree(*main))){
       // if (targetUp.tipe == 4 || targetUp.tipe == 5 || targetUp.tipe == 6 || targetUp.tipe == 7){
-        printf("Kamu tidak sedang berada di sebelah kiri wahana\n");
-        searchUpgradeable (Info_WahanaTree(*main), InfoWahana_Tipe(targetUp),temp);
-        printFromListKata(temp);
-        printf("Ingin upgrade menjadi wahana apa?\n");
-        printf("$ ");
-        STARTKATA();
-        while (!EndKata) {
-          if((isBahanAda(*main, _semen) && isBahanAda(*main, _kayu) && isBahanAda(*main, _bata) && isBahanAda(*main, _besi)) && CariBahan(*main, _semen).jumlah>=5 && CariBahan(*main, _kayu).jumlah>=10 && CariBahan(*main, _besi).jumlah>=7 && CariBahan(*main, _bata).jumlah>=10){
-            // cek duit
-            if(InfoOrang_Duit(Info_Orang(*main))>=price && Info_TotalPriceCMD(*main)+price<=InfoOrang_Duit(Info_Orang(*main))){
-              // cek waktu
-              if (JAMToDetik(Info_WaktuCMD(*main))+durasi<=Durasi(Info_Waktu(*main), Info_Opening(*main))){
-                // cek wahana
-                if (isWahanaAda(*main, CKata)){
-                  cmd upgrade;
-                  // tambahin waktu sama duit ke program
-                  Info_TotalPriceCMD(*main) += price;
-                  Info_WaktuCMD(*main) = DetikToJAM(JAMToDetik(Info_WaktuCMD(*main))+durasi);
+        printf("Wahana telah mencapai level maksimum!");
+      } else {
+          searchUpgradeable (Info_WahanaTree(*main), InfoWahana_Tipe(targetUp),temp);
+          printFromListKata(temp);
+          printf("Ingin upgrade menjadi wahana apa?\n");
+          printf("$ ");
+          STARTKATA();
+          while (!EndKata) {
+            if((isBahanAda(*main, _semen) && isBahanAda(*main, _kayu) && isBahanAda(*main, _bata) && isBahanAda(*main, _besi)) && CariBahan(*main, _semen).jumlah>=5 && CariBahan(*main, _kayu).jumlah>=10 && CariBahan(*main, _besi).jumlah>=7 && CariBahan(*main, _bata).jumlah>=10){
+              // cek duit
+              if(InfoOrang_Duit(Info_Orang(*main))>=price && Info_TotalPriceCMD(*main)+price<=InfoOrang_Duit(Info_Orang(*main))){
+                // cek waktu
+                if (JAMToDetik(Info_WaktuCMD(*main))+durasi<=Durasi(Info_Waktu(*main), Info_Opening(*main))){
+                  // cek wahana
+                  if (isWahanaAda(*main, CKata)){
+                    cmd upgrade;
+                    // tambahin waktu sama duit ke program
+                    Info_TotalPriceCMD(*main) += price;
+                    Info_WaktuCMD(*main) = DetikToJAM(JAMToDetik(Info_WaktuCMD(*main))+durasi);
 
-                  // masukin ke stack
-                  WaktuCMD(upgrade) = DetikToJAM(durasi);
-                  HargaCMD(upgrade) = price;
-                  PerintahCMD(upgrade) = _upgrade;
-                  TargetCMD(upgrade) = InfoWahana_Nama(targetUp);
-                  TargetUpgrade(upgrade) = CKata;
-                  Push (&Info_StackCMD(*main), upgrade);
+                    // masukin ke stack
+                    WaktuCMD(upgrade) = DetikToJAM(durasi);
+                    HargaCMD(upgrade) = price;
+                    PerintahCMD(upgrade) = _upgrade;
+                    TargetCMD(upgrade) = InfoWahana_Nama(targetUp);
+                    TargetUpgrade(upgrade) = CKata;
+                    Push (&Info_StackCMD(*main), upgrade);
+                  } else {
+                    printf("Wahana tidak ditemukan!\n");
+                  }
                 } else {
-                  printf("Wahana tidak ditemukan!\n");
+                  printf("Tidak cukup waktu!\n");
                 }
               } else {
-                printf("Tidak cukup waktu!\n");
-              }
-            } else {
-                printf("Tidak cukup uang!\n");
-              }
-            ADVKATA();
+                  printf("Tidak cukup uang!\n");
+                }
+              ADVKATA();
+            }
           }
         }
-      // } else {
-      //   printf("Wahana telah mencapai level maksimum!");
-      // }
     } else {
       printf("Kamu tidak sedang berada di sebelah kiri wahana\n");
     }
