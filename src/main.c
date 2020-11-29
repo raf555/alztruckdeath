@@ -7,7 +7,7 @@ int main() {
   init(&main);
 
   /* load wahana */
-  if(Info_Prep(main) || Info_Main(main)) {
+  if(!IsExit(main)) {
     WahReader("wahana3.txt",&Info_WahanaTree(main));
     MakeListWahana(&main,&Info_WahanaTree(main));
   }

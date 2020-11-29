@@ -699,7 +699,7 @@ void play(program *main){
         if (isKataSama(_exitgame, CKata)){
           Info_Main(*main) = false;
           Info_Prep(*main) = false;
-          printf("tq\n");
+          printf("Terima kasih sudah menggunakan program ini! ^_^\n");
         } else if (isKataSama(_w, CKata)){
           if(Elmt(current, (int) Ordinat(Info_Posisi(*main))-1, (int) Absis(Info_Posisi(*main))) == *"W"){
             printf("Terdapat Wahana di atas pemain, tidak dapat berpindah.\n");
