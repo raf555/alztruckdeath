@@ -125,7 +125,7 @@ void repair (program *main);
 //upgrade
 void upgrade (program *main);
 void LocateThenUpgrade(program main, int absis, int ordinat, cmd c);
-Wahana LocateWahana (program main, int absis, int ordinat);
+Wahana LocateWahana (program main, int absis, int ordinat,int denah);
 
 // execute
 void execute(program *main);

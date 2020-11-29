@@ -578,7 +578,18 @@ void execute(program *main) {
           }
         }
 		} else if (isKataSama(c.perintah, _upgrade)) {
-			 LocateThenUpgrade(*main,(int) Ordinat(Info_Posisi(*main)), (int) Absis(Info_Posisi(*main))+1,c);
+        for (int i = 0; i < maxel; i++){
+          if (isKataSama(InfoWahana_Nama(Info_WahanaMap(*main,i)),TargetCMD(c))){
+            int x = Info_WahanaMap(*main,i).lokasi.X;
+            int y = Info_WahanaMap(*main,i).lokasi.Y;
+            int denah = Info_WahanaMap(*main,i).denah;
+            Info_WahanaMap(*main,i) = CariWahana(*main, TargetUpgrade(c));
+            Info_WahanaMap(*main,i).lokasi.X = x;
+            Info_WahanaMap(*main,i).lokasi.Y = y;
+            Info_WahanaMap(*main,i).denah = denah;
+            break;
+          }
+        }
       }
 
 	}
@@ -592,7 +603,7 @@ void execute(program *main) {
 }
 
 void play(program *main){
-  Kata _exitgame,_w,_a,_s,_d,_office,_main,_prep,_build,_execute,_buy,_undo;
+  Kata _exitgame,_w,_a,_s,_d,_office,_main,_prep,_build,_execute,_buy,_undo,_upgrade;
   _main.TabKata[0] = *"m";
   _main.TabKata[1] = *"a";
   _main.TabKata[2] = *"i";
@@ -649,6 +660,14 @@ void play(program *main){
   _a.Length = 1;
   _s.Length = 1;
   _d.Length = 1;
+  _upgrade.TabKata[0] = *"u";
+  _upgrade.TabKata[1] = *"p";
+  _upgrade.TabKata[2] = *"g";
+  _upgrade.TabKata[3] = *"r";
+  _upgrade.TabKata[4] = *"a";
+  _upgrade.TabKata[5] = *"d";
+  _upgrade.TabKata[6] = *"e";
+  _upgrade.Length = 7;
 
   MATRIKS current;
 
@@ -753,16 +772,19 @@ void play(program *main){
             } else {
               printf("Tidak dapat menjalankan perintah karena sedang Main Phase!\n\n");
             }
-        } 
-        else if (isKataSama(_undo, CKata)){
+        } else if (isKataSama(_undo, CKata)){
            if (Info_Prep(*main)){
               undo(main); /* nantidiganti */
             } else {
               printf("Tidak dapat menjalankan perintah karena sedang Main Phase!\n\n");
             }
-        } 
-        
-        else if (isKataSama(_execute, CKata)){
+        } else if (isKataSama(_upgrade, CKata)){
+           if (Info_Prep(*main)){
+              buy(main);
+            } else {
+              printf("gabisa upgrade bahan soalnya lagi main\n\n");
+            }
+        } else if (isKataSama(_execute, CKata)){
           if (Info_Prep(*main)){
             execute(main);
           } else {
@@ -1024,29 +1046,15 @@ void bahan_print(program main, boolean prep) {
   }
 }
 
-void LocateThenUpgrade(program main, int absis, int ordinat, cmd c) {
-  boolean upgraded = false;
-  int i = 0;
-  while (!upgraded && i < maxel){
-    if (InfoWahana_Nama(Info_WahanaMap(main, i)).Length>0){
-      if (Absis(InfoWahana_lokasi(Info_Wahana(main, i))) == absis && Ordinat(InfoWahana_lokasi(Info_Wahana(main, i))) == ordinat){
-        Info_WahanaMap(main, i) = CariWahana(main, TargetCMD(c));
-        upgraded = true;
-      } else {
-        i++;
-      }
-    } else {
-      i++;
-    }
-  }
-}
-Wahana LocateWahana (program main, int absis, int ordinat){
+Wahana LocateWahana (program main, int absis, int ordinat, int denah){
   Wahana ret;
   for (int i = 0; i < maxel; i++){
     if (InfoWahana_Nama(Info_Wahana(main, i)).Length>0){
-      if (Absis(InfoWahana_lokasi(Info_Wahana(main, i))) == absis && Ordinat(InfoWahana_lokasi(Info_Wahana(main, i))) == ordinat){
-        ret = Info_Wahana(main, i);
-        break;
+      if (InfoWahana_lokasidenah(Info_Wahana(main, i)) == denah){
+        if (Absis(InfoWahana_lokasi(Info_Wahana(main, i))) == absis && Ordinat(InfoWahana_lokasi(Info_Wahana(main, i))) == ordinat){
+          ret = Info_Wahana(main, i);
+          break;
+        }
       }
     }
   }
@@ -1074,7 +1082,7 @@ void upgrade (program *main) { // harus nambah parameter node wahana yang ada di
 		printf("Anda sedang dalam main phase!");
   } else {
     if (Elmt(Info_Map(*main), (int) Ordinat(Info_Posisi(*main)), (int) Absis(Info_Posisi(*main))+1) == *"W"){
-      Wahana targetUp = LocateWahana(*main,(int) Ordinat(Info_Posisi(*main)), (int) Absis(Info_Posisi(*main))+1); 
+      Wahana targetUp = LocateWahana(*main,(int) Ordinat(Info_Posisi(*main)), (int) Absis(Info_Posisi(*main))+1,Info_CurrentMap(*main)); 
       printf("Ingin upgrade menjadi wahana apa?\n");
       // print list wahana yang bisa diupgrade dari node wahana targerUp
       printf("$ ");
@@ -1095,7 +1103,7 @@ void upgrade (program *main) { // harus nambah parameter node wahana yang ada di
               WaktuCMD(upgrade) = DetikToJAM(durasi);
               HargaCMD(upgrade) = price;
               PerintahCMD(upgrade) = _upgrade;
-              TargetCMD(upgrade) = CKata;
+              TargetCMD(upgrade) = InfoWahana_Nama(targetUp);
               TargetUpgrade(upgrade) = CKata;
               Push (&Info_StackCMD(*main), upgrade);
             } else {
@@ -1135,7 +1143,7 @@ void repair (program *main) { // repair wahana disebelah pemain, blm ditambah in
 		printf("Anda sedang dalam main phase!");
   } else {
     if (Elmt(Info_Map(*main), (int) Ordinat(Info_Posisi(*main)), (int) Absis(Info_Posisi(*main))+1) == *"W"){ // Blm nambah is W rusak
-      Wahana targetRep = LocateWahana(*main,(int) Ordinat(Info_Posisi(*main)), (int) Absis(Info_Posisi(*main))+1); 
+      Wahana targetRep = LocateWahana(*main,(int) Ordinat(Info_Posisi(*main)), (int) Absis(Info_Posisi(*main))+1, Info_CurrentMap(*main)); 
       printf("Apakah anda ingin merepair wahana berikut :\n");
       printf("$ ");
       STARTKATA();
