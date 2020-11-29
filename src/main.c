@@ -13,6 +13,7 @@ int main() {
   
     /*load bahan */
     BahReader("../exfile/material.txt",&Info_Orang(main).bahan);
+    printf("berhasil nambah bahan\n");
 
   }
   // start

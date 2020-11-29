@@ -142,4 +142,7 @@ void initListWahana(int i,program *main,BinTree *T);
 void MakeListWahana(program *main,BinTree *T);
 void initTreeWahana(BinTree *T);
 
+// initmaterial
+void addToListBahan(int i, Bahan bahan[], Bahan B);
+void BahReader(char *namafile, Bahan bahan[]);
 #endif
