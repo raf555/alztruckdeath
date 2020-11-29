@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "../adt/matriks.c"
+#include "../adt/matriks/matriks.c"
 
 void saveMap() {
 	FILE *mainFile;

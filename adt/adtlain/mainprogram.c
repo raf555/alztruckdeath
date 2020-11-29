@@ -1230,7 +1230,7 @@ void upgrade (program *main) {
   _upgrade.TabKata[6] = *"e";
   _upgrade.Length = 7;
 
-  int price = 100;
+  int price = -999;
   int durasi = 3600;
   Kata temp[2]; // container possible wahana target upgrade
 
@@ -1241,6 +1241,8 @@ void upgrade (program *main) {
     if (Elmt(Info_Map(*main), (int) Ordinat(Info_Posisi(*main)), (int) Absis(Info_Posisi(*main))+1) == *"W"){
       Wahana targetUp = LocateWahana(*main,(int) Absis(Info_Posisi(*main))+1, (int) Ordinat(Info_Posisi(*main)),Info_CurrentMap(*main));
       // if (Level(Info_WahanaTree(*main), InfoWahana_Tipe(targetUp)) == Tinggi(Info_WahanaTree(*main))){
+      // if (targetUp.tipe == 4 || targetUp.tipe == 5 || targetUp.tipe == 6 || targetUp.tipe == 7){
+        printf("Kamu tidak sedang berada di sebelah kiri wahana\n");
         searchUpgradeable (Info_WahanaTree(*main), InfoWahana_Tipe(targetUp),temp);
         printFromListKata(temp);
         printf("Ingin upgrade menjadi wahana apa?\n");
@@ -1280,7 +1282,7 @@ void upgrade (program *main) {
         }
       // } else {
       //   printf("Wahana telah mencapai level maksimum!");
-      //   }
+      // }
     } else {
       printf("Kamu tidak sedang berada di sebelah kiri wahana\n");
     }
@@ -1294,7 +1296,7 @@ void repair (program *main) { // repair wahana disebelah pemain, blm ditambah in
   JAM waktu;
   Kata _repair;
   Kata namaBahan,qty;
-  int price = 0;
+  int price = 100;
   int durasi = 3600;
   // Algoritme
   if (!Info_Main(*main)) {

@@ -337,3 +337,14 @@ boolean SearchNodeTree (BinTree P, int id){
         return ((SearchNodeTree(Left(P), id)) || SearchNodeTree(Right(P), id));
     }
 }
+int Level(BinTree P, int id){
+    if (Akar(P).tipe == id){
+        return 1;
+    } else if (IsBiner(P)){
+        if (SearchNodeTree(Left(P), id)){
+            return 1+Level(Left(P), id);
+        } else {
+            return 1+Level(Right(P), id);
+        }
+    }
+}

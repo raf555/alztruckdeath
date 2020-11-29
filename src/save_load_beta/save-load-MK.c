@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "../adt/mesinkata.c"
+#include "../adt/mesinkar_mesinkata/mesinkata.c"
 
 void saveMap() {
 	FILE *mainFile;
