@@ -1,42 +1,42 @@
 rollercoaster
 1
+100
 10
+Rollercoaster biasa
 10
-Gud
-10
-uwucoaster
+uWucoaster
 2
+200
 10
+Rollercoaster biasa but upgraded
 10
-Yea
-10
-engidescent
+engiDescent
 3
+200
 10
+Wahana yang lebih keren dari rollercoaster
 10
-Nani
-10
-wangkyuniverse
+wangkyUniverse
 4
+300
 10
-10
-Cool
+Wahana favorit Mister Wangky
 10
 halolintar
 5
+300
 10
+Cetar membWahana
 10
-www
-10
-fieryfist
+fieryFistOFire
 6
+300
 10
+Wahana hadiah dari glove world
 10
-serem
-10
-chocolatedive
+chocolateDive
 7
+300
 10
-10
-wut
+Rollercoaster didalam kolam cokelat
 10*
