@@ -138,5 +138,5 @@ void splitKata(Kata K, Kata *Jml, Kata *nama){
     nama->TabKata[i2-(i1+1)] = K.TabKata[i2];
     i2++;
   }
-  nama->Length = i2; 
+  nama->Length = i2-(i1+1); 
 }
