@@ -1214,6 +1214,7 @@ void undo(program *main){
     int x,y;
     MATRIKS *map;
     if(Info_Prep(*main)){
+        if(!IsEmpty(Info_StackCMD(*main))){
         Pop(&Info_StackCMD(*main),&undone);
         if(PerintahCMD(undone).TabKata[0]=='b' && PerintahCMD(undone).TabKata[1]=='u' && PerintahCMD(undone).TabKata[2]=='i' && PerintahCMD(undone).TabKata[3]=='l' && PerintahCMD(undone).TabKata[4]=='d'){
           if(TargetDenah(undone) == 0){
@@ -1240,6 +1241,8 @@ void undo(program *main){
         }
         Info_WaktuCMD(*main) = DetikToJAM((JAMToDetik(Info_WaktuCMD(*main))-JAMToDetik(undone.waktu)));
         Info_TotalPriceCMD(*main) -= undone.harga;
+    }
+    else printf("Anda belum melakukan aksi apa-apa\n");
     }
 }
 

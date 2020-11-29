@@ -11,7 +11,7 @@
 /* *** Konstruktor *** */
 BinTree Tree(Wahana Akar, BinTree L, BinTree R)
 /* Menghasilkan sebuah pohon biner dari A, L, dan R, jika alokasi berhasil */
-/* Menghasilkan pohon kosong (Nil) jika alokasi gagal */
+/* Menghasilkan pohon kosong (NULL) jika alokasi gagal */
 {
   BinTree T = Alok(Akar);
   if (T != NULL)
@@ -23,6 +23,7 @@ BinTree Tree(Wahana Akar, BinTree L, BinTree R)
 }
 
 addrNode Alok(Wahana Akar){
+    /* Alokasi Node Tree */
   addrNode T = (addrNode) malloc(sizeof(Node));
   if (T != NULL)
   {
@@ -43,11 +44,11 @@ addrNode Alok(Wahana Akar){
   }
       return T;
 }
-void Dealok(addrNode P){
+void Dealok(addrNode P){ /* Dealokasi Node */
     free(P);
 }
 
-void DealokTree(BinTree *P){
+void DealokTree(BinTree *P){ /* Dealokasi Node Tree */
     if(*P != NULL){
         DealokTree(&Left(*P));
         DealokTree(&Right(*P));
@@ -59,26 +60,33 @@ void DealokTree(BinTree *P){
 void MakeTree(Wahana Akar, BinTree L, BinTree R, BinTree *P)
 /* I.S. Akar, L, R terdefinisi. P Sembarang */
 /* F.S. Membentuk pohon P dengan Akar(P)=Akar, Left(P)=L, dan Right(P)=R
-   jika alokasi berhasil. P = Nil jika alokasi gagal. */
+   jika alokasi berhasil. P = NULL jika alokasi gagal. */
 {
   (*P) = Tree(Akar, L, R);
 }
 
-boolean IsTreeEmpty (BinTree P) {
+boolean IsTreeEmpty (BinTree P) { /* Mengirimkan Keterangan Kekosongan Tree */
     return(P==NULL);
 }
 
-boolean IsUnerLeft (BinTree P)
+boolean IsTreeOneElmt(BinTree P)
+/* Mengirimkan true jika P adalah pohon biner tidak kosong dan hanya memiliki 1 elemen */
+{
+    if(!IsTreeEmpty(P)) return((Left(P)==NULL)&&(Right(P)==NULL));
+    else return false;
+}
+
+boolean IsUnerLeft (BinTree P) /* True jika current tree node hanya memiliki Left child */
 {
     return((Left(P) != NULL) && (Right(P) == NULL));
 }
 
-boolean IsUnerRight (BinTree P)
+boolean IsUnerRight (BinTree P) /* True ika cureent tree node hanya memiliki Right child */
 {
     return((Left(P) == NULL) && (Right(P) != NULL));
 }
 
-boolean IsBiner (BinTree P)
+boolean IsBiner (BinTree P) /* True jika current tree node mempunyai left dan right child */
 {
     return((Left(P) != NULL) && (Right(P) != NULL));
 }
@@ -260,4 +268,56 @@ boolean SearchTree (BinTree P, int id) // Mencari id/tipe suatu wahana pada tree
         return ((SearchTree(Left(P), id)) || SearchTree(Right(P), id));
     }
 
+}
+
+int NbElmtTree(BinTree P)
+/* Mengirimkan banyaknya elemen (node) pohon biner P */
+{
+    if(IsTreeEmpty(P)) return 0;
+    else return(1+NbElmtTree(Left(P))+NbElmtTree(Right(P)));
+}
+
+int NbDaun(BinTree P)
+/* Mengirimkan banyaknya daun (node) pohon biner P */
+/* Prekondisi: P tidak kosong */
+{
+    if(IsTreeOneElmt(P)) return 1;
+    else{
+        if(IsUnerLeft(P)) return NbDaun(Left(P));
+        else if(IsUnerRight(P)) return NbDaun(Right(P));
+        else if(IsBiner(P)) return(NbDaun(Left(P)) + NbDaun(Right(P)));
+    }
+}
+
+boolean IsSkewLeft(BinTree P)
+/* Mengirimkan true jika P adalah pohon condong kiri */
+/* Pohon kosong adalah pohon condong kiri */
+{
+    if(IsTreeEmpty(P)) return true;
+    else{
+        if(IsUnerRight(P) || IsBiner(P)) return false;
+        else return(IsSkewLeft(Left(P)));
+    }
+}
+
+boolean IsSkewRight(BinTree P)
+/* Mengirimkan true jika P adalah pohon condong kanan */
+/* Pohon kosong adalah pohon condong kanan */
+{
+    if(IsTreeEmpty(P)) return true;
+    else{
+        if(IsUnerLeft(P) || IsBiner(P)) return false;
+        else return(IsSkewRight(Right(P)));
+    }
+}
+
+int Tinggi(BinTree P)
+/* Pohon Biner mungkin kosong. Tinggi pohon kosong = 0.
+   Mengirim "height" yaitu tinggi dari pohon */
+{
+    if(IsTreeEmpty(P)) return 0;
+    else{ 
+        if(Tinggi(Left(P)) < Tinggi(Right(P))) return(1+Tinggi(Right(P)));
+        else return(1+Tinggi(Left(P)));
+    }
 }
