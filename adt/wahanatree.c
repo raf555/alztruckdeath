@@ -6,20 +6,8 @@
 #include <stddef.h>
 #include <string.h>
 
-
-/* data wahana 
-typedef struct {
-	Kata nama;
-	int tipe;
-	int harga;
-	int kapasitas;
-	Kata deskripsi;
-	JAM durasi;
-	POINT lokasi;
-	// history ama ukuran blom
-} Wahana;
-*/
-
+// Mohammad Sheva Almeyda Sofjan | 13519018
+// Mengandung Implementasi yang diperlukan dalam program
 /* *** Konstruktor *** */
 BinTree Tree(Wahana Akar, BinTree L, BinTree R)
 /* Menghasilkan sebuah pohon biner dari A, L, dan R, jika alokasi berhasil */
@@ -98,7 +86,7 @@ boolean IsBiner (BinTree P)
 
 // help fix gan
 
-void PrintWahanode(Wahana W){
+void PrintWahanode(Wahana W){ // Mencetak node wahana
     printf("%s ",W.nama.TabKata);
     printf("%d ",W.tipe);
     printf("%d ",W.harga);
@@ -119,7 +107,7 @@ void PrintPrefix (BinTree P) { // Print dalam form prefix
 	}
 }
 
-void PrintIndent(BinTree P,int indent){
+void PrintIndent(BinTree P,int indent){ // Mencetak dalam bentuk indentasi
     if(!IsTreeEmpty(P)){
         printf("%*s",indent,"");
         PrintWahanode(Akar(P));
@@ -131,7 +119,7 @@ void PrintIndent(BinTree P,int indent){
     }
 }
 
-void WahReader(char *namafile,BinTree *P){
+void WahReader(char *namafile,BinTree *P){ // Membaca wahana dari file
     int i;
     Wahana W;
     boolean Kiri;
@@ -230,7 +218,7 @@ void WahReader(char *namafile,BinTree *P){
 
 }
 
-void AddDaun (BinTree *P, int id, Wahana W, boolean Kiri)
+void AddDaun (BinTree *P, int id, Wahana W, boolean Kiri) // Menambah daun pada tree
 {
     if(Akar(*P).tipe == (int) id/2)
     {
@@ -256,7 +244,7 @@ void AddDaun (BinTree *P, int id, Wahana W, boolean Kiri)
     }
 }
 
-boolean SearchTree (BinTree P, int id)
+boolean SearchTree (BinTree P, int id) // Mencari id/tipe suatu wahana pada tree
 {
     /* ALGORITMA */
     if(IsTreeEmpty(P))

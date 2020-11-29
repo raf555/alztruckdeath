@@ -4,12 +4,19 @@
 
 
 int main(){
-    BinTree P1,P2,P3;
+    BinTree P;
     // Membaca dari file
-    WahReader("wahana3.txt",&P3);
+    // Alokasi tree terdapat dalam fungsi wahreader
+    // Search terdapat dalam fungsi wahreader
+    // Add daun terdapat dalam fungsi wahreader
+    WahReader("wahana3.txt",&P);
     printf("\n");
+    if(!IsTreeEmpty(P)) printf("Tidak kosong\n");
+    if(!IsUnerLeft(P)) printf("Tree tidak uner left\n");
+    if(!IsUnerLeft(P)) printf("Tree tidak uner right\n");
+    if(IsBiner(P)) printf("Tree biner\n");
     //Mencetak beberapa(tidak semua) komponen tree ke layar
-    PrintIndent(P3,1);
+    PrintIndent(P,1);
     printf("\n");
 
 }
