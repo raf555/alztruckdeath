@@ -602,6 +602,26 @@ void execute(program *main) {
   Info_Waktu(*main) = Info_Opening(*main);
 }
 
+void SetPrepare(program *main){
+  Info_DayPrep(*main) += 1;
+  Info_Prep(*main) = true;
+  Info_Main(*main) = false;
+  Info_Waktu(*main) = MakeJAM(21, 0, 0);
+}
+
+void SetMain(program *main){
+  while (!IsEmpty(Info_StackCMD(*main))){
+    undo(main);
+  }
+  Info_DayMain(*main) += 1;
+  Info_Prep(*main) = false;
+  Info_Main(*main) = true;
+  Info_TotalPriceCMD(*main) = 0;
+  Info_WaktuCMD(*main) = MakeJAM(0, 0, 0);
+  CreateEmpty(&Info_StackCMD(*main));
+  Info_Waktu(*main) = Info_Opening(*main);
+}
+
 void play(program *main){
   Kata _exitgame,_w,_a,_s,_d,_office,_main,_prep,_build,_execute,_buy,_undo,_upgrade,_repair;
   _main.TabKata[0] = *"m";
@@ -689,6 +709,9 @@ void play(program *main){
       } else if(Info_CurrentMap(*main) == 3){
         current = Info_Map4(*main);
       }
+      if(JAMToDetik(Info_Waktu(*main))>=JAMToDetik(Info_Closing(*main)) && Info_Main(*main)){
+        SetPrepare(main);
+      }
       printf("\n");
       if (Info_Prep(*main)){
         PrintInfoPrep(*main);
@@ -754,16 +777,7 @@ void play(program *main){
         /* PERINTAH UNTUK PREP PHASE */
         } else if (isKataSama(_main, CKata)){
           if (Info_Prep(*main)){
-            while (!IsEmpty(Info_StackCMD(*main))){
-              undo(main);
-            }
-            Info_DayMain(*main) += 1;
-            Info_Prep(*main) = false;
-            Info_Main(*main) = true;
-            Info_TotalPriceCMD(*main) = 0;
-            Info_WaktuCMD(*main) = MakeJAM(0, 0, 0);
-            CreateEmpty(&Info_StackCMD(*main));
-            Info_Waktu(*main) = Info_Opening(*main);
+            SetMain(main);
           } else {
             printf("Tidak dapat menjalankan perintah karena sedang Main Phase!\n\n");
           }
@@ -808,10 +822,11 @@ void play(program *main){
         
         /* PERINTAH UNTUK MAIN PHASE */
           else if (isKataSama(_prep, CKata)){
-          Info_DayPrep(*main) += 1;
-          Info_Prep(*main) = true;
-          Info_Main(*main) = false;
-          Info_Waktu(*main) = MakeJAM(21, 0, 0);
+            if (Info_Main(*main)){
+              SetPrepare(main);
+            } else {
+              printf("Tidak dapat menjalankan perintah karena sedang Preparation Phase!\n\n");
+            }
         } else if (isKataSama(_office, CKata)){
           if (Info_Main(*main) && IsOffice(Info_Posisi(*main), *main)){
             office(*main);
