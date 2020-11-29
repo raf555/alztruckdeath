@@ -931,7 +931,7 @@ void buy (program *main) {
   _buy.Length = 3;
   int price;
   int amount;
-  int durasi = 5000;
+  int durasi = 1200;
   cmd buy;
 
   // ALGORITMA
@@ -1068,7 +1068,7 @@ void upgrade (program *main) { // harus nambah parameter node wahana yang ada di
   _upgrade.TabKata[6] = *"e";
   _upgrade.Length = 7;
   int price = 0;
-  int durasi = 5*3600;
+  int durasi = 3600;
   // Algoritme
   if (!Info_Prep(*main)) {
 		printf("Anda sedang dalam main phase!");
@@ -1129,7 +1129,7 @@ void repair (program *main) { // repair wahana disebelah pemain, blm ditambah in
   _repair.TabKata[5] = *"r";
   _repair.Length = 6;
   int price = 0;
-  int durasi = 5*3600;
+  int durasi = 3600;
   // Algoritme
   if (!Info_Prep(*main)) {
 		printf("Anda sedang dalam main phase!");
