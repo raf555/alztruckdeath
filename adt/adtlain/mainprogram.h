@@ -148,4 +148,9 @@ void BahReader(char *namafile, program *main);
 void RusakinWahana(program *main);
 boolean isWahanaRusak(Wahana W,program main);
 void BenerinWahana(Wahana W,program *main);
+
+Wahana CariWahanabyID(program main, int id);
+void printFromListKata(Kata temp[]);
+void searchUpgradeable (BinTree T, int ID, Kata temp[]);
+
 #endif

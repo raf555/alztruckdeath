@@ -79,5 +79,6 @@ boolean IsSkewRight(BinTree P);
 int Tinggi(BinTree P);
 /* Pohon Biner mungkin kosong. Tinggi pohon kosong = 0.
    Mengirim "height" yaitu tinggi dari pohon */
+boolean SearchNodeTree (BinTree P, int id);
 #endif
 

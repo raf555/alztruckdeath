@@ -1153,10 +1153,10 @@ void bahan_print(program main, boolean prep) {
 Wahana LocateWahana (program main, int absis, int ordinat, int denah){
   Wahana ret;
   for (int i = 0; i < maxel; i++){
-    if (InfoWahana_Nama(Info_Wahana(main, i)).Length>0){
-      if (InfoWahana_lokasidenah(Info_Wahana(main, i)) == denah){
-        if (Absis(InfoWahana_lokasi(Info_Wahana(main, i))) == absis && Ordinat(InfoWahana_lokasi(Info_Wahana(main, i))) == ordinat){
-          ret = Info_Wahana(main, i);
+    if (InfoWahana_Nama(Info_WahanaMap(main, i)).Length>0){
+      if (InfoWahana_lokasidenah(Info_WahanaMap(main, i)) == denah){
+        if (Absis(InfoWahana_lokasi(Info_WahanaMap(main, i))) == absis && Ordinat(InfoWahana_lokasi(Info_WahanaMap(main, i))) == ordinat){
+          ret = Info_WahanaMap(main, i);
           break;
         }
       }
@@ -1181,19 +1181,24 @@ void upgrade (program *main) { // harus nambah parameter node wahana yang ada di
   _upgrade.Length = 7;
   int price = 0;
   int durasi = 3600;
+  Kata temp[2]; // container possible wahana target upgrade
   // Algoritme
   if (!Info_Prep(*main)) {
 		printf("Anda sedang dalam main phase!");
   } else {
     if (Elmt(Info_Map(*main), (int) Ordinat(Info_Posisi(*main)), (int) Absis(Info_Posisi(*main))+1) == *"W"){
-      Wahana targetUp = LocateWahana(*main,(int) Ordinat(Info_Posisi(*main)), (int) Absis(Info_Posisi(*main))+1,Info_CurrentMap(*main)); 
+      Wahana targetUp = LocateWahana(*main,(int) Absis(Info_Posisi(*main))+1, (int) Ordinat(Info_Posisi(*main)),Info_CurrentMap(*main));
+      PrintInfoWahana(targetUp); 
       printf("Ingin upgrade menjadi wahana apa?\n");
-      // print list wahana yang bisa diupgrade dari node wahana targerUp
+      // searchUpgradeable (Info_WahanaTree(*main), InfoWahana_Tipe(targetUp));
+      searchUpgradeable (Info_WahanaTree(*main), InfoWahana_Tipe(targetUp),temp);
+      printf("%d",temp[0].Length);
+      printFromListKata(temp);
       printf("$ ");
       STARTKATA();
       while (!EndKata) {
         // cek duit
-        if(InfoOrang_Duit(Info_Orang(*main))>=price && Info_TotalPriceCMD(*main)+price<=InfoOrang_Duit(Info_Orang(*main))){
+        // if(InfoOrang_Duit(Info_Orang(*main))>=price && Info_TotalPriceCMD(*main)+price<=InfoOrang_Duit(Info_Orang(*main))){
           // cek waktu
           if (JAMToDetik(Info_WaktuCMD(*main))+durasi<=Durasi(Info_Waktu(*main), Info_Opening(*main))){
             // cek wahana
@@ -1216,9 +1221,9 @@ void upgrade (program *main) { // harus nambah parameter node wahana yang ada di
           } else {
             printf("Tidak cukup waktu!\n");
           }
-        } else {
-            printf("Tidak cukup uang!\n");
-        }
+        // } else {
+        //     printf("Tidak cukup uang!\n");
+        // }
         ADVKATA();
       }
     } else {
@@ -1457,4 +1462,56 @@ boolean isWahanaRusak(Wahana W,program main){
   }
   return(Info_WahanaMap(main,i).rusak == 1);
 
+}
+
+Wahana CariWahanabyID(program main, int id){
+  Wahana ret;
+  for (int i = 0; i < maxel; i++){
+    if (InfoWahana_Nama(Info_Wahana(main, i)).Length>0){
+      if (InfoWahana_Tipe(Info_Wahana(main, i)) == id){
+        ret = Info_Wahana(main, i);
+        break;
+      }
+    }
+  }
+  return ret;
+}
+void printFromListKata(Kata temp[]) {
+  printf("%d",temp[0].Length);
+  printf("List Wahana Target Upgrade:\n");
+  for (int i = 0; i < 2; i++){
+    for (int j = 0; j < temp[i].Length; j++){
+      if (temp[i].Length>0){
+        if (j == 0){
+          printf("   - ");
+        }
+        printf("%c", temp[i].TabKata[j]);
+        if (j == temp[i].Length-1){
+          printf("\n");
+        }
+      }
+    }
+  }
+}
+void searchUpgradeable (BinTree T, int ID, Kata temp[]){
+  if (Akar(T).tipe == ID){
+    PrintInfoWahana(Akar(T));
+    printf("%d",Akar(T).nama.Length);
+    for (int j = 0; j < Akar(Left(T)).nama.Length; j++){
+      temp[0].TabKata[j] = Akar(Left(T)).nama.TabKata[j];
+    }
+    temp[0].Length = Akar(Left(T)).nama.Length;
+
+    for (int j = 0; j < Akar(Right(T)).nama.Length; j++){
+      temp[1].TabKata[j] = Akar(Right(T)).nama.TabKata[j];
+    }
+    temp[1].Length = Akar(Right(T)).nama.Length;
+
+  } else{
+      if(SearchNodeTree(Left(T), ID)){
+        searchUpgradeable (Left(T),ID,temp);
+      } else {
+        searchUpgradeable (Right(T),ID,temp);
+      }
+  }
 }

@@ -321,3 +321,19 @@ int Tinggi(BinTree P)
         else return(1+Tinggi(Left(P)));
     }
 }
+
+boolean SearchNodeTree (BinTree P, int id){
+    /* ALGORITMA */
+    if(IsTreeEmpty(P))
+    {
+        return false;
+    }
+    else if(Akar(P).tipe == id)
+    {
+        return true;
+    }
+    else
+    {
+        return ((SearchNodeTree(Left(P), id)) || SearchNodeTree(Right(P), id));
+    }
+}
