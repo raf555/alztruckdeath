@@ -892,10 +892,10 @@ void play(program *main){
               printf("Tidak dapat menjalankan perintah karena sedang Preparation Phase!\n\n");
             }
         } else if (isKataSama(_office, CKata)){
-          if (Info_Main(*main) && IsOffice(Info_Posisi(*main), *main)){
+          if (Info_Main(*main) && Info_CurrentMap(*main) == 0 && IsOffice(Info_Posisi(*main), *main)){
             office(*main);
           } else {
-            printf("Tidak dapat menjalankan perintah karena sedang Preparation Phase!\n\n");
+            printf("Tidak dapat menjalankan perintah karena sedang Preparation Phase atau bukan berada di posisi\n\n");
           }
         }else if (isKataSama(_repair, CKata)){
            if (Info_Main(*main)){
