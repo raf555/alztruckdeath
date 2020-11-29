@@ -789,7 +789,7 @@ void play(program *main){
         PrintInfoMain(*main);
       }
       printf("\nMasukkan perintah:\n");
-      if (IsOffice(Info_Posisi(*main), *main)){
+      if (IsOffice(Info_Posisi(*main), *main) && Info_CurrentMap(*main) == 0){
         printf("(masukkan office untuk membuka office)\n");
       }
       printf("$ ");
