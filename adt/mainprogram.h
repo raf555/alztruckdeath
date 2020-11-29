@@ -94,6 +94,10 @@ Wahana CariWahana(program main, Kata wahana);
 Bahan CariBahan(program main, Kata bahan);
 
 // fungsi-fungsi / prosedur lain
+// prep n main
+void SetPrepare(program *main);
+void SetMain(program *main);
+
 // wasd
 void P_to_Dash(MATRIKS *M, POINT P);
 void Dash_to_P(MATRIKS *M, POINT P);
@@ -133,6 +137,7 @@ void execute(program *main);
 //undo
 void undo(program *main);
 
+// tree wahana
 void initListWahana(int i,program *main,BinTree *T);
 void MakeListWahana(program *main,BinTree *T);
 void initTreeWahana(BinTree *T);
