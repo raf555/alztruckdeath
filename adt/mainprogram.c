@@ -702,8 +702,8 @@ void play(program *main){
       } else if(Info_CurrentMap(*main) == 3){
         current = Info_Map4(*main);
       }
-      if(JAMToDetik(Info_Waktu(*main))<=0){
-
+      if(JAMToDetik(Info_Waktu(*main))>=JAMToDetik(Info_Closing(*main)) && Info_Main(*main)){
+        SetPrepare(main);
       }
       printf("\n");
       if (Info_Prep(*main)){
