@@ -1,7 +1,9 @@
-Batu
-3
-Kayu
-4
-Besi
+batu bata
+20
+kayu
 5
+besi
+25
+semen
+10
 *

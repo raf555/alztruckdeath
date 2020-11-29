@@ -13,7 +13,7 @@ int main() {
     MakeListWahana(&main,&Info_WahanaTree(main));
   
     /*load bahan */
-    BahReader("../exfile/material.txt",Info_Orang(main).bahan);
+    BahReader("../exfile/material.txt",&main);
   }
   // start
   play(&main);

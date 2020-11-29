@@ -533,6 +533,7 @@ void execute(program *main) {
 	CopyStack(Info_StackCMD(*main), &target);
 	ReverseStack(&target);
   Kata _build,_buy,_upgrade;
+  int multiply;
 
   _build.TabKata[0] = *"b";
   _build.TabKata[1] = *"u";
@@ -557,7 +558,11 @@ void execute(program *main) {
 
 	while (!IsEmpty(target)) {
 		Pop(&target, &c);
-    InfoOrang_Duit(Info_Orang(*main)) -= HargaCMD(c);
+    multiply = 1;
+    if (c.targetvalue.jumlah>0){
+      multiply = c.targetvalue.jumlah;
+    }
+    InfoOrang_Duit(Info_Orang(*main)) -= HargaCMD(c)*multiply;
 		// KURANGWAKTU(sekian) keknya ini gaperlu, waktu diperluin buat undo aja
 		if (isKataSama(c.perintah, _build)) {
       for (int i = 0; i < maxel; i++){
@@ -1012,6 +1017,7 @@ void buy (program *main) {
 
                 // masukin ke stack
                 WaktuCMD(buy) = DetikToJAM(durasi);
+                HargaCMD(buy) = target.harga;
                 PerintahCMD(buy) = _buy;
                 TargetCMD(buy) = namaBahan;
                 TargetBuy(buy) = amount;
@@ -1240,7 +1246,11 @@ void undo(program *main){
         printf(" dari stack\n");
         }
         Info_WaktuCMD(*main) = DetikToJAM((JAMToDetik(Info_WaktuCMD(*main))-JAMToDetik(undone.waktu)));
-        Info_TotalPriceCMD(*main) -= undone.harga;
+        int multiply = 1;
+        if (undone.targetvalue.jumlah>0){
+          multiply = undone.targetvalue.jumlah;
+        }
+        Info_TotalPriceCMD(*main) -= undone.harga*multiply;
     }
     else printf("Anda belum melakukan aksi apa-apa\n");
     }
@@ -1277,13 +1287,17 @@ void MakeListWahana(program *main,BinTree *T){
   initListWahana(6,main,&Right(Right(*T)));
 }
 
-void addToListBahan(int i, Bahan bahan[], Bahan B){
-  CopyString (bahan[i].nama.TabKata,B.nama.TabKata);
-  bahan[i].nama.Length = B.nama.Length;
-  bahan[i].jumlah = 0;
-  bahan[i].harga = B.harga;
+void addToListBahan(int i, program *main, Bahan B){
+  for (int j = 0; j < B.nama.Length; j++){
+    InfoBahan_Nama(InfoOrang_Bahan(Info_Orang(*main), i)).TabKata[j] = B.nama.TabKata[j];
+    //printf("%i--%c\n",i,B.nama.TabKata[j]);
+  }
+  InfoBahan_Nama(InfoOrang_Bahan(Info_Orang(*main), i)).Length = B.nama.Length;
+  InfoOrang_Bahan(Info_Orang(*main), i).jumlah = 0;
+  InfoOrang_Bahan(Info_Orang(*main), i).harga = B.harga;
+  //printf("%i\n",B.harga);
 }
-void BahReader(char *namafile, Bahan bahan[]){
+void BahReader(char *namafile, program *main){
   int i;
   Bahan B;
   int idx = 0;
@@ -1295,17 +1309,16 @@ void BahReader(char *namafile, Bahan bahan[]){
         i++;
         ADVW();
     }
-    B.nama.Length = i+1;
-    B.nama.TabKata[i] = '\0';
+    B.nama.Length = i;
+    //B.nama.TabKata[i] = '\0';
     ADVW();
     B.harga = 0;
     while(CC!=NEW && CC!=MARKW){
       B.harga = B.harga * 10 + (CC- '0');
       ADVW();
     }
-    addToListBahan(idx,bahan,B);
+    addToListBahan(idx,main,B);
     idx++;
     ADVW();
   }
 }
-
