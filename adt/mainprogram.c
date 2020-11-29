@@ -780,7 +780,7 @@ void play(program *main){
             }
         } else if (isKataSama(_upgrade, CKata)){
            if (Info_Prep(*main)){
-              buy(main);
+              upgrade(main);
             } else {
               printf("gabisa upgrade bahan soalnya lagi main\n\n");
             }
