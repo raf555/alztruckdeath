@@ -18,6 +18,7 @@ typedef struct {
 	Orang orang; // nyimpen data org
 	Wahana wahana[maxel]; // nyimpen list wahana
   Wahana wahana_map[maxel]; // nyimpen list wahana yg ada di MAP
+  BinTree wahana_tree; // tree wahana
   /* waktu-waktuan */
 	JAM sekarang; // nyimpen jam skrg
   JAM opening; // opening
@@ -50,6 +51,7 @@ typedef struct {
 #define Info_Closing(c) (c).closing
 #define Info_Wahana(c, i) (c).wahana[(i)]
 #define Info_WahanaMap(c, i) (c).wahana_map[(i)]
+#define Info_WahanaTree(c) (c).wahana_tree
 #define Info_StackCMD(c) (c).prepexe
 #define Info_TotalPriceCMD(c) (c).totalexe
 #define Info_WaktuCMD(c) (c).waktuexe

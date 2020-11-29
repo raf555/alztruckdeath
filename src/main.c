@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "../adt/mainprogram.h"
+#include "adt/mainprogram.h"
 
 int main() {
   program main;
@@ -8,9 +8,8 @@ int main() {
 
   /* load wahana */
   if(Info_Prep(main) || Info_Main(main)) {
-    BinTree P;
-    WahReader("wahana3.txt",&P);
-    MakeListWahana(&main,&P);
+    WahReader("wahana3.txt",&Info_WahanaTree(main));
+    MakeListWahana(&main,&Info_WahanaTree(main));
   }
 
   // start
