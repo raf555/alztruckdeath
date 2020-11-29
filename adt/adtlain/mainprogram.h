@@ -146,4 +146,6 @@ void initTreeWahana(BinTree *T);
 void addToListBahan(int i, program *main, Bahan B);
 void BahReader(char *namafile, program *main);
 void RusakinWahana(program *main);
+boolean isWahanaRusak(Wahana W,program main);
+void BenerinWahana(Wahana W,program *main);
 #endif

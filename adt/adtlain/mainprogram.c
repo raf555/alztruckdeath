@@ -1165,11 +1165,11 @@ void upgrade (program *main) { // harus nambah parameter node wahana yang ada di
 
 void repair (program *main) { // repair wahana disebelah pemain, blm ditambah indikator wahana rusak , blm final
 // KAMUS
+  RusakinWahana(main);
   boolean sabi;
   JAM waktu;
   Kata _repair;
   Kata namaBahan,qty;
-
   int price = 0;
   int durasi = 3600;
   // Algoritme
@@ -1178,40 +1178,14 @@ void repair (program *main) { // repair wahana disebelah pemain, blm ditambah in
   } else {
     if (Elmt(Info_Map(*main), (int) Ordinat(Info_Posisi(*main)), (int) Absis(Info_Posisi(*main))+1) == *"W"){ // Blm nambah is W rusak
       Wahana targetRep = LocateWahana(*main,(int) Ordinat(Info_Posisi(*main)), (int) Absis(Info_Posisi(*main))+1, Info_CurrentMap(*main)); 
-      printf("Apakah anda ingin merepair wahana berikut :\n");
-      printf("$ ");
-      STARTKATA();
-      while (!EndKata) {
-        // cek duit
-        if(InfoOrang_Duit(Info_Orang(*main))>=price && Info_TotalPriceCMD(*main)+price<=InfoOrang_Duit(Info_Orang(*main))){
-          // cek waktu
-          if (JAMToDetik(Info_WaktuCMD(*main))+durasi<=Durasi(Info_Waktu(*main), Info_Opening(*main))){
-            // cek wahana
-            if (isWahanaAda(*main, CKata)){
-              cmd repair;
-              // tambahin waktu sama duit ke program
-              Info_TotalPriceCMD(*main) += price;
-              Info_WaktuCMD(*main) = DetikToJAM(JAMToDetik(Info_WaktuCMD(*main))+durasi);
-
-              // masukin ke stack
-              WaktuCMD(repair) = DetikToJAM(durasi);
-              HargaCMD(repair) = price;
-              PerintahCMD(repair) = _repair;
-              TargetCMD(repair) = CKata;
-              TargetUpgrade(repair) = CKata;
-              Push (&Info_StackCMD(*main), repair);
-            } else {
-              printf("Wahana tidak ditemukan!\n");
-            }
-          } else {
-            printf("Tidak cukup waktu!\n");
-          }
-        } else {
-            printf("Tidak cukup uang!\n");
-        }
-        ADVKATA();
-      }
-    } else {
+      if(isWahanaRusak(targetRep,*main)){      
+            BenerinWahana(targetRep,main);
+            Info_Waktu(*main) = DetikToJAM(JAMToDetik(Info_Waktu(*main))+durasi);
+            printf("Wahana berhasil diperbaiki\n");
+            } 
+      else printf("Wahana ini tidak rusak,tidak perlu diperbaiki\n");
+    }
+    else {
       printf("Kamu tidak sedang berada di sebelah kiri wahana\n");
     }
   }
@@ -1331,7 +1305,28 @@ void RusakinWahana(program *main){
     int i;
     int num;
     i = 0;
-    while (i<maxel && InfoWahana_nama(Info_WahanaMap(*main,i)).Length>0) i++;
-    num = rand()%(i+1);
+    while (i<maxel && InfoWahana_Nama(Info_WahanaMap(*main,i)).Length>0) i++;
+    num = rand()%(i);
     Info_WahanaMap(*main,num).rusak = 1;    
+}
+
+void BenerinWahana(Wahana W,program *main){
+  int i = 0;
+  boolean found = false;
+  while (i<maxel && !found){
+    if(isKataSama(W.nama,InfoWahana_Nama(Info_WahanaMap(*main,i)))) found = true;break;
+    i++;
+  }
+  Info_WahanaMap(*main,i).rusak = 0; 
+
+}
+boolean isWahanaRusak(Wahana W,program main){
+  int i = 0;
+  boolean found = false;
+  while (i<maxel && !found){
+    if(isKataSama(W.nama,InfoWahana_Nama(Info_WahanaMap(main,i)))) found = true;break;
+    i++;
+  }
+  return(Info_WahanaMap(main,i).rusak == 1);
+
 }
