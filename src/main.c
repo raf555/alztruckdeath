@@ -6,9 +6,10 @@ int main() {
   program main;
   init(&main);
 
-  /* load wahana */
   if(!IsExit(main)) {
-    WahReader("wahana3.txt",&Info_WahanaTree(main));
+
+    /* load wahana */
+    WahReader("../exfile/wahana3.txt",&Info_WahanaTree(main));
     MakeListWahana(&main,&Info_WahanaTree(main));
   
     /*load bahan */
