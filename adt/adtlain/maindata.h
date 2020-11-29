@@ -13,6 +13,7 @@ typedef struct {
 	JAM durasi;
 	POINT lokasi;
   	int denah;
+	int rusak;
 	// history ama ukuran blom
 } Wahana;
 

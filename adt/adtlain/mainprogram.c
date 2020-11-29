@@ -1,5 +1,6 @@
 #include "mainprogram.h"
 #include <stdio.h>
+#include <time.h>
 
 void initMap(MATRIKS *M) {
 	for(int i=0; i < (*M).NBrsEff; i++) {
@@ -1312,3 +1313,11 @@ void BahReader(char *namafile, Bahan bahan[]){
   }
 }
 
+void RusakinWahana(program *main){
+    int i;
+    int num;
+    i = 0;
+    while (i<maxel && InfoWahana_nama(Info_WahanaMap(*main,i)).Length>0) i++;
+    num = rand()%(i+1);
+    Info_WahanaMap(*main,num).rusak = 1;    
+}

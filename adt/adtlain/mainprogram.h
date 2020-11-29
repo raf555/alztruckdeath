@@ -145,4 +145,6 @@ void initTreeWahana(BinTree *T);
 // initmaterial
 void addToListBahan(int i, Bahan bahan[], Bahan B);
 void BahReader(char *namafile, Bahan bahan[]);
+//Randomiser wahana rusak
+void RusakinWahana(program *main);
 #endif
